@@ -37,21 +37,22 @@ namespace sklad_hustota_zasilky
                     double.TryParse(delkaZasilkyTxt.Text, out double delka) &&
                     double.TryParse(sirkaZasilkyTxt.Text, out double sirka))
                 {
-                    // Vypočítat objem (předpokládám základní vzorec objemu pro tuto ilustraci)
+                    // Vypočítání objem v kubických metrech
                     double objem = vyska * delka * sirka / 1_000_000;
 
-                    // Aktualizovat obsah TextBlocku s výsledkem
+                    // Aktualizování obsahu TextBlocku s výsledkem real-time
                     objemZasilkyTxt.Text = $"Objem zásilky: {objem} m³";
                 }
                 else
                 {
-                    // Pokud některá z hodnot není číslo, zobrazit chybovou zprávu nebo prázdný text
+                    // Pokud některá z hodnot není číslo, zobrazit chybovou zprávu
                     objemZasilkyTxt.Text = "Nesprávný vstup";
                 }
 
             }
             else
             {
+                // Objem zásilky nebude zobrazen pokud nebudou vyplněna všechna pole
                 objemZasilkyTxt.Text = "";
             }
         }
