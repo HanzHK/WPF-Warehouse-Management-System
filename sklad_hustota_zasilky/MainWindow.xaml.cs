@@ -23,6 +23,8 @@ namespace sklad_hustota_zasilky
         public MainWindow()
         {
             InitializeComponent();
+            string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";    //přistup k SQL databázi
+
         }
         // Obsluha události pro kliknutí na tlačítko pro otevření druhého okna
         private void OtevritDruheOkno_Click(object sender, RoutedEventArgs e)
