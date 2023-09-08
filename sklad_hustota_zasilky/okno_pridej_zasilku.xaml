@@ -5,30 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sklad_hustota_zasilky"
         mc:Ignorable="d"
-        Title="okno_pridej_zasilku" Height="450" Width="800">
+        Title="okno_pridej_zasilku" Height="768" Width="1024">
     <Grid>
         <GroupBox Header="Obecné" Margin="10,10,10,347">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Název zásilky" Height="25" />
-                <TextBox HorizontalAlignment="Left" Width="195" Height="25"/>
-                <Label Content="Dodavatel" HorizontalAlignment="Center" Height="25" />
-                <ComboBox HorizontalAlignment="Left" Width="120" Height="25"/>
+            <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
+                <Label Content="Název zásilky" Height="25" VerticalAlignment="Top" />
+                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top"/>
+                  <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
+                <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Rozměry zásilky" Margin="10,90,10,10" Width="200" HorizontalAlignment="Left" Height="160" VerticalAlignment="Top">
-            
+        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="160" VerticalAlignment="Top">
+
             <StackPanel Margin="0,5,0,5">
-                
+
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5" >
                     <Label Content="Výška" Height="25" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vyskaZasilkyTxt"/>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <Label Content="Délka" Height="25" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="delkaZasilkyTxt"/>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <Label Content="Šířka"  Height="25" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="sirkaZasilkyTxt"/>
@@ -39,8 +39,14 @@
                 </StackPanel>
 
             </StackPanel>
-
+            
         </GroupBox>
 
+            <GroupBox Header="Odesílatel" Margin="215,160,345,101" Width="300" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <ComboBox Name="cBoxDodavatele" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
+            </StackPanel>
+        </GroupBox>
+        
     </Grid>
 </Window>

@@ -23,6 +23,8 @@ namespace sklad_hustota_zasilky
         {
             InitializeComponent();
 
+            cBoxDodavatele.Items.Add("Přidat nového dodavatele");
+
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
             delkaZasilkyTxt.TextChanged += AktualizujUdaje;
@@ -56,6 +58,23 @@ namespace sklad_hustota_zasilky
                 objemZasilkyTxt.Text = "";
             }
         }
+        /* část programu s metodou, která se stará o to, aby se otevřelo nové okno pro přidávání dodavatelů, 
+         * pokud uživatel vybere "Přidat nového dodavatele z comboboxu na výběr dodavatele zásilky" 
+         */
+        private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Získání vybrané položky z ComboBoxu
+            string vybranaPolozka = cBoxDodavatele.SelectedItem as string;
+
+            // Kontrola, zda byla vybrána možnost "Přidat nového dodavatele"
+            if (vybranaPolozka == "Přidat nového dodavatele")
+            {
+                // Otevření okna pro přidání nového dodavatele
+                okno_pridej_dodavatele pridejDodavatele = new okno_pridej_dodavatele();
+                pridejDodavatele.Show();
+            }
+        }
+
     }
-    }
+}
 
