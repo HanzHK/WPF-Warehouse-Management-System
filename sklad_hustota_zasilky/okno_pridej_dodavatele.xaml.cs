@@ -19,9 +19,34 @@ namespace sklad_hustota_zasilky
     /// </summary>
     public partial class okno_pridej_dodavatele : Window
     {
+        // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
+        private bool oknoPridejDodavateleOtevreno = false;
+
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
         }
+
+        // Přidejte událost pro uzávěrku okna
+        private void OknoPridejDodavatele_Closed(object sender, EventArgs e)
+        {
+            // Okno bylo zavřeno, takže nastavte indikátor na false
+            oknoPridejDodavateleOtevreno = false;
+        }
+
+        // Přidejte metodu, která bude volána při otevření okna z jiného místa
+        public void OtevritOkno()
+        {
+            if (!oknoPridejDodavateleOtevreno)
+            {
+                Show();
+                oknoPridejDodavateleOtevreno = true;
+            }
+            else
+            {
+                Activate();
+            }
+        }
     }
+
 }

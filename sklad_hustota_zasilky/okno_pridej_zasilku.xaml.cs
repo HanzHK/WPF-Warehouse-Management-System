@@ -19,11 +19,20 @@ namespace sklad_hustota_zasilky
     /// </summary>
     public partial class okno_pridej_zasilku : Window
     {
+        // Deklarace proměnné pro uchování instance okna pro přidání dodavatele.
+        private okno_pridej_dodavatele OknoPridejDodavatele;
+        private bool oknoPridejDodavateleOtevreno = false;
+
         public okno_pridej_zasilku()
         {
             InitializeComponent();
 
+            // Vytvoření instance okna pro přidání dodavatele, ale zatím se neotevře.
+            OknoPridejDodavatele = new okno_pridej_dodavatele();
+
+            cBoxDodavatele.Items.Add("Vyberte dodavatele");
             cBoxDodavatele.Items.Add("Přidat nového dodavatele");
+
 
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
@@ -58,20 +67,38 @@ namespace sklad_hustota_zasilky
                 objemZasilkyTxt.Text = "";
             }
         }
+
+        // Obsluha události DodavatelClosed
+        private void OknoPridejDodavatele_Closed(object sender, EventArgs e)
+        {
+            // Okno bylo zavřeno, takže nastavte indikátor na false
+            oknoPridejDodavateleOtevreno = false;
+
+            // Inicializujte proměnnou OknoPridejDodavatele znovu
+            OknoPridejDodavatele = null;
+        }
+
         /* část programu s metodou, která se stará o to, aby se otevřelo nové okno pro přidávání dodavatelů, 
          * pokud uživatel vybere "Přidat nového dodavatele z comboboxu na výběr dodavatele zásilky" 
          */
         private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Získání vybrané položky z ComboBoxu
             string vybranaPolozka = cBoxDodavatele.SelectedItem as string;
 
-            // Kontrola, zda byla vybrána možnost "Přidat nového dodavatele"
             if (vybranaPolozka == "Přidat nového dodavatele")
             {
-                // Otevření okna pro přidání nového dodavatele
-                okno_pridej_dodavatele pridejDodavatele = new okno_pridej_dodavatele();
-                pridejDodavatele.Show();
+                if (!oknoPridejDodavateleOtevreno)
+                {
+                    OknoPridejDodavatele = new okno_pridej_dodavatele();
+                    OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
+                    OknoPridejDodavatele.Show();
+                    oknoPridejDodavateleOtevreno = true;
+                    
+                }
+                else
+                {
+                    OknoPridejDodavatele.Activate();
+                }
             }
         }
 
