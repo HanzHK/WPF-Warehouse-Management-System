@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
 
 namespace sklad_hustota_zasilky
 {
@@ -23,8 +24,6 @@ namespace sklad_hustota_zasilky
         public MainWindow()
         {
             InitializeComponent();
-            string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";    //přistup k SQL databázi
-
         }
         // Obsluha události pro kliknutí na tlačítko pro otevření druhého okna
         private void OtevritDruheOkno_Click(object sender, RoutedEventArgs e)
@@ -36,4 +35,16 @@ namespace sklad_hustota_zasilky
             druheOkno.Show();
         }
     }
+    public class pripojeniSQL
+    {
+        string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;"; // přístup k SQL databázi
+        SqlConnection connection;
+
+        public pripojeniSQL()
+        {
+            connection = new SqlConnection(pripojeniDatabaze);
+            connection.Open();
+        }
+    }
+
 }
