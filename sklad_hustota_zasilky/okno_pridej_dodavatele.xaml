@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sklad_hustota_zasilky"
         mc:Ignorable="d"
-        Title="okno_pridej_dodavatele" Height="450" Width="800">
+        Title="okno_pridej_dodavatele" Height="768" Width="1024">
     <Grid>
-        
+        <GroupBox Header="Obecné" Margin="10,10,614,502" Height="380" Width="420">
+            <StackPanel Margin="0,5,0,5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
+                    <Label Content="Název dodavatele" Height="25" Width="120" />
+                    <TextBox HorizontalAlignment="Left" Text="TextBox" Width="180" Height="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
+                    <Label Content="IČO" Height="25" Width="120" />
+                    <TextBox HorizontalAlignment="Left" Text="TextBox" Width="80" Height="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
+                    <Label Content="DIČ" Height="25" Width="120" />
+                    <TextBox HorizontalAlignment="Left" Text="TextBox" Width="80" Height="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
+                    <Label Content="Typ dodavatele" Height="25" Width="120" VerticalAlignment="Top" />
+                    <ComboBox Name="cBoxTypyDodavatelu" Width="120" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
+                    <Label Content="Popis dodavatele" Height="25" Width="120" VerticalAlignment="Top" />
+                    <TextBox Text="TextBox" Width="260" Height="119"/>
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+
+
+        <Button x:Name="pridatDodavateleDbButton" Content="Přidat" HorizontalAlignment="Left" Margin="678,359,0,0" VerticalAlignment="Top" Click="Button_Click" Height="36" Width="88"/>
+        <GroupBox Header="Fakturační adresa dodavatele" Margin="415,10,309,442" Width="300" Height="300"/>
+
     </Grid>
 </Window>
