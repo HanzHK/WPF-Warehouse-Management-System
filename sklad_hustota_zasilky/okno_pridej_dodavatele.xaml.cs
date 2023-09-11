@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+
 
 namespace sklad_hustota_zasilky
 {
@@ -19,12 +21,19 @@ namespace sklad_hustota_zasilky
     /// </summary>
     public partial class okno_pridej_dodavatele : Window
     {
+        
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
 
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
+
+            // Vytvořte instanci třídy SpravaDatabase
+            SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
+
+            // Zavolejte metodu pro naplnění ComboBoxu
+            spravaDatabaze.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
         }
 
         // Přidejte událost pro uzávěrku okna
@@ -46,6 +55,11 @@ namespace sklad_hustota_zasilky
             {
                 Activate();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 
