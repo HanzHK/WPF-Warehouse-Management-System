@@ -12,20 +12,24 @@ namespace sklad_hustota_zasilky
 {
     public class SpravaDatabaze
     {
-        private string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";
-
-        public SqlConnection OtevritSpojeni()
+        public class PripojeniDatabazeObecne
         {
-            SqlConnection connection = new SqlConnection(pripojeniDatabaze);
-            connection.Open();
-            return connection;
-        }
+            private static string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";
+            public static SqlConnection Connection { get; private set; }
 
-        public void ZavritSpojeni(SqlConnection connection)
-        {
-            if (connection != null && connection.State == ConnectionState.Open)
+            public static SqlConnection OtevritSpojeni()
             {
-                connection.Close();
+                Connection = new SqlConnection(pripojeniDatabaze);
+                Connection.Open();
+                return Connection;
+            }
+
+            public static void ZavritSpojeni()
+            {
+                if (Connection != null && Connection.State == ConnectionState.Open)
+                {
+                    Connection.Close();
+                }
             }
         }
 
@@ -35,7 +39,7 @@ namespace sklad_hustota_zasilky
 
             try
             {
-                using (SqlConnection connection = OtevritSpojeni())
+                using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
                 {
                     string sqlDotaz = "SELECT Nazev FROM dbo.TypyDodavatelu";
 
@@ -55,6 +59,10 @@ namespace sklad_hustota_zasilky
             {
                 MessageBox.Show("Chyba při načítání typů dodavatelů: " + ex.Message);
             }
+            finally
+            {
+                PripojeniDatabazeObecne.ZavritSpojeni();
+            }
 
             return typyDodavatelu;
         }
@@ -67,6 +75,41 @@ namespace sklad_hustota_zasilky
             foreach (string typDodavatele in typyDodavatelu)
             {
                 comboBox.Items.Add(typDodavatele);
+            }
+        }
+
+        public class PridejDodavateleSql
+        {
+            public void UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele)
+            {
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavatele) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavatele)";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@Nazev", nazev);
+                            cmd.Parameters.AddWithValue("@ICO", ico);
+                            cmd.Parameters.AddWithValue("@DIC", dic);
+                            cmd.Parameters.AddWithValue("@Popis", popis);
+                            cmd.Parameters.AddWithValue("@TypDodavatele", typDodavatele);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Dodavatel byl úspěšně uložen do databáze.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při ukládání do databáze: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
             }
         }
     }
