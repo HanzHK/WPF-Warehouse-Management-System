@@ -77,6 +77,39 @@ namespace sklad_hustota_zasilky
                 comboBox.Items.Add(typDodavatele);
             }
         }
+        public class NacitaniDatzDatabaze
+        {
+            
+            public void NaplnComboBoxDodavatelu(ComboBox comboBox)
+            {
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT Nazev FROM dbo.Dodavatele";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    comboBox.Items.Add(reader["Nazev"].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
+            }
+        }
 
         public class PridejDodavateleSql
         {
@@ -86,7 +119,7 @@ namespace sklad_hustota_zasilky
                 {
                     using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
                     {
-                        string sqlDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavatele) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavatele)";
+                        string sqlDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavateleID) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavateleID)";
 
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                         {
@@ -94,7 +127,7 @@ namespace sklad_hustota_zasilky
                             cmd.Parameters.AddWithValue("@ICO", ico);
                             cmd.Parameters.AddWithValue("@DIC", dic);
                             cmd.Parameters.AddWithValue("@Popis", popis);
-                            cmd.Parameters.AddWithValue("@TypDodavatele", typDodavatele);
+                            cmd.Parameters.AddWithValue("@TypDodavateleID", ZiskatIdTypuDodavatele(typDodavatele));
 
                             cmd.ExecuteNonQuery();
                         }
@@ -111,6 +144,44 @@ namespace sklad_hustota_zasilky
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
+            public int ZiskatIdTypuDodavatele(string nazevTypu)
+            {
+                int id = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
+
+                try
+                {
+                    // Otevření spojení s databází.
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT TypDodavateleID FROM dbo.TypyDodavatelu WHERE Nazev = @Nazev";
+
+                        // Vytvoření a konfigurace SQL příkazu.
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            // Přidání parametru @Nazev do SQL příkazu.
+                            cmd.Parameters.AddWithValue("@Nazev", nazevTypu);
+
+                            // Provedení SQL příkazu a získání jednoho výsledku (první sloupce prvního řádku).
+                            object result = cmd.ExecuteScalar();
+
+                            // Pokud byl nalezen výsledek, přiřaďte jej k proměnné id.
+                            if (result != null)
+                            {
+                                id = (int)result;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Zpráva o chybě v případě výjimky.
+                    MessageBox.Show("Chyba při získávání ID typu dodavatele: " + ex.Message);
+                }
+
+                // Vrátit ID typu dodavatele.
+                return id;
+            }
+
         }
     }
 
