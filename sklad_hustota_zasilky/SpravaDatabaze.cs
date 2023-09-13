@@ -12,6 +12,7 @@ namespace sklad_hustota_zasilky
 {
     public class SpravaDatabaze
     {
+        #region Obecné
         public class PripojeniDatabazeObecne
         {
             private static string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";
@@ -32,6 +33,7 @@ namespace sklad_hustota_zasilky
                 }
             }
         }
+        #endregion
 
         public List<string> ZiskatTypyDodavatelu()
         {
@@ -77,6 +79,10 @@ namespace sklad_hustota_zasilky
                 comboBox.Items.Add(typDodavatele);
             }
         }
+
+        //
+        // Část řěšící načítání dat z databáze
+        //
         public class NacitaniDatzDatabaze
         {
             
@@ -110,6 +116,10 @@ namespace sklad_hustota_zasilky
                 }
             }
         }
+
+        //
+        //  Část řešící vkládání dat do databáze - Přídání dodavatele
+        //
 
         public class PridejDodavateleSql
         {
