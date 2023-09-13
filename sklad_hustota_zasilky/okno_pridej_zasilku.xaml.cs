@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static sklad_hustota_zasilky.SpravaDatabaze;
 
 namespace sklad_hustota_zasilky
 {
@@ -31,16 +30,8 @@ namespace sklad_hustota_zasilky
             // Vytvoření instance okna pro přidání dodavatele, ale zatím se neotevře.
             OknoPridejDodavatele = new okno_pridej_dodavatele();
 
-           
-            
-            /*
-           Tato část kódu se stará o přidání položek do comboboxu,
-           ve kterém se vybírají ze seznamu.
-           */
             cBoxDodavatele.Items.Add("Vyberte dodavatele");
             cBoxDodavatele.Items.Add("Přidat nového dodavatele");
-            NacitaniDatzDatabaze nacitaniDatabaze = new NacitaniDatzDatabaze();
-            nacitaniDatabaze.NaplnComboBoxDodavatelu(cBoxDodavatele);
 
 
             // Připojit události Changed na TextBoxy

@@ -57,25 +57,9 @@ namespace sklad_hustota_zasilky
             }
         }
 
-        private void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string nazev = txtBoxNazevDodavatele.Text;
-            string ico = txtBoxIco.Text;
-            string dic = txtBoxDic.Text;
-            string popis = txtBoxPopis.Text;
-            string typDodavatele = cBoxTypyDodavatelu.SelectedItem.ToString();
 
-            // Vytvoření instance třídy PridejDodavateleSql
-            SpravaDatabaze.PridejDodavateleSql pridejDodavateleSql = new SpravaDatabaze.PridejDodavateleSql();
-
-            // Volání metody pro uložení dodavatele
-            pridejDodavateleSql.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele);
-
-            // Aktualizace uživatelského rozhraní - vyčištění polí
-            txtBoxNazevDodavatele.Clear();
-            txtBoxIco.Clear();
-            txtBoxDic.Clear();
-            txtBoxPopis.Clear();
         }
     }
 
