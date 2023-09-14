@@ -56,7 +56,6 @@ namespace sklad_hustota_zasilky
                 Activate();
             }
         }
-
         private void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
         {
             string nazev = txtBoxNazevDodavatele.Text;
@@ -77,6 +76,35 @@ namespace sklad_hustota_zasilky
             txtBoxDic.Clear();
             txtBoxPopis.Clear();
         }
+        public class OsetreniVstupu
+        {
+            private TextBox txtBoxIco;
+
+            public OsetreniVstupu(TextBox textBox)
+            {
+                txtBoxIco = textBox; // Přiřazení předaného TextBoxu do privátní proměnné
+                txtBoxIco.KeyDown += txtBoxIco_KeyDown; // Přidání obsluhy události KeyDown pro TextBox
+            }
+            private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
+            {
+                // Ověříme, zda byla stisknuta číslice, backspace nebo delete
+                if ((e.Key < Key.D0 || e.Key > Key.D9) && e.Key != Key.Back && e.Key != Key.Delete)
+                {
+                    // Pokud ne, zakážeme tuto klávesu
+                    e.Handled = true;
+                }
+
+                // Získáme text z textového pole
+                string text = txtBoxIco.Text;
+
+                // Omezíme délku na 8 číslic
+                if (text.Length >= 8 && e.Key != Key.Back && e.Key != Key.Delete)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+       
     }
 
 }
