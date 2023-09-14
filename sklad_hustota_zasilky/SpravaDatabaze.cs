@@ -31,9 +31,12 @@ namespace sklad_hustota_zasilky
                 {
                     Connection.Close();
                 }
+
             }
         }
         #endregion
+
+      
 
         public List<string> ZiskatTypyDodavatelu()
         {
@@ -68,6 +71,7 @@ namespace sklad_hustota_zasilky
 
             return typyDodavatelu;
         }
+        
 
         // Nově přidaná metoda pro naplnění ComboBoxu s typy dodavatelů
         public void NaplnComboBoxTypyDodavatelu(ComboBox comboBox)
