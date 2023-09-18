@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
+using static sklad_hustota_zasilky.okno_pridej_dodavatele.OsetreniVstupu;
 
 
 namespace sklad_hustota_zasilky
@@ -24,16 +25,30 @@ namespace sklad_hustota_zasilky
         
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
+        private OsetreniICO osetreniIco;
+        private OsetreniDIC osetreniDic;
 
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
+            osetreniIco = new OsetreniICO(txtBoxIco);
+            osetreniDic = new OsetreniDIC(txtBoxDic);
 
             // Vytvořte instanci třídy SpravaDatabase
             SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
 
             // Zavolejte metodu pro naplnění ComboBoxu
             spravaDatabaze.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
+        }
+
+        private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniIco.OsetritVstup(e);
+        }
+
+        private void txtBoxDic_KeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniDic.OsetritVstup(e);
         }
 
         // Přidejte událost pro uzávěrku okna
@@ -78,32 +93,79 @@ namespace sklad_hustota_zasilky
         }
         public class OsetreniVstupu
         {
-            private TextBox txtBoxIco;
+            protected TextBox txtBox;
 
             public OsetreniVstupu(TextBox textBox)
             {
-                txtBoxIco = textBox; // Přiřazení předaného TextBoxu do privátní proměnné
-                txtBoxIco.KeyDown += txtBoxIco_KeyDown; // Přidání obsluhy události KeyDown pro TextBox
+                txtBox = textBox;
             }
-            private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
+
+            public virtual void OsetritVstup(KeyEventArgs e)
             {
-                // Ověříme, zda byla stisknuta číslice, backspace nebo delete
-                if ((e.Key < Key.D0 || e.Key > Key.D9) && e.Key != Key.Back && e.Key != Key.Delete)
+                // Zde budu provadět ošetření vstupu
+                // Například kontroly délky, formátu, atd.
+            }
+            protected bool JePlatnyFormat(string text, string format)
+            {
+                // Zde provádím ověření formátu
+                return text.Length == format.Length && text.All(char.IsDigit);
+            }
+            public static bool IsNumericKey(Key key)
+            {
+                // Převede klávesy na jejich kód a ověří, zda odpovídají číselným klávesám.
+                int keyInt = (int)key;
+                return (keyInt >= 34 && keyInt <= 43) || (keyInt >= 74 && keyInt <= 83);
+            }
+
+            public class OsetreniICO : OsetreniVstupu
+            {
+                public OsetreniICO(TextBox textBox) : base(textBox)
                 {
-                    // Pokud ne, zakážeme tuto klávesu
-                    e.Handled = true;
                 }
 
-                // Získáme text z textového pole
-                string text = txtBoxIco.Text;
-
-                // Omezíme délku na 8 číslic
-                if (text.Length >= 8 && e.Key != Key.Back && e.Key != Key.Delete)
+                public override void OsetritVstup(KeyEventArgs e)
                 {
-                    e.Handled = true;
+                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
+                    // Kontrola délky - maximálně 8 znaků
+                    if (txtBox.Text.Length >= 8 && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
                 }
             }
+
+            public class OsetreniDIC : OsetreniVstupu
+            {
+                public OsetreniDIC(TextBox textBox) : base(textBox)
+                {
+                }
+
+                public override void OsetritVstup(KeyEventArgs e)
+                {
+                    
+                        if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+                        {
+                            e.Handled = true;
+                        }
+
+                    // Kontrola délky - maximálně 8 znaků
+                    if (txtBox.Text.Length > 8 && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
+                    // Zde můžete provádět další specifické kontroly pro DIČ
+                }
+            }
+
+
         }
+
        
     }
 
