@@ -25,6 +25,7 @@ namespace sklad_hustota_zasilky
         
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
+
         private OsetreniICO osetreniIco;
         private OsetreniDIC osetreniDic;
 

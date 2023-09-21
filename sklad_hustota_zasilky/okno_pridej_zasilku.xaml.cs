@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static sklad_hustota_zasilky.okno_pridej_dodavatele.OsetreniVstupu;
+using static sklad_hustota_zasilky.okno_pridej_zasilku.OsetreniVstupu;
 using static sklad_hustota_zasilky.SpravaDatabaze;
 
 namespace sklad_hustota_zasilky
@@ -24,9 +26,13 @@ namespace sklad_hustota_zasilky
         private okno_pridej_dodavatele OknoPridejDodavatele;
         private bool oknoPridejDodavateleOtevreno = false;
 
+        private OsetreniNVE osetreniNve;
+
         public okno_pridej_zasilku()
         {
             InitializeComponent();
+
+            osetreniNve = new OsetreniNVE(txtBoxNveZasilky);
 
             // Vytvoření instance okna pro přidání dodavatele, ale zatím se neotevře.
             OknoPridejDodavatele = new okno_pridej_dodavatele();
@@ -48,6 +54,14 @@ namespace sklad_hustota_zasilky
             delkaZasilkyTxt.TextChanged += AktualizujUdaje;
             vyskaZasilkyTxt.TextChanged += AktualizujUdaje;
         }
+
+        // Metoda pro ošetření pole NVE zásilky
+
+        private void txtBoxNveZasilky_KeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniNve.OsetritVstup(e);
+        }
+
         private void AktualizujUdaje(object sender, TextChangedEventArgs e)
         {
             // Získat hodnoty z TextBoxů
@@ -107,6 +121,52 @@ namespace sklad_hustota_zasilky
                 else
                 {
                     OknoPridejDodavatele.Activate();
+                }
+            }
+        }
+        public class OsetreniVstupu
+        {
+            protected TextBox txtBox;
+
+            public OsetreniVstupu(TextBox textBox)
+            {
+                txtBox = textBox;
+            }
+            public virtual void OsetritVstup(KeyEventArgs e)
+            {
+                // Zde budu provadět ošetření vstupu
+                // Například kontroly délky, formátu, atd.
+            }
+            protected bool JePlatnyFormat(string text, string format)
+            {
+                // Zde provádím ověření formátu
+                return text.Length == format.Length && text.All(char.IsDigit);
+            }
+            public static bool IsNumericKey(Key key)
+            {
+                // Převede klávesy na jejich kód a ověří, zda odpovídají číselným klávesám.
+                int keyInt = (int)key;
+                return (keyInt >= 34 && keyInt <= 43) || (keyInt >= 74 && keyInt <= 83);
+            }
+            public class OsetreniNVE : OsetreniVstupu
+            {
+                public OsetreniNVE(TextBox textBox) : base(textBox)
+                {
+                }
+
+                public override void OsetritVstup(KeyEventArgs e)
+                {
+                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
+                    // Kontrola délky - maximálně 18 znaků
+                    if (txtBox.Text.Length >= 18 && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
                 }
             }
         }
