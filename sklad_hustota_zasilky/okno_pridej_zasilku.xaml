@@ -9,33 +9,41 @@
     <Grid>
         <GroupBox Header="Obecné" Margin="10,10,10,347">
             <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
-                <Label Content="Název zásilky" Height="25" VerticalAlignment="Top" />
-                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top"/>
+                <Label Content="NVE zásilky" Height="25" VerticalAlignment="Top" />
+                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" KeyDown="txtBoxNveZasilky_KeyDown"/>
                   <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
                 <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="160" VerticalAlignment="Top">
+        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top">
 
             <StackPanel Margin="0,5,0,5">
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5" >
-                    <Label Content="Výška" Height="25" Width="40" />
+                    <Label Content="Výška" Height="30" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vyskaZasilkyTxt"/>
+                    <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Label Content="Délka" Height="25" Width="40" />
+                    <Label Content="Délka" Height="30" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="delkaZasilkyTxt"/>
+                    <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Label Content="Šířka"  Height="25" Width="40" />
+                    <Label Content="Šířka"  Height="30" Width="40" />
                     <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="sirkaZasilkyTxt"/>
+                    <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <TextBlock Name="objemZasilkyTxt" Margin="5" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <Label Content="Váha"  Height="25" Width="40" />
+                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vahaZasilkyTxt"/>
+                    <Label Content="kg" Height="30" Width="40" />
                 </StackPanel>
 
             </StackPanel>
