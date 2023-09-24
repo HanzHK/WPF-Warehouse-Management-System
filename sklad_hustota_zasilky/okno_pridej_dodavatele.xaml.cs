@@ -26,20 +26,29 @@ namespace sklad_hustota_zasilky
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
 
+        //deklarace soukromých lokálních proměnných pro ošetření textových polí
         private OsetreniICO osetreniIco;
         private OsetreniDIC osetreniDic;
+        private OsetreniPSC osetreniPsc;
 
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
             osetreniIco = new OsetreniICO(txtBoxIco);
             osetreniDic = new OsetreniDIC(txtBoxDic);
+            osetreniPsc = new OsetreniPSC(txtBoxPsc);
+
+            // Přiřazení oobslužných metod pro TextChanged a PreviewKeyDown
+            txtBoxPsc.TextChanged += txtBoxPsc_TextChanged;
+            txtBoxPsc.PreviewKeyDown += txtBoxPsc_PreviewKeyDown;
 
             // Vytvořte instanci třídy SpravaDatabase
             SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
 
             // Zavolejte metodu pro naplnění ComboBoxu
             spravaDatabaze.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
+
+
         }
 
         private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
@@ -51,6 +60,21 @@ namespace sklad_hustota_zasilky
         {
             osetreniDic.OsetritVstup(e);
         }
+            
+        private void txtBoxPsc_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniPsc.OsetritPreviewKeyDown(e);
+        }
+        private void txtBoxPsc_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            osetreniPsc.OsetritTextChanged();
+        }
+
+        private void txtBoxPsc_KeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniPsc.OsetritVstup(e);
+        }
+
 
         // Přidejte událost pro uzávěrku okna
         private void OknoPridejDodavatele_Closed(object sender, EventArgs e)
@@ -74,6 +98,7 @@ namespace sklad_hustota_zasilky
         }
         private void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
         {
+            // Obecné - přiřazení hodnot do proměnných
             string nazev = txtBoxNazevDodavatele.Text;
             string ico = txtBoxIco.Text;
             string dic = txtBoxDic.Text;
@@ -92,6 +117,11 @@ namespace sklad_hustota_zasilky
             txtBoxDic.Clear();
             txtBoxPopis.Clear();
         }
+
+        /* Třídy pro ošetřování textových polí ve formuláři
+         * 
+        */
+
         public class OsetreniVstupu
         {
             protected TextBox txtBox;
@@ -148,11 +178,11 @@ namespace sklad_hustota_zasilky
 
                 public override void OsetritVstup(KeyEventArgs e)
                 {
-                    
-                        if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
-                        {
-                            e.Handled = true;
-                        }
+
+                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
 
                     // Kontrola délky - maximálně 8 znaků
                     if (txtBox.Text.Length > 8 && e.Key != Key.Back && e.Key != Key.Delete)
@@ -163,11 +193,70 @@ namespace sklad_hustota_zasilky
                     // Zde můžete provádět další specifické kontroly pro DIČ
                 }
             }
+            public class OsetreniPSC : OsetreniVstupu
+            {
+                public OsetreniPSC(TextBox textBox) : base(textBox)
+                {
+                }
+
+                public void OsetritPreviewKeyDown(KeyEventArgs e)
+                {
+                    // Zde provádíme kontrolu klávesového stisku
+                    if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    {
+                        // Můžete provádět další kontroly, pokud jsou potřeba
+                    }
+                }
+
+                public void OsetritTextChanged()
+                {
+                    // Zde provádíme kontrolu textu po změně
+                    string text = txtBox.Text;
+
+                    // Odstranění všech mezer z textu
+                    string textBezMezer = text.Replace(" ", "");
+
+                    // Pokud text má délku 0-5 a obsahuje pouze číslice, ponecháme ho
+                    if (text.Length >= 0 && text.Length <= 5 && textBezMezer.All(char.IsDigit))
+                    {
+                        return;
+                    }
+                    // Pokud Neobsahuje číslice smažeme ho
+                    if (text.Length >= 0 && !textBezMezer.All(char.IsDigit))
+                    {
+                        txtBox.Text = text.Substring(0, Math.Max(0, text.Length - 1));
+                        txtBox.CaretIndex = txtBox.Text.Length;
+                        return;
+                    }
+
+                    // Pokud text má délku 5 a obsahuje pouze číslice, přidáme mezera za třetím číslem
+                    if (text.Length == 5 && textBezMezer.All(char.IsDigit))
+                    {
+                        txtBox.Text = text.Substring(0, 3) + " " + text.Substring(3);
+                        txtBox.CaretIndex = txtBox.Text.Length;
+                        return;
+                    }
+
+                    // Pokud text má délku 6 a odpovídá formátu pět číslic + mezera za třetím číslem, ponecháme ho
+                    if (text.Length == 6 && text[0] >= '0' && text[0] <= '9' &&
+                        text[1] >= '0' && text[1] <= '9' &&
+                        text[2] == ' ' &&
+                        text[3] >= '0' && text[3] <= '9' &&
+                        text[4] >= '0' && text[4] <= '9' &&
+                        text[5] >= '0' && text[5] <= '9')
+                    {
+                        return;
+                    }
+
+                    // Pokud text nesplňuje žádný z těchto podmínek, zamezíme dalšímu psaní
+                    txtBox.Text = text.Substring(0, Math.Min(6, text.Length));
+                    txtBox.CaretIndex = txtBox.Text.Length;
+                }
+            }
 
 
         }
 
-       
     }
 
-}
+    }
