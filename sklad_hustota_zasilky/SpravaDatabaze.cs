@@ -71,9 +71,44 @@ namespace sklad_hustota_zasilky
 
             return typyDodavatelu;
         }
-        
 
-        // Nově přidaná metoda pro naplnění ComboBoxu s typy dodavatelů
+        // Metoda pro získání seznamu zemí z databáze
+        public List<string> NactiSeznamZemiZDatabaze()
+        {
+            List<string> seznamZemi = new List<string>();
+
+            try
+            {
+                using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                {
+                    string sqlDotaz = "SELECT Nazev FROM dbo.Zeme";
+
+                    using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                seznamZemi.Add(reader["Nazev"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při načítání seznamu zemí: " + ex.Message);
+            }
+            finally
+            {
+                PripojeniDatabazeObecne.ZavritSpojeni();
+            }
+
+            return seznamZemi;
+        }
+
+
+        // Metoda pro naplnění ComboBoxu s typy dodavatelů
         public void NaplnComboBoxTypyDodavatelu(ComboBox comboBox)
         {
             List<string> typyDodavatelu = ZiskatTypyDodavatelu();
@@ -81,6 +116,17 @@ namespace sklad_hustota_zasilky
             foreach (string typDodavatele in typyDodavatelu)
             {
                 comboBox.Items.Add(typDodavatele);
+            }
+        }
+
+        // Metoda pro naplnění ComboBoxu s názvy zemí
+        public void NaplnComboBoxZeme(ComboBox comboBox)
+        {
+            List<string> seznamZemi = NactiSeznamZemiZDatabaze();
+
+            foreach (string zeme in seznamZemi)
+            {
+                comboBox.Items.Add(zeme);
             }
         }
 
@@ -119,6 +165,8 @@ namespace sklad_hustota_zasilky
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
+
+           
         }
 
         //
@@ -127,23 +175,40 @@ namespace sklad_hustota_zasilky
 
         public class PridejDodavateleSql
         {
-            public void UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele)
+            public void UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
             {
                 try
                 {
                     using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
                     {
-                        string sqlDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavateleID) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavateleID)";
+                        // Nejprve vložte adresu do tabulky AdresyDodavatelu
+                        string sqlAdresaDotaz = "INSERT INTO AdresyDodavatelu (Ulice, CisloPopisne, PSC, Obec, Zeme) VALUES (@Ulice, @CisloPopisne, @PSC, @Obec, @Zeme); SELECT SCOPE_IDENTITY();";
 
-                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        using (SqlCommand adresaCmd = new SqlCommand(sqlAdresaDotaz, connection))
                         {
-                            cmd.Parameters.AddWithValue("@Nazev", nazev);
-                            cmd.Parameters.AddWithValue("@ICO", ico);
-                            cmd.Parameters.AddWithValue("@DIC", dic);
-                            cmd.Parameters.AddWithValue("@Popis", popis);
-                            cmd.Parameters.AddWithValue("@TypDodavateleID", ZiskatIdTypuDodavatele(typDodavatele));
+                            adresaCmd.Parameters.AddWithValue("@Ulice", ulice);
+                            adresaCmd.Parameters.AddWithValue("@CisloPopisne", cisloPopisne);
+                            adresaCmd.Parameters.AddWithValue("@PSC", psc);
+                            adresaCmd.Parameters.AddWithValue("@Obec", obec);
+                            adresaCmd.Parameters.AddWithValue("@Zeme", zeme);
 
-                            cmd.ExecuteNonQuery();
+                            // Získání ID nově vložené adresy
+                            int adresaID = Convert.ToInt32(adresaCmd.ExecuteScalar());
+
+                            // Následně vložte dodavatele a přiřaďte mu adresu
+                            string sqlDodavatelDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavateleID, AdresaID) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavateleID, @AdresaID)";
+
+                            using (SqlCommand dodavatelCmd = new SqlCommand(sqlDodavatelDotaz, connection))
+                            {
+                                dodavatelCmd.Parameters.AddWithValue("@Nazev", nazev);
+                                dodavatelCmd.Parameters.AddWithValue("@ICO", ico);
+                                dodavatelCmd.Parameters.AddWithValue("@DIC", dic);
+                                dodavatelCmd.Parameters.AddWithValue("@Popis", popis);
+                                dodavatelCmd.Parameters.AddWithValue("@TypDodavateleID", ZiskatIdTypuDodavatele(typDodavatele));
+                                dodavatelCmd.Parameters.AddWithValue("@AdresaID", adresaID);
+
+                                dodavatelCmd.ExecuteNonQuery();
+                            }
                         }
                     }
 
@@ -158,7 +223,8 @@ namespace sklad_hustota_zasilky
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
-            public int ZiskatIdTypuDodavatele(string nazevTypu)
+
+        public int ZiskatIdTypuDodavatele(string nazevTypu)
             {
                 int id = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
 
