@@ -35,12 +35,12 @@
 
 
         <Button x:Name="pridatDodavateleDbButton" Content="Přidat" HorizontalAlignment="Left" Margin="678,359,0,0" VerticalAlignment="Top" Click="pridatDodavateleDbButton_Click" Height="36" Width="88"/>
-        <GroupBox Header="Fakturační adresa dodavatele" Margin="435,10,349,562" Width="240" Height="180">
-            <StackPanel Margin="0,5,0,5">
+        <GroupBox Header="Fakturační adresa dodavatele" Margin="435,10,349,492" Width="240" Height="230">
+            <StackPanel>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="Ulice" Height="25" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Name="txtBoxUlice" MaxLength="255" Width="160" Height="20"/>
+                    <TextBox Name="txtBoxUlice" HorizontalAlignment="Left" MaxLength="255" Width="160" Height="20"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="č.p." Height="25" Width="40" />
@@ -53,6 +53,10 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="Obec" Height="25" Width="40"/>
                     <TextBox HorizontalAlignment="Left" Name="txtBoxObec" MaxLength="255" Width="140" Height="20"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
+                    <Label Content="Země" Height="25" Width="40"/>
+                    <ComboBox Name="cBoxZeme" Width="120" Height="25"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
