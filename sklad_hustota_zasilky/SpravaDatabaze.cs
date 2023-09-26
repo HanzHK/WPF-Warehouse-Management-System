@@ -12,6 +12,7 @@ namespace sklad_hustota_zasilky
 {
     public class SpravaDatabaze
     {
+
         #region Obecné
         public class PripojeniDatabazeObecne
         {
@@ -175,6 +176,7 @@ namespace sklad_hustota_zasilky
 
         public class PridejDodavateleSql
         {
+
             public void UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
             {
                 try
@@ -212,7 +214,9 @@ namespace sklad_hustota_zasilky
                         }
                     }
 
-                    MessageBox.Show("Dodavatel byl úspěšně uložen do databáze.");
+                    // Po úspěšném uložení zobrazte vyskakovací okno
+                    MessageBox.Show("Data byla úspěšně uložena.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                    
                 }
                 catch (Exception ex)
                 {

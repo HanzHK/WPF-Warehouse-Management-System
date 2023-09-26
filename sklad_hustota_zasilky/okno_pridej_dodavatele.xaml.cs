@@ -48,8 +48,6 @@ namespace sklad_hustota_zasilky
             // Volá metody pro naplnění ComboBoxů
             spravaDatabaze.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
             spravaDatabaze.NaplnComboBoxZeme(cBoxZeme);
-
-
         }
 
         private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
@@ -109,15 +107,15 @@ namespace sklad_hustota_zasilky
             // Adresa - přiřazení hodnot do proměnných
             string ulice = txtBoxUlice.Text;
             string cislopopisne = txtBoxCisloPopisne.Text;
-            string obec = txtBoxObec.Text;
             string psc = txtBoxPsc.Text;
+            string obec = txtBoxObec.Text;
             string zeme = cBoxZeme.SelectedItem.ToString();
 
             // Vytvoření instance třídy PridejDodavateleSql
             SpravaDatabaze.PridejDodavateleSql pridejDodavateleSql = new SpravaDatabaze.PridejDodavateleSql();
 
             // Volání metody pro uložení dodavatele
-            pridejDodavateleSql.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, obec, psc, zeme);
+            pridejDodavateleSql.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, psc, obec, zeme);
 
             // Aktualizace uživatelského rozhraní - vyčištění polí
             txtBoxNazevDodavatele.Clear();
@@ -128,7 +126,9 @@ namespace sklad_hustota_zasilky
             txtBoxObec.Clear();
             txtBoxPsc.Clear();
             txtBoxCisloPopisne.Clear();
-        
+            // Zavření okna
+            this.Close();
+
         }
 
         /* Třídy pro ošetřování textových polí ve formuláři
