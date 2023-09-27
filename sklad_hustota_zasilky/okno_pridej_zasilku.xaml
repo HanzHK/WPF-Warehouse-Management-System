@@ -13,6 +13,8 @@
                 <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" KeyDown="txtBoxNveZasilky_KeyDown"/>
                   <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
                 <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
+                <Label Content="Skladovací pozice" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
+                <ComboBox  HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top">
