@@ -43,8 +43,6 @@ namespace sklad_hustota_zasilky
            Tato část kódu se stará o přidání položek do comboboxu,
            ve kterém se vybírají ze seznamu.
            */
-            cBoxDodavatele.Items.Add("Vyberte dodavatele");
-            cBoxDodavatele.Items.Add("Přidat nového dodavatele");
             NacitaniDatzDatabaze nacitaniDatabaze = new NacitaniDatzDatabaze();
             nacitaniDatabaze.NaplnComboBoxDodavatelu(cBoxDodavatele);
 
@@ -101,29 +99,6 @@ namespace sklad_hustota_zasilky
             OknoPridejDodavatele = null;
         }
 
-        /* část programu s metodou, která se stará o to, aby se otevřelo nové okno pro přidávání dodavatelů, 
-         * pokud uživatel vybere "Přidat nového dodavatele z comboboxu na výběr dodavatele zásilky" 
-         */
-        private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string vybranaPolozka = cBoxDodavatele.SelectedItem as string;
-
-            if (vybranaPolozka == "Přidat nového dodavatele")
-            {
-                if (!oknoPridejDodavateleOtevreno)
-                {
-                    OknoPridejDodavatele = new okno_pridej_dodavatele();
-                    OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
-                    OknoPridejDodavatele.Show();
-                    oknoPridejDodavateleOtevreno = true;
-                    
-                }
-                else
-                {
-                    OknoPridejDodavatele.Activate();
-                }
-            }
-        }
         public class OsetreniVstupu
         {
             protected TextBox txtBox;
@@ -171,6 +146,21 @@ namespace sklad_hustota_zasilky
             }
         }
 
+        private void otevritOknoPridatDodavateleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!oknoPridejDodavateleOtevreno)
+            {
+                OknoPridejDodavatele = new okno_pridej_dodavatele();
+                OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
+                OknoPridejDodavatele.Show();
+                oknoPridejDodavateleOtevreno = true;
+
+            }
+            else
+            {
+                OknoPridejDodavatele.Activate();
+            }
+        }
     }
 }
 
