@@ -5,19 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sklad_hustota_zasilky"
         mc:Ignorable="d"
-        Title="okno_pridej_zasilku" Height="768" Width="1024">
+        Title="Přidat Zásilku" Height="768" Width="1024">
+    <Window.Resources>
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{x:Static SystemColors.WindowColor}"/>
+        <SolidColorBrush x:Key="WindowTextBrush" Color="{x:Static SystemColors.WindowTextColor}"/>
+        <!-- Stylování pro Button -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource WindowTextBrush}"/>
+        </Style>
+        <!-- Další stylování pro TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource WindowTextBrush}"/>
+        </Style>
+        <!-- Další stylování pro Label -->
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource WindowTextBrush}"/>
+        </Style>
+        <!-- Další stylování pro ComboBox -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource WindowTextBrush}"/>
+        </Style>
+        <!-- Styly pro celé okno -->
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource WindowTextBrush}"/>
+        </Style>
+        
+    </Window.Resources>
     <Grid>
-        <GroupBox Header="Obecné" Margin="10,10,10,347">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="784*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="119*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Obecné" Margin="10,10,10,347" Grid.ColumnSpan="4">
             <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
                 <Label Content="NVE zásilky" Height="25" VerticalAlignment="Top" />
                 <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" KeyDown="txtBoxNveZasilky_KeyDown"/>
-                  <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
+                <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
                 <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
                 <Label Content="Skladovací pozice" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
                 <ComboBox  HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top">
+        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Grid.ColumnSpan="2">
 
             <StackPanel Margin="0,5,0,5">
 
@@ -49,14 +84,53 @@
                 </StackPanel>
 
             </StackPanel>
-            
+
         </GroupBox>
 
-            <GroupBox Header="Odesílatel" Margin="215,160,345,101" Width="300" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <ComboBox Name="cBoxDodavatele" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
-            </StackPanel>
+        <GroupBox Header="Odesílatel" Margin="144,160,0,0" Width="500" Height="400" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5,0,5,0" Grid.ColumnSpan="3">
+                    <Label Content="Vybrat dodavatele ze seznamu"  Height="30" Width="180" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                </StackPanel>
+                <GridSplitter Grid.Row="0" Grid.Column="2" Width="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Background="LightGray" Height="60" Grid.RowSpan="2"/>
+                <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal" Margin="5,0,5,0"  Grid.RowSpan="2">
+                    <Button Height="57" Width="150" FontSize="16" Click="otevritOknoPridatDodavateleButton_Click">
+                        <TextBlock TextAlignment="Center" FontSize="14">
+                            <Run Text="Přidat"/>
+                            <LineBreak/>
+                            <Run Text="nového dodavatele"/>
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,10,5,5" Grid.ColumnSpan="3">
+                    <!-- Výběr dodavatele z comboboxu -->
+                    <ComboBox x:Name="cBoxDodavatele" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
+                </StackPanel>
+                <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0">
+                </GroupBox>
+            </Grid>
         </GroupBox>
-        
+
+
+
+
+
+
+
+
+
     </Grid>
 </Window>
