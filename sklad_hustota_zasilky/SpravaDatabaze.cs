@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
 
 namespace sklad_hustota_zasilky
 {
@@ -37,11 +38,13 @@ namespace sklad_hustota_zasilky
         }
         #endregion
 
-      
+        private okno_pridej_zasilku OknoPridejZasilku;
 
         public List<string> ZiskatTypyDodavatelu()
         {
             List<string> typyDodavatelu = new List<string>();
+
+            
 
             try
             {
@@ -130,13 +133,12 @@ namespace sklad_hustota_zasilky
                 comboBox.Items.Add(zeme);
             }
         }
-
         //
         // Část řěšící načítání dat z databáze
         //
         public class NacitaniDatzDatabaze
         {
-            
+            public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
             public void NaplnComboBoxDodavatelu(ComboBox comboBox)
             {
                 try
@@ -151,7 +153,13 @@ namespace sklad_hustota_zasilky
                             {
                                 while (reader.Read())
                                 {
-                                    comboBox.Items.Add(reader["Nazev"].ToString());
+                                    string nazevDodavatele = reader["Nazev"].ToString();
+
+                                    // Kontrola, zda se dodavatel již nachází v kolekci
+                                    if (!SeznamDodavatelu.Contains(nazevDodavatele))
+                                    {
+                                        SeznamDodavatelu.Add(nazevDodavatele);
+                                    }
                                 }
                             }
                         }
@@ -165,6 +173,7 @@ namespace sklad_hustota_zasilky
                 {
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
+                comboBox.ItemsSource = SeznamDodavatelu;
             }
 
            
