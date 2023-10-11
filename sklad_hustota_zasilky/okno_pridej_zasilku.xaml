@@ -35,6 +35,7 @@
         </Style>
         
     </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="71*"/>
@@ -117,7 +118,7 @@
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,10,5,5" Grid.ColumnSpan="3">
                     <!-- Výběr dodavatele z comboboxu -->
-                    <ComboBox x:Name="cBoxDodavatele" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="cBoxDodavatele" ItemsSource="{Binding SeznamDodavatelu}" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
                 </StackPanel>
                 <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0">
                 </GroupBox>
