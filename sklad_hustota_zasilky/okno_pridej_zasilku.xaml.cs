@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,32 +26,58 @@ namespace sklad_hustota_zasilky
         // Deklarace proměnné pro uchování instance okna pro přidání dodavatele.
         private okno_pridej_dodavatele OknoPridejDodavatele;
         private bool oknoPridejDodavateleOtevreno = false;
-
+        private RefreshCbox refreshCbox;
         private OsetreniNVE osetreniNve;
+
+
 
         public okno_pridej_zasilku()
         {
             InitializeComponent();
+
 
             osetreniNve = new OsetreniNVE(txtBoxNveZasilky);
 
             // Vytvoření instance okna pro přidání dodavatele, ale zatím se neotevře.
             OknoPridejDodavatele = new okno_pridej_dodavatele();
 
-           
-            
             /*
            Tato část kódu se stará o přidání položek do comboboxu,
            ve kterém se vybírají ze seznamu.
            */
+            // Vytvoření instance RefreshCbox a NacitaniDatzDatabaze
             NacitaniDatzDatabaze nacitaniDatabaze = new NacitaniDatzDatabaze();
-            nacitaniDatabaze.NaplnComboBoxDodavatelu(cBoxDodavatele);
+            refreshCbox = new RefreshCbox(nacitaniDatabaze);
+            
+            // Naplnění comboboxu
+           nacitaniDatabaze.NaplnComboBoxDodavatelu(cBoxDodavatele);
 
+            DataContext = refreshCbox;
 
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
             delkaZasilkyTxt.TextChanged += AktualizujUdaje;
             vyskaZasilkyTxt.TextChanged += AktualizujUdaje;
+        }
+
+        public class RefreshCbox
+            {
+            private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
+
+            // Konstruktor, který přijímá instanci NacitaniDatzDatabaze
+            public RefreshCbox(NacitaniDatzDatabaze nacitaniDatzDatabaze)
+            {
+                _nacitaniDatzDatabaze = nacitaniDatzDatabaze;
+            }
+
+            // Vlastnost pro data, která chcete použít pro binding
+            public ObservableCollection<string> SeznamDodavatelu => _nacitaniDatzDatabaze.SeznamDodavatelu;
+
+            // Druhá metoda pro načítání dat
+            public void NacistDataDoComboBoxu(ComboBox comboBox)
+            {
+               _nacitaniDatzDatabaze.NaplnComboBoxDodavatelu(comboBox);
+            }
         }
 
         // Metoda pro ošetření pole NVE zásilky
@@ -154,7 +181,15 @@ namespace sklad_hustota_zasilky
                 OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
                 OknoPridejDodavatele.Show();
                 oknoPridejDodavateleOtevreno = true;
+                
+                // Nejdříve vyčištění seznamu
+                // cBoxDodavatele.Items.Clear();
 
+               // Aktualizujte ComboBox po zavření okna
+               OknoPridejDodavatele.Closed += (s, args) =>
+               {
+                    refreshCbox.NacistDataDoComboBoxu(cBoxDodavatele);
+                };
             }
             else
             {
