@@ -138,6 +138,43 @@ namespace sklad_hustota_zasilky
         //
         public class NacitaniDatzDatabaze
         {
+            //Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
+            public void NactiAdresu()
+            {
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT Ulice, CisloPopisne, Mesto, PSC FROM AdresyDodavatelu WHERE DodavatelID = @DodavatelID";
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    // Přiřaďte hodnoty k proměnným, které použijete k aktualizaci TextBlocku.
+                                    string ulice = reader["Ulice"].ToString();
+                                    string cisloPopisne = reader["CisloPopisne"].ToString();
+                                    string mesto = reader["Mesto"].ToString();
+                                    string psc = reader["PSC"].ToString();
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při načítání adresy dodavatele: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
+            }
+            //
+            //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
+            //
             public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
             public void NaplnComboBoxDodavatelu(ComboBox comboBox)
             {
