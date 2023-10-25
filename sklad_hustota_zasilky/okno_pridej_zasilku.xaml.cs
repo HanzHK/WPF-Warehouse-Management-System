@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace sklad_hustota_zasilky
     /// </summary>
     public partial class okno_pridej_zasilku : Window
     {
+        private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
+
         // Deklarace proměnné pro uchování instance okna pro přidání dodavatele.
         private okno_pridej_dodavatele OknoPridejDodavatele;
         private bool oknoPridejDodavateleOtevreno = false;
@@ -60,6 +63,9 @@ namespace sklad_hustota_zasilky
             vyskaZasilkyTxt.TextChanged += AktualizujUdaje;
         }
 
+        // Pomocná třída pro automatický refresh combnoboxu s dodavateli
+        // Pro správně fungující binding
+
         public class RefreshCbox
             {
             private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
@@ -79,6 +85,28 @@ namespace sklad_hustota_zasilky
                _nacitaniDatzDatabaze.NaplnComboBoxDodavatelu(comboBox);
             }
         }
+        private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
+            // Získáme vybraného dodavatele z comboboxu
+            string vybranyDodavatel = cBoxDodavatele.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(vybranyDodavatel))
+            {
+                // Zavoláme upravenou metodu NactiAdresu a předáme jí textové bloky pro jednotlivé části adresy.
+                _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt);
+            }
+            else
+            {
+                // Vybraný dodavatel je prázdný
+                // Nastavte TextBlocky na prázdný text nebo jinou chybovou zprávu
+                vybranyDodavatelUliceTxt.Text = "";
+                vybranyDodavatelCisloPopisneTxt.Text = "";
+                vybranyDodavatelPscTxt.Text = "";
+                vybranyDodavatelObecTxt.Text = "";
+            }
+        }
+
 
         // Metoda pro ošetření pole NVE zásilky
 
