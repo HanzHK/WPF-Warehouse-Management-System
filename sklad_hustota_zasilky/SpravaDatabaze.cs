@@ -44,7 +44,7 @@ namespace sklad_hustota_zasilky
         {
             List<string> typyDodavatelu = new List<string>();
 
-            
+
 
             try
             {
@@ -138,30 +138,65 @@ namespace sklad_hustota_zasilky
         //
         public class NacitaniDatzDatabaze
         {
-            //Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
-            public void NactiAdresu()
+            //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
+            public int ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
+                int adresaID = -1;
+
                 try
                 {
                     using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
                     {
-                        string sqlDotaz = "SELECT Ulice, CisloPopisne, Mesto, PSC FROM AdresyDodavatelu WHERE DodavatelID = @DodavatelID";
+                        string sqlDotaz = "SELECT AdresaID FROM Dodavatele WHERE Nazev = @Nazev";
+
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                         {
-                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            cmd.Parameters.AddWithValue("@Nazev", nazevDodavatele);
+                            var result = cmd.ExecuteScalar();
+
+                            if (result != null && result != DBNull.Value)
                             {
-                                if (reader.Read())
+                                adresaID = Convert.ToInt32(result);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při získávání ID adresy dodavatele: " + ex.Message);
+                }
+
+                return adresaID;
+            }
+
+
+            public void NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock)
+            {
+                try
+                {
+                    int adresaID = ZiskatIdAdresyDodavatele(vybranyDodavatel);
+
+                    if (adresaID != -1)
+                    {
+                        using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                        {
+                            string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC FROM AdresyDodavatelu WHERE AdresaID = @AdresaID";
+                            using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@AdresaID", adresaID);
+                                using (SqlDataReader reader = cmd.ExecuteReader())
                                 {
-                                    // Přiřaďte hodnoty k proměnným, které použijete k aktualizaci TextBlocku.
-                                    string ulice = reader["Ulice"].ToString();
-                                    string cisloPopisne = reader["CisloPopisne"].ToString();
-                                    string mesto = reader["Mesto"].ToString();
-                                    string psc = reader["PSC"].ToString();
+                                    if (reader.Read())
+                                    {
+                                        uliceTextBlock.Text = reader["Ulice"].ToString();
+                                        cisloPopisneTextBlock.Text = reader["CisloPopisne"].ToString();
+                                        obecTextBlock.Text = reader["Obec"].ToString();
+                                        pscTextBlock.Text = reader["PSC"].ToString();
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -172,6 +207,7 @@ namespace sklad_hustota_zasilky
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
+
             //
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
             //
@@ -213,7 +249,7 @@ namespace sklad_hustota_zasilky
                 comboBox.ItemsSource = SeznamDodavatelu;
             }
 
-           
+
         }
 
         //
@@ -262,7 +298,7 @@ namespace sklad_hustota_zasilky
 
                     // Po úspěšném uložení zobrazte vyskakovací okno
                     MessageBox.Show("Data byla úspěšně uložena.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -274,7 +310,7 @@ namespace sklad_hustota_zasilky
                 }
             }
 
-        public int ZiskatIdTypuDodavatele(string nazevTypu)
+            public int ZiskatIdTypuDodavatele(string nazevTypu)
             {
                 int id = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
 
