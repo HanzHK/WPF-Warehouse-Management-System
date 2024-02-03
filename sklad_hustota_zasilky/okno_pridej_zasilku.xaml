@@ -43,7 +43,7 @@
             <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="119*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Obecné" Margin="10,10,10,347" Grid.ColumnSpan="4">
+        <GroupBox Header="Obecné" Margin="10,10,10,597" Grid.ColumnSpan="4">
             <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
                 <Label Content="NVE zásilky" Height="25" VerticalAlignment="Top" />
                 <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" KeyDown="txtBoxNveZasilky_KeyDown"/>
@@ -120,16 +120,29 @@
                     <!-- Výběr dodavatele z comboboxu -->
                     <ComboBox x:Name="cBoxDodavatele" ItemsSource="{Binding SeznamDodavatelu}" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
                 </StackPanel>
-                <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                        <TextBlock Name="vybranyDodavatelUliceTxt"/>
-                        <TextBlock Name="vybranyDodavatelCisloPopisneTxt"/>
-                        <TextBlock Name="vybranyDodavatelPscTxt"/>
-                        <TextBlock Name="vybranyDodavatelObecTxt"/>
+                <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                        <Label Content="Adresa Dodavatele" HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Ulice: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelUliceTxt" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                            <TextBlock Name="vybranyDodavatelCisloPopisneTxt" HorizontalAlignment="Left"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="PSČ: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelPscTxt" HorizontalAlignment="Left"/>
+                        </StackPanel>
                         
-                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Obec: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelObecTxt" HorizontalAlignment="Left"/>
+                        </StackPanel>
+
+
                     </StackPanel>
                 </GroupBox>
+
             </Grid>
         </GroupBox>
 
