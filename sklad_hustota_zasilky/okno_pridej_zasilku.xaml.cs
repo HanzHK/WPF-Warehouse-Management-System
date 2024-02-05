@@ -94,7 +94,8 @@ namespace sklad_hustota_zasilky
             if (!string.IsNullOrEmpty(vybranyDodavatel))
             {
                 // Zavoláme upravenou metodu NactiAdresu a předáme jí textové bloky pro jednotlivé části adresy.
-                _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt);
+                _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt, vybranyDodavatelZemeTxt);
+                _nacitaniDatzDatabaze.NactiObecneinformace(vybranyDodavatel, vybranyDodavatelNazevTxt, vybranyDodavatelIcoTxt, vybranyDodavatelDicTxt);
             }
             else
             {
@@ -102,8 +103,14 @@ namespace sklad_hustota_zasilky
                 // Nastavte TextBlocky na prázdný text nebo jinou chybovou zprávu
                 vybranyDodavatelUliceTxt.Text = "";
                 vybranyDodavatelCisloPopisneTxt.Text = "";
-                vybranyDodavatelPscTxt.Text = "";
+                vybranyDodavatelPscTxt.Text = "  ";
                 vybranyDodavatelObecTxt.Text = "";
+                vybranyDodavatelZemeTxt.Text = "";
+
+                vybranyDodavatelNazevTxt.Content = "";
+                vybranyDodavatelIcoTxt.Text = "";
+                vybranyDodavatelDicTxt.Text = "";
+
             }
         }
 

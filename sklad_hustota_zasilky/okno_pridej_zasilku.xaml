@@ -122,7 +122,19 @@
                 </StackPanel>
                 <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">
                     <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <Label Content="Adresa Dodavatele" HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,5"/>
+                        <Label Name="vybranyDodavatelNazevTxt" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="IČO: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelIcoTxt" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="DIČ: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelDicTxt" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        
+
+
+                        <Label Content="Adresa Dodavatele" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Ulice: " HorizontalAlignment="Left"/>
                             <TextBlock Name="vybranyDodavatelUliceTxt" HorizontalAlignment="Left" Margin="0,0,10,0"/>
@@ -138,7 +150,11 @@
                             <TextBlock Text="Obec: " HorizontalAlignment="Left"/>
                             <TextBlock Name="vybranyDodavatelObecTxt" HorizontalAlignment="Left"/>
                         </StackPanel>
-
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Stát: " HorizontalAlignment="Left"/>
+                            <TextBlock Name="vybranyDodavatelZemeTxt" HorizontalAlignment="Left"/>
+                            
+                        </StackPanel>
 
                     </StackPanel>
                 </GroupBox>

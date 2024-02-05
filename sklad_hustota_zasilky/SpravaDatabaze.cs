@@ -170,7 +170,7 @@ namespace sklad_hustota_zasilky
             }
 
 
-            public void NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock)
+            public void NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
             {
                 try
                 {
@@ -180,7 +180,7 @@ namespace sklad_hustota_zasilky
                     {
                         using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
                         {
-                            string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC FROM AdresyDodavatelu WHERE AdresaID = @AdresaID";
+                            string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC, Zeme FROM AdresyDodavatelu WHERE AdresaID = @AdresaID";
                             using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                             {
                                 cmd.Parameters.AddWithValue("@AdresaID", adresaID);
@@ -192,6 +192,7 @@ namespace sklad_hustota_zasilky
                                         cisloPopisneTextBlock.Text = reader["CisloPopisne"].ToString();
                                         obecTextBlock.Text = reader["Obec"].ToString();
                                         pscTextBlock.Text = reader["PSC"].ToString();
+                                        zemeTextBlock.Text = reader["Zeme"].ToString();
                                     }
                                 }
                             }
@@ -207,6 +208,39 @@ namespace sklad_hustota_zasilky
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
+
+            public void NactiObecneinformace(string vybranyDodavatel, Label nazevLabel, TextBlock icoTextBlock, TextBlock dicTextBlock)
+            {
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT Nazev, ICO, DIC FROM Dodavatele WHERE Nazev = @Nazev";
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@Nazev", vybranyDodavatel);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    nazevLabel.Content = reader["Nazev"].ToString();
+                                    icoTextBlock.Text = reader["ICO"].ToString();
+                                    dicTextBlock.Text = reader["DIC"].ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při načítání informací o dodavateli: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
+            }
+
 
             //
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
