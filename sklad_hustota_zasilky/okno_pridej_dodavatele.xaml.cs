@@ -30,6 +30,7 @@ namespace sklad_hustota_zasilky
         private OsetreniICO osetreniIco;
         private OsetreniDIC osetreniDic;
         private OsetreniPSC osetreniPsc;
+        private OsetreniCisloPopisne osetreniCisloPopisne;
 
         public okno_pridej_dodavatele()
         {
@@ -37,6 +38,7 @@ namespace sklad_hustota_zasilky
             osetreniIco = new OsetreniICO(txtBoxIco);
             osetreniDic = new OsetreniDIC(txtBoxDic);
             osetreniPsc = new OsetreniPSC(txtBoxPsc);
+            osetreniCisloPopisne = new OsetreniCisloPopisne(txtBoxCisloPopisne);
 
             // Přiřazení oobslužných metod pro TextChanged a PreviewKeyDown
             txtBoxPsc.TextChanged += txtBoxPsc_TextChanged;
@@ -72,6 +74,10 @@ namespace sklad_hustota_zasilky
         private void txtBoxPsc_KeyDown(object sender, KeyEventArgs e)
         {
             osetreniPsc.OsetritVstup(e);
+        }
+        private void txtBoxCisloPopisne_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniCisloPopisne.OsetritVstup(e);
         }
 
 
@@ -204,6 +210,27 @@ namespace sklad_hustota_zasilky
                     }
 
                     // Zde můžete provádět další specifické kontroly pro DIČ
+                }
+            }
+            public class OsetreniCisloPopisne : OsetreniVstupu
+            {
+                public OsetreniCisloPopisne(TextBox textBox) : base(textBox)
+                {
+                }
+
+                public override void OsetritVstup(KeyEventArgs e)
+                {
+                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
+                    // Kontrola délky - maximálně 7 znaků
+                    if (txtBox.Text.Length >= 7 && e.Key != Key.Back && e.Key != Key.Delete)
+                    {
+                        e.Handled = true;
+                    }
+
                 }
             }
             public class OsetreniPSC : OsetreniVstupu

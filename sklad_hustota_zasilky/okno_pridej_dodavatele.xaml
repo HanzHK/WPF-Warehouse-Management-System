@@ -44,7 +44,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="č.p." Height="25" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Name="txtBoxCisloPopisne" MaxLength="255" Width="60" Height="20"/>
+                    <TextBox HorizontalAlignment="Left" Name="txtBoxCisloPopisne" MaxLength="255" Width="60" Height="20" PreviewKeyDown="txtBoxCisloPopisne_PreviewKeyDown"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="PSČ" Height="25" Width="40"/>
