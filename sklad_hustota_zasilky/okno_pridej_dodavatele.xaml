@@ -48,7 +48,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="PSČ" Height="25" Width="40"/>
-                    <TextBox HorizontalAlignment="Left" Name="txtBoxPsc" MaxLength="255" Width="80" Height="20" PreviewKeyDown="txtBoxPsc_PreviewKeyDown" TextChanged="txtBoxPsc_TextChanged"/>
+                    <TextBox HorizontalAlignment="Left" Name="txtBoxPsc" MaxLength="255" Width="80" Height="20" PreviewKeyDown="txtBoxPsc_PreviewKeyDown"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="0,5,0,5">
                     <Label Content="Obec" Height="25" Width="40"/>

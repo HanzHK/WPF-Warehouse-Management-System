@@ -38,8 +38,6 @@ namespace sklad_hustota_zasilky
         }
         #endregion
 
-        private okno_pridej_zasilku OknoPridejZasilku;
-
         public List<string> ZiskatTypyDodavatelu()
         {
             List<string> typyDodavatelu = new List<string>();

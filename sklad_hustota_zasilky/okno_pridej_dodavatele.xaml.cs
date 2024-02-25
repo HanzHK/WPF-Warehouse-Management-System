@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
-using static sklad_hustota_zasilky.okno_pridej_dodavatele.OsetreniVstupu;
+using static sklad_hustota_zasilky.OsetreniVstupu;
 
 
 namespace sklad_hustota_zasilky
@@ -26,23 +26,9 @@ namespace sklad_hustota_zasilky
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
 
-        //deklarace soukromých lokálních proměnných pro ošetření textových polí
-        private OsetreniICO osetreniIco;
-        private OsetreniDIC osetreniDic;
-        private OsetreniPSC osetreniPsc;
-        private OsetreniCisloPopisne osetreniCisloPopisne;
-
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
-            osetreniIco = new OsetreniICO(txtBoxIco);
-            osetreniDic = new OsetreniDIC(txtBoxDic);
-            osetreniPsc = new OsetreniPSC(txtBoxPsc);
-            osetreniCisloPopisne = new OsetreniCisloPopisne(txtBoxCisloPopisne);
-
-            // Přiřazení oobslužných metod pro TextChanged a PreviewKeyDown
-            txtBoxPsc.TextChanged += txtBoxPsc_TextChanged;
-            txtBoxPsc.PreviewKeyDown += txtBoxPsc_PreviewKeyDown;
 
             // Vytvořte instanci třídy SpravaDatabase
             SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
@@ -54,30 +40,35 @@ namespace sklad_hustota_zasilky
 
         private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            osetreniIco.OsetritVstup(e);
-        }
+            // Vytzvoření instance a nastavení maximální délky na 8
+            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxIco, 8);
 
+            // Volání metody na ošetření čísel
+            osetreniCisel.OsetriVstup(e);
+        }
         private void txtBoxDic_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            osetreniDic.OsetritVstup(e);
+            // Vytzvoření instance a nastavení maximální délky na 8
+            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxDic, 8);
+
+            // Volání metody na ošetření čísel
+            osetreniCisel.OsetriVstup(e);
         }
-            
         private void txtBoxPsc_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            osetreniPsc.OsetritPreviewKeyDown(e);
-        }
-        private void txtBoxPsc_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            osetreniPsc.OsetritTextChanged();
-        }
+            // Vytzvoření instance a nastavení maximální délky na 6
+            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxPsc, 6);
 
-     //   private void txtBoxPsc_KeyDown(object sender, KeyEventArgs e)
-      //  {
-      //      osetreniPsc.OsetritVstup(e);
-     //   }
+            // Volání metody na ošetření čísel
+            osetreniCisel.OsetriVstup(e);
+        }
         private void txtBoxCisloPopisne_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            osetreniCisloPopisne.OsetritVstup(e);
+            // Vytzvoření instance a nastavení maximální délky na 10
+            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxCisloPopisne, 10);
+
+            // Volání metody na ošetření čísel
+            osetreniCisel.OsetriVstup(e);
         }
 
 
@@ -137,165 +128,7 @@ namespace sklad_hustota_zasilky
 
         }
 
-        /* Třídy pro ošetřování textových polí ve formuláři
-         * 
-        */
 
-        public class OsetreniVstupu
-        {
-            protected TextBox txtBox;
-
-            public OsetreniVstupu(TextBox textBox)
-            {
-                txtBox = textBox;
-            }
-
-            public virtual void OsetritVstup(KeyEventArgs e)
-            {
-                // Zde budu provadět ošetření vstupu
-                // Například kontroly délky, formátu, atd.
-            }
-            protected bool JePlatnyFormat(string text, string format)
-            {
-                // Zde provádím ověření formátu
-                return text.Length == format.Length && text.All(char.IsDigit);
-            }
-            public static bool IsNumericKey(Key key)
-            {
-                // Převede klávesy na jejich kód a ověří, zda odpovídají číselným klávesám.
-                int keyInt = (int)key;
-                return (keyInt >= 34 && keyInt <= 43) || (keyInt >= 74 && keyInt <= 83);
-            }
-
-            public class OsetreniICO : OsetreniVstupu
-            {
-                public OsetreniICO(TextBox textBox) : base(textBox)
-                {
-                }
-
-                public override void OsetritVstup(KeyEventArgs e)
-                {
-                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                    // Kontrola délky - maximálně 8 znaků
-                    if (txtBox.Text.Length >= 8 && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                }
-            }
-
-            public class OsetreniDIC : OsetreniVstupu
-            {
-                public OsetreniDIC(TextBox textBox) : base(textBox)
-                {
-                }
-
-                public override void OsetritVstup(KeyEventArgs e)
-                {
-
-                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                    // Kontrola délky - maximálně 8 znaků
-                    if (txtBox.Text.Length > 8 && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                    // Zde můžete provádět další specifické kontroly pro DIČ
-                }
-            }
-            public class OsetreniCisloPopisne : OsetreniVstupu
-            {
-                public OsetreniCisloPopisne(TextBox textBox) : base(textBox)
-                {
-                }
-
-                public override void OsetritVstup(KeyEventArgs e)
-                {
-                    if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                    // Kontrola délky - maximálně 7 znaků
-                    if (txtBox.Text.Length >= 7 && e.Key != Key.Back && e.Key != Key.Delete)
-                    {
-                        e.Handled = true;
-                    }
-
-                }
-            }
-            public class OsetreniPSC : OsetreniVstupu
-            {
-                public OsetreniPSC(TextBox textBox) : base(textBox)
-                {
-                }
-
-                public void OsetritPreviewKeyDown(KeyEventArgs e)
-                {
-                    // Zde provádíme kontrolu klávesového stisku
-                    if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                    {
-                        // Můžete provádět další kontroly, pokud jsou potřeba
-                    }
-                }
-
-                public void OsetritTextChanged()
-                {
-                    // Zde provádíme kontrolu textu po změně
-                    string text = txtBox.Text;
-
-                    // Odstranění všech mezer z textu
-                    string textBezMezer = text.Replace(" ", "");
-
-                    // Pokud text má délku 0-5 a obsahuje pouze číslice, ponecháme ho
-                    if (text.Length >= 0 && text.Length <= 5 && textBezMezer.All(char.IsDigit))
-                    {
-                        return;
-                    }
-                    // Pokud Neobsahuje číslice smažeme ho
-                    if (text.Length >= 0 && !textBezMezer.All(char.IsDigit))
-                    {
-                        txtBox.Text = text.Substring(0, Math.Max(0, text.Length - 1));
-                        txtBox.CaretIndex = txtBox.Text.Length;
-                        return;
-                    }
-
-                    // Pokud text má délku 5 a obsahuje pouze číslice, přidáme mezera za třetím číslem
-                    if (text.Length == 5 && textBezMezer.All(char.IsDigit))
-                    {
-                        txtBox.Text = text.Substring(0, 3) + " " + text.Substring(3);
-                        txtBox.CaretIndex = txtBox.Text.Length;
-                        return;
-                    }
-
-                    // Pokud text má délku 6 a odpovídá formátu pět číslic + mezera za třetím číslem, ponecháme ho
-                    if (text.Length == 6 && text[0] >= '0' && text[0] <= '9' &&
-                        text[1] >= '0' && text[1] <= '9' &&
-                        text[2] == ' ' &&
-                        text[3] >= '0' && text[3] <= '9' &&
-                        text[4] >= '0' && text[4] <= '9' &&
-                        text[5] >= '0' && text[5] <= '9')
-                    {
-                        return;
-                    }
-
-                    // Pokud text nesplňuje žádný z těchto podmínek, zamezíme dalšímu psaní
-                    txtBox.Text = text.Substring(0, Math.Min(6, text.Length));
-                    txtBox.CaretIndex = txtBox.Text.Length;
-                }
-            }
-
-
-        }
 
     }
 
