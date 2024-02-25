@@ -46,7 +46,7 @@
         <GroupBox Header="Obecné" Margin="10,10,10,597" Grid.ColumnSpan="4">
             <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
                 <Label Content="NVE zásilky" Height="25" VerticalAlignment="Top" />
-                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" KeyDown="txtBoxNveZasilky_KeyDown"/>
+                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown"/>
                 <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
                 <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
                 <Label Content="Skladovací pozice" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
@@ -59,19 +59,19 @@
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5" >
                     <Label Content="Výška" Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vyskaZasilkyTxt"/>
+                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vyskaZasilkyTxt" PreviewKeyDown="vyskaZasilkyTxt_PreviewKeyDown"/>
                     <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <Label Content="Délka" Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="delkaZasilkyTxt"/>
+                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="delkaZasilkyTxt" PreviewKeyDown="delkaZasilkyTxt_PreviewKeyDown"/>
                     <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <Label Content="Šířka"  Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="sirkaZasilkyTxt"/>
+                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="sirkaZasilkyTxt" PreviewKeyDown="sirkaZasilkyTxt_PreviewKeyDown"/>
                     <Label Content="cm" Height="30" Width="40" />
                 </StackPanel>
 
@@ -80,7 +80,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <Label Content="Váha"  Height="25" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vahaZasilkyTxt"/>
+                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vahaZasilkyTxt" PreviewKeyDown="vahaZasilkyTxt_PreviewKeyDown"/>
                     <Label Content="kg" Height="30" Width="40" />
                 </StackPanel>
 

@@ -52,12 +52,12 @@ namespace sklad_hustota_zasilky
             spravaDatabaze.NaplnComboBoxZeme(cBoxZeme);
         }
 
-        private void txtBoxIco_KeyDown(object sender, KeyEventArgs e)
+        private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             osetreniIco.OsetritVstup(e);
         }
 
-        private void txtBoxDic_KeyDown(object sender, KeyEventArgs e)
+        private void txtBoxDic_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             osetreniDic.OsetritVstup(e);
         }
@@ -71,10 +71,10 @@ namespace sklad_hustota_zasilky
             osetreniPsc.OsetritTextChanged();
         }
 
-        private void txtBoxPsc_KeyDown(object sender, KeyEventArgs e)
-        {
-            osetreniPsc.OsetritVstup(e);
-        }
+     //   private void txtBoxPsc_KeyDown(object sender, KeyEventArgs e)
+      //  {
+      //      osetreniPsc.OsetritVstup(e);
+     //   }
         private void txtBoxCisloPopisne_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             osetreniCisloPopisne.OsetritVstup(e);

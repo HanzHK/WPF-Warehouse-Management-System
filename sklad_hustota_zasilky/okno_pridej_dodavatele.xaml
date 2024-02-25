@@ -15,11 +15,11 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
                     <Label Content="IČO" Height="25" Width="120" />
-                    <TextBox HorizontalAlignment="Left" Name="txtBoxIco" MaxLength="20" Width="80" Height="20" KeyDown="txtBoxIco_KeyDown"/>
+                    <TextBox HorizontalAlignment="Left" Name="txtBoxIco" MaxLength="20" Width="80" Height="20" PreviewKeyDown="txtBoxIco_PreviewKeyDown"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
                     <Label Content="DIČ" Height="25" Width="120" />
-                    <TextBox HorizontalAlignment="Left" Name="txtBoxDic" MaxLength="20" Width="80" Height="20" KeyDown="txtBoxDic_KeyDown"/>
+                    <TextBox HorizontalAlignment="Left" Name="txtBoxDic" MaxLength="20" Width="80" Height="20" PreviewKeyDown="txtBoxDic_PreviewKeyDown"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,5,0,5">
                     <Label Content="Typ dodavatele" Height="25" Width="120" VerticalAlignment="Top" />
