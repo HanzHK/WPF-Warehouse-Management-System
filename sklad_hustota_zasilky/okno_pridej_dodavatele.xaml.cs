@@ -54,21 +54,27 @@ namespace sklad_hustota_zasilky
             // Volání metody na ošetření čísel
             osetreniCisel.OsetriVstup(e);
         }
-        private void txtBoxPsc_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Vytzvoření instance a nastavení maximální délky na 6
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxPsc, 6);
-
-            // Volání metody na ošetření čísel
-            osetreniCisel.OsetriVstup(e);
-        }
         private void txtBoxCisloPopisne_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytzvoření instance a nastavení maximální délky na 10
+            // Vytvoření instance a nastavení maximální délky na 10
             OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxCisloPopisne, 10);
 
             // Volání metody na ošetření čísel
             osetreniCisel.OsetriVstup(e);
+        }
+        private void txtBoxPsc_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Vytvoření instance třídy OsetreniVstupuCisel
+            OsetreniVstupuCisel instance = new OsetreniVstupuCisel(txtBoxPsc);
+
+            // Volání metody na ošetření vstupu čísel
+            instance.OsetriVstup(e);
+
+        }
+        private void txtBoxPsc_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc);
+            osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
         }
 
 
