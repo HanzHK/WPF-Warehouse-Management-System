@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
 
 namespace sklad_hustota_zasilky
 {
@@ -57,6 +58,25 @@ namespace sklad_hustota_zasilky
 
         internal override void OsetriVstup(KeyEventArgs e)
         {
+            // Pokud uživatel zkopíruje číslo, které obsahuje mezery, přidáme mezery automaticky
+            if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                string text = Clipboard.GetText();
+                if (text != null)
+                {
+                    // Odstraníme mezery ve zkopírovaném textu
+                    text = text.Replace(" ", "");
+
+                    // Pokud je text v očekávaném formátu, přidáme mezery na správná místa
+                    if (text.Length == 5)
+                    {
+                        txtBox.Text = text.Insert(3, " ");
+                        txtBox.CaretIndex = txtBox.Text.Length;
+                        e.Handled = true;
+                    }
+                }
+            }
+
             if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
             {
                 e.Handled = true;
@@ -64,13 +84,24 @@ namespace sklad_hustota_zasilky
 
             base.OsetriVstup(e); // Zavoláme obecnou metodu pro ošetření vstupu
         }
+
     }
+    internal class OsetreniNve : OsetreniVstupuCisel
+    {
+        internal OsetreniNve(TextBox textBox) : base(textBox, maxDelka: 18)
+        {
+        }
+    }
+
     internal class OsetreniVstupuTextChanged : OsetreniVstupu
     {
-        internal OsetreniVstupuTextChanged(TextBox txtBox) : base(txtBox)
+        internal OsetreniVstupuTextChanged(TextBox txtBox, int maxDelka) : base(txtBox, maxDelka)
         {
             // Registrace metody TxtBox_TextChanged pro obsluhu události TextChanged
             txtBox.TextChanged += TxtBox_TextChanged;
+        }
+        internal OsetreniVstupuTextChanged(TextBox txtBox) : this(txtBox, 25) // Implicitně 25
+        {
         }
 
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)

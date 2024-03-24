@@ -65,10 +65,15 @@ namespace sklad_hustota_zasilky
         private void txtBoxNveZasilky_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 18
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxNveZasilky, 18);
+            OsetreniNve osetreniNve = new OsetreniNve(txtBoxNveZasilky);
 
             // Zavolejte metodu OsetritVstup pro osetreniCisel
-            osetreniCisel.OsetriVstup(e);
+            osetreniNve.OsetriVstup(e);
+        }
+        private void txtBoxNveZasilky_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxNveZasilky, 18);
+            osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
         }
 
         public okno_pridej_zasilku()
