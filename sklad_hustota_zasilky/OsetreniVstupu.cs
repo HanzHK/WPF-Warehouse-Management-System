@@ -76,6 +76,18 @@ namespace sklad_hustota_zasilky
                     }
                 }
             }
+            if (e.Key == Key.Left)
+            {
+                // Přesun kurzoru o jeden index doleva
+                txtBox.CaretIndex = Math.Max(0, txtBox.CaretIndex - 1);
+                e.Handled = true; // Zabraňuje výchozí akci klávesy
+            }
+            else if (e.Key == Key.Right)
+            {
+                // Přesun kurzoru o jeden index doprava
+                txtBox.CaretIndex = Math.Min(txtBox.Text.Length, txtBox.CaretIndex + 1);
+                e.Handled = true; // Zabraňuje výchozí akci klávesy
+            }
 
             if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
             {
@@ -88,7 +100,7 @@ namespace sklad_hustota_zasilky
     }
     internal class OsetreniNve : OsetreniVstupuCisel
     {
-        internal OsetreniNve(TextBox textBox) : base(textBox, maxDelka: 18)
+        internal OsetreniNve(TextBox textBox) : base(textBox, maxDelka: 26)
         {
         }
     }
@@ -100,19 +112,22 @@ namespace sklad_hustota_zasilky
             // Registrace metody TxtBox_TextChanged pro obsluhu události TextChanged
             txtBox.TextChanged += TxtBox_TextChanged;
         }
-        internal OsetreniVstupuTextChanged(TextBox txtBox) : this(txtBox, 25) // Implicitně 25
+        internal OsetreniVstupuTextChanged(TextBox txtBox) : this(txtBox, 35) // Implicitní nastavení
         {
         }
 
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Kontrola, zda text dosáhl délky 3 a nekončí mezerou
-            if (txtBox.Text.Length == 3 && !txtBox.Text.EndsWith(" "))
+            // Uložení pozice kurzoru
+            int caretIndex = txtBox.CaretIndex;
+
+            // Pokud se vkládá znak na pozici, která je dělitelná třemi (ale není na začátku), přidej mezery
+            if (caretIndex % 4 == 3 && caretIndex != 0 && !e.Handled)
             {
-                // Vložení mezery na 3. pozici
-                txtBox.Text = txtBox.Text.Insert(3, " ");
-                // Posunutí kurzoru na 4. pozici
-                txtBox.CaretIndex = 4;
+                // Vložení mezery na pozici za trojicí čísel
+                txtBox.Text = txtBox.Text.Insert(caretIndex, " ");
+                // Posunutí kurzoru na správnou pozici
+                txtBox.CaretIndex = caretIndex + 1;
             }
         }
     }

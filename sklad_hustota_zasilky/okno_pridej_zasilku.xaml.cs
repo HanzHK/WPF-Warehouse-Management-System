@@ -72,7 +72,7 @@ namespace sklad_hustota_zasilky
         }
         private void txtBoxNveZasilky_TextChanged(object sender, TextChangedEventArgs e)
         {
-            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxNveZasilky, 18);
+            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxNveZasilky, 35);
             osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
         }
 

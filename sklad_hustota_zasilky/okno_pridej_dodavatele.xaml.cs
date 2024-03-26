@@ -72,7 +72,7 @@ namespace sklad_hustota_zasilky
 
         }
         private void txtBoxPsc_TextChanged(object sender, TextChangedEventArgs e)
-        {
+       {
             OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc, 7);
             osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
         }
