@@ -15,13 +15,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static sklad_hustota_zasilky.SpravaDatabaze;
 using static sklad_hustota_zasilky.OsetreniVstupu;
+using MahApps.Metro.Controls;
+
 
 namespace sklad_hustota_zasilky
 {
     /// <summary>
     /// Interakční logika pro Window1.xaml
     /// </summary>
-    public partial class okno_pridej_zasilku : Window
+    public partial class okno_pridej_zasilku : MetroWindow
     {
         private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
 

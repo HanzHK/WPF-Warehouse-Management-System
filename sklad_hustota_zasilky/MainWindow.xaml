@@ -5,8 +5,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sklad_hustota_zasilky"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+                 Title="SH*TFEST - System for Handling Inventory, Tracking, Fulfillment, and Execution of Supply Tasks"
+                 Width="800"
+                 Height="450"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 ResizeMode="CanResizeWithGrip"
+                 WindowStartupLocation="CenterScreen"
+                 mc:Ignorable="d"
+                 Icon="_7422bbe5_25ef_41dd_954e_750e9551c91f_kCC_6.ico"
+                 ShowIconOnTitleBar="True">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <!-- Setting a Margin and enable hight-quality image -->
+            <Image Margin="4"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Source="{Binding}" />
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
     <Grid>
         <Button Content="Přidat zásilku" Click="OtevritDruheOkno_Click" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
     </Grid>

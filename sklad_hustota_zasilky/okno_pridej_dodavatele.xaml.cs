@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using static sklad_hustota_zasilky.OsetreniVstupu;
+using MahApps.Metro.Controls;
 
 
 namespace sklad_hustota_zasilky
@@ -20,7 +21,7 @@ namespace sklad_hustota_zasilky
     /// <summary>
     /// Interakční logika pro okno_pridej_dodavatele.xaml
     /// </summary>
-    public partial class okno_pridej_dodavatele : Window
+    public partial class okno_pridej_dodavatele : MetroWindow
     {
         
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
