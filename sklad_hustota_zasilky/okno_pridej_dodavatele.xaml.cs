@@ -12,11 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
-using static sklad_hustota_zasilky.OsetreniVstupu;
+using static system_sprava_skladu.OsetreniVstupu;
 using MahApps.Metro.Controls;
 
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     /// <summary>
     /// Interakční logika pro okno_pridej_dodavatele.xaml

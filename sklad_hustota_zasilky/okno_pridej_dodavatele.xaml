@@ -1,9 +1,9 @@
-﻿<mah:MetroWindow x:Class="sklad_hustota_zasilky.okno_pridej_dodavatele"
+﻿<mah:MetroWindow x:Class="system_sprava_skladu.okno_pridej_dodavatele"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:sklad_hustota_zasilky"
+        xmlns:local="clr-namespace:system_sprava_skladu"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Přidej nového dodavatele" Height="768" Width="1024">

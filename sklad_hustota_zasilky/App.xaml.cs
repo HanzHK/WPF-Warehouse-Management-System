@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     /// <summary>
     /// Interaction logic for App.xaml

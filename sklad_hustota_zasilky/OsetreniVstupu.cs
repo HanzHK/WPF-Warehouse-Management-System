@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     // Třída pro PreviewKeyDown ošetření textových polí
     internal abstract class OsetreniVstupu

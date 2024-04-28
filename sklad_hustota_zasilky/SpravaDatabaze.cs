@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     public class SpravaDatabaze
     {

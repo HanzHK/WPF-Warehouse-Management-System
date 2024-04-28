@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using MahApps.Metro.Controls;
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -29,12 +29,13 @@ namespace sklad_hustota_zasilky
         // Obsluha události pro kliknutí na tlačítko pro otevření druhého okna
         private void OtevritDruheOkno_Click(object sender, RoutedEventArgs e)
         {
-            // Vytvoříme instanci druhého okna
-            okno_pridej_zasilku druheOkno = new okno_pridej_zasilku();
+            // Vytvoření instance UserControlu "okno_pridej_zasilku"
+            okno_pridej_zasilku userControl = new okno_pridej_zasilku();
 
-            // Zobrazíme druhé okno
-            druheOkno.Show();
+            // Nastavení obsahu ContentControlu na tento UserControl
+            contentControl.Content = userControl;
         }
+
     }
     public class pripojeniSQL
     {

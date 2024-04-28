@@ -13,17 +13,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static sklad_hustota_zasilky.SpravaDatabaze;
-using static sklad_hustota_zasilky.OsetreniVstupu;
+using static system_sprava_skladu.SpravaDatabaze;
+using static system_sprava_skladu.OsetreniVstupu;
 using MahApps.Metro.Controls;
 
 
-namespace sklad_hustota_zasilky
+namespace system_sprava_skladu
 {
     /// <summary>
     /// Interakční logika pro Window1.xaml
     /// </summary>
-    public partial class okno_pridej_zasilku : MetroWindow
+    public partial class okno_pridej_zasilku : UserControl
     {
         private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
 

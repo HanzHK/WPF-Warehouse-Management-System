@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sklad_hustota_zasilky", "sklad_hustota_zasilky\sklad_hustota_zasilky.csproj", "{1F1516BD-B7D0-4074-AC4E-0BBCC5617349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "system_sprava_skladu", "sklad_hustota_zasilky\system_sprava_skladu.csproj", "{1F1516BD-B7D0-4074-AC4E-0BBCC5617349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
