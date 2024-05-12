@@ -21,7 +21,7 @@ namespace system_sprava_skladu
     /// <summary>
     /// Interakční logika pro okno_pridej_dodavatele.xaml
     /// </summary>
-    public partial class okno_pridej_dodavatele : MetroWindow
+    public partial class okno_pridej_dodavatele : UserControl
     {
         
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
@@ -79,26 +79,6 @@ namespace system_sprava_skladu
         }
 
 
-        // Přidejte událost pro uzávěrku okna
-        private void OknoPridejDodavatele_Closed(object sender, EventArgs e)
-        {
-            // Okno bylo zavřeno, takže nastavte indikátor na false
-            oknoPridejDodavateleOtevreno = false;
-        }
-
-        // Přidejte metodu, která bude volána při otevření okna z jiného místa
-        public void OtevritOkno()
-        {
-            if (!oknoPridejDodavateleOtevreno)
-            {
-                Show();
-                oknoPridejDodavateleOtevreno = true;
-            }
-            else
-            {
-                Activate();
-            }
-        }
         private void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
         {
             // Obecné - přiřazení hodnot do proměnných
@@ -130,8 +110,6 @@ namespace system_sprava_skladu
             txtBoxObec.Clear();
             txtBoxPsc.Clear();
             txtBoxCisloPopisne.Clear();
-            // Zavření okna
-            this.Close();
 
         }
 

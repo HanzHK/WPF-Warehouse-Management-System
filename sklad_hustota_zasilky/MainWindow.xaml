@@ -35,7 +35,12 @@
 
         <!-- Tlačítko -->
         <StackPanel Grid.Column="0">
-            <Button Content="Přidat zásilku" Click="OtevritDruheOkno_Click" Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}" Margin="5,5,5,5">
+            <Button Content="Přidat zásilku" Click="OtevritPridejZasilkuOkno_Click" Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}" Margin="5,5,5,5">
+                <Button.FocusVisualStyle>
+                    <Style/>
+                </Button.FocusVisualStyle>
+            </Button>
+            <Button Content="Přidat dodavatele" Click="OtevritPridejDodavateleOkno_Click" Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}" Margin="5,5,5,5">
                 <Button.FocusVisualStyle>
                     <Style/>
                 </Button.FocusVisualStyle>

@@ -26,11 +26,20 @@ namespace system_sprava_skladu
         {
             InitializeComponent();
         }
-        // Obsluha události pro kliknutí na tlačítko pro otevření druhého okna
-        private void OtevritDruheOkno_Click(object sender, RoutedEventArgs e)
+        // Obsluha události pro kliknutí na tlačítko pro otevření "okna" přidat zásilku
+
+        private void OtevritPridejZasilkuOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_zasilku"
             okno_pridej_zasilku userControl = new okno_pridej_zasilku();
+
+            // Nastavení obsahu ContentControlu na tento UserControl
+            contentControl.Content = userControl;
+        }
+        private void OtevritPridejDodavateleOkno_Click(object sender, RoutedEventArgs e)
+        {
+            // Vytvoření instance UserControlu "okno_pridej_dodavatele"
+            okno_pridej_dodavatele userControl = new okno_pridej_dodavatele();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;

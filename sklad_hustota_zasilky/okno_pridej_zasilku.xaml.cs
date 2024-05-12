@@ -196,27 +196,29 @@ namespace system_sprava_skladu
 
         private void otevritOknoPridatDodavateleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!oknoPridejDodavateleOtevreno)
-            {
-                OknoPridejDodavatele = new okno_pridej_dodavatele();
-                OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
-                OknoPridejDodavatele.Show();
-                oknoPridejDodavateleOtevreno = true;
-                
-                // Nejdříve vyčištění seznamu
-                // cBoxDodavatele.Items.Clear();
-
-               // Aktualizujte ComboBox po zavření okna
-               OknoPridejDodavatele.Closed += (s, args) =>
+            /*   if (!oknoPridejDodavateleOtevreno)
                {
-                    refreshCbox.NacistDataDoComboBoxu(cBoxDodavatele);
-                };
-            }
-            else
-            {
-                OknoPridejDodavatele.Activate();
-            }
+                   OknoPridejDodavatele = new okno_pridej_dodavatele();
+                   OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
+                   OknoPridejDodavatele.Show();
+                   oknoPridejDodavateleOtevreno = true;
+
+                   // Nejdříve vyčištění seznamu
+                   // cBoxDodavatele.Items.Clear();
+
+                  // Aktualizujte ComboBox po zavření okna
+                  OknoPridejDodavatele.Closed += (s, args) =>
+                  {
+                       refreshCbox.NacistDataDoComboBoxu(cBoxDodavatele);
+                   };
+               }
+               else
+               {
+                   OknoPridejDodavatele.Activate();
+               }
+            */
         }
+
     }
 }
 
