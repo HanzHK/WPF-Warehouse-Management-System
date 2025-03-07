@@ -51,7 +51,7 @@
             </Button>
             <Button Content="Přidat dodavatele" Click="OtevritPridejDodavateleOkno_Click"
                     Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}"
-                    Margin="´1"
+                    Margin="1"
                     Grid.Row="1"
                     Width="Auto"
                     HorizontalAlignment="Stretch">
