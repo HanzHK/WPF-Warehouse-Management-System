@@ -17,15 +17,15 @@
                  ShowIconOnTitleBar="True">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
-            <!-- Setting a Margin and enable hight-quality image -->
+            <!-- Setting a Margin and enable high-quality image -->
             <Image Margin="4"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    Source="{Binding}" />
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
-    <Grid>
+    <Grid Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonGroup"/>
             <!-- Sloupec pro tlačítko -->
             <ColumnDefinition Width="Auto"/>
             <!-- Sloupec pro oddělovač -->
@@ -33,19 +33,33 @@
             <!-- Sloupec pro obsah controlu -->
         </Grid.ColumnDefinitions>
 
-        <!-- Tlačítko -->
-        <StackPanel Grid.Column="0">
-            <Button Content="Přidat zásilku" Click="OtevritPridejZasilkuOkno_Click" Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}" Margin="5,5,5,5">
+        <!-- Tlačítka -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button Content="Přidat zásilku" Click="OtevritPridejZasilkuOkno_Click"
+                    Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}"
+                    Margin="1"
+                    Grid.Row="0"
+                    Width="Auto"
+                    HorizontalAlignment="Stretch">
                 <Button.FocusVisualStyle>
                     <Style/>
                 </Button.FocusVisualStyle>
             </Button>
-            <Button Content="Přidat dodavatele" Click="OtevritPridejDodavateleOkno_Click" Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}" Margin="5,5,5,5">
+            <Button Content="Přidat dodavatele" Click="OtevritPridejDodavateleOkno_Click"
+                    Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}"
+                    Margin="´1"
+                    Grid.Row="1"
+                    Width="Auto"
+                    HorizontalAlignment="Stretch">
                 <Button.FocusVisualStyle>
                     <Style/>
                 </Button.FocusVisualStyle>
             </Button>
-        </StackPanel>
+        </Grid>
 
         <!-- Oddělovač -->
         <GridSplitter Width="2" Background="{DynamicResource Theme.ShowcaseBrush}" Grid.Column="1" HorizontalAlignment="Left" Style="{DynamicResource MahApps.Styles.GridSplitter}"/>
