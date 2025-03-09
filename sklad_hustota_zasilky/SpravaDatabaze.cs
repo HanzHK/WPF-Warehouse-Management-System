@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+ using System.Data.SqlClient;
 using System.Data;
 using System.Windows;
+//using Microsoft.Data.SqlClient; 
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
+using Microsoft.Identity.Client;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+
+
 
 namespace system_sprava_skladu
 {
@@ -17,12 +23,44 @@ namespace system_sprava_skladu
         #region Obecné
         public class PripojeniDatabazeObecne
         {
-            private static string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;";
+            private static IConfigurationRoot Configuration { get; set; }
+            private static string clientId;
+            private static string clientSecret;
+            private static string tenantId;
+            private static string authority;
+            private static string pripojeniDatabaze;
+
+            static PripojeniDatabazeObecne()
+            {
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("config/appsettings.private.json");
+
+                Configuration = builder.Build();
+
+                clientId = Configuration["AzureAd:ClientId"];
+                clientSecret = Configuration["AzureAd:ClientSecret"];
+                tenantId = Configuration["AzureAd:TenantId"];
+                authority = $"https://login.microsoftonline.com/{tenantId}";
+                pripojeniDatabaze = Configuration["Database:ConnectionString"];
+            }
+
             public static SqlConnection Connection { get; private set; }
 
             public static SqlConnection OtevritSpojeni()
             {
-                Connection = new SqlConnection(pripojeniDatabaze);
+                var app = ConfidentialClientApplicationBuilder.Create(clientId)
+                    .WithClientSecret(clientSecret)
+                    .WithAuthority(new Uri(authority))
+                    .Build();
+
+                var result = app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync().Result;
+                var accessToken = result.AccessToken;
+
+                Connection = new SqlConnection(pripojeniDatabaze)
+                {
+                    AccessToken = accessToken
+                };
                 Connection.Open();
                 return Connection;
             }
@@ -33,7 +71,6 @@ namespace system_sprava_skladu
                 {
                     Connection.Close();
                 }
-
             }
         }
         #endregion
