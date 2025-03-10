@@ -25,41 +25,47 @@
     </mah:MetroWindow.IconTemplate>
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonGroup"/>
+            <ColumnDefinition Width="200" SharedSizeGroup="ButtonGroup"/>
             <!-- Sloupec pro tlačítko -->
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <!-- Sloupec pro oddělovač -->
             <ColumnDefinition Width="*"/>
             <!-- Sloupec pro obsah controlu -->
         </Grid.ColumnDefinitions>
 
-        <!-- Tlačítka -->
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Button Content="Přidat zásilku" Click="OtevritPridejZasilkuOkno_Click"
-                    Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}"
-                    Margin="1"
-                    Grid.Row="0"
-                    Width="Auto"
-                    HorizontalAlignment="Stretch">
-                <Button.FocusVisualStyle>
-                    <Style/>
-                </Button.FocusVisualStyle>
-            </Button>
-            <Button Content="Přidat dodavatele" Click="OtevritPridejDodavateleOkno_Click"
-                    Style="{DynamicResource MahApps.Styles.Button.MetroSquare.Accent}"
-                    Margin="1"
-                    Grid.Row="1"
-                    Width="Auto"
-                    HorizontalAlignment="Stretch">
-                <Button.FocusVisualStyle>
-                    <Style/>
-                </Button.FocusVisualStyle>
-            </Button>
-        </Grid>
+        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+            <!-- Klikatelné ikonky -->
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" Width="30" Height="30">
+                    <mah:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;" />
+                </Button>
+                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" Width="30" Height="30">
+                    <mah:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE774;" />
+                </Button>
+            </StackPanel>
+
+            <!-- Vertikální menu s expandery -->
+            <StackPanel>
+                <Expander Header="Zásilky">
+                    <StackPanel>
+                        <Button Content="Přidat Zásilku" Click="OtevritPridejZasilkuOkno_Click"/>
+                        <Button Content="Zobrazit seznam zásilek"/>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Dodavatelé">
+                    <StackPanel>
+                        <Button Content="Přidat Dodavatele" Click="OtevritPridejDodavateleOkno_Click"/>
+                        <Button Content="Zobrazit seznam dodavatelů"/>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Jízdy">
+                    <StackPanel>
+                        <Button Content="Přidat Jízdu"/>
+                        <Button Content="Zobrazit seznam jízd"/>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </StackPanel>
 
         <!-- Oddělovač -->
         <GridSplitter Width="2" Background="{DynamicResource Theme.ShowcaseBrush}" Grid.Column="1" HorizontalAlignment="Left" Style="{DynamicResource MahApps.Styles.GridSplitter}"/>
