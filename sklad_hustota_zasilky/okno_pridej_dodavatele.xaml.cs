@@ -33,10 +33,11 @@ namespace system_sprava_skladu
 
             // Vytvořte instanci třídy SpravaDatabase
             SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
+            SpravaDatabaze.NacitaniDatzDatabaze nacitani = new SpravaDatabaze.NacitaniDatzDatabaze();
 
             // Volá metody pro naplnění ComboBoxů
-            spravaDatabaze.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
-            spravaDatabaze.NaplnComboBoxZeme(cBoxZeme);
+            nacitani.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
+            nacitani.NaplnComboBoxZeme(cBoxZeme);
         }
 
         private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -95,11 +96,11 @@ namespace system_sprava_skladu
             string obec = txtBoxObec.Text;
             string zeme = cBoxZeme.SelectedItem.ToString();
 
-            // Vytvoření instance třídy PridejDodavateleSql
-            SpravaDatabaze.PridejDodavateleSql pridejDodavateleSql = new SpravaDatabaze.PridejDodavateleSql();
+            // Vytvoření instance třídy VlozdoDatabazeNovyDodavatel
+            SpravaDatabaze.VlozdoDatabazeNovyDodavatel pridejDodavatele = new SpravaDatabaze.VlozdoDatabazeNovyDodavatel();
 
             // Volání metody pro uložení dodavatele
-            pridejDodavateleSql.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, psc, obec, zeme);
+            pridejDodavatele.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, psc, obec, zeme);
 
             // Aktualizace uživatelského rozhraní - vyčištění polí
             txtBoxNazevDodavatele.Clear();
