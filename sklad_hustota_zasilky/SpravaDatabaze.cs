@@ -3,7 +3,6 @@ using System.Collections.Generic;
  using System.Data.SqlClient;
 using System.Data;
 using System.Windows;
-//using Microsoft.Data.SqlClient; 
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace system_sprava_skladu
     public class SpravaDatabaze
     {
 
-        #region Obecné
+        
         public class PripojeniDatabazeObecne
         {
             private static IConfigurationRoot Configuration { get; set; }
@@ -72,107 +71,104 @@ namespace system_sprava_skladu
                     Connection.Close();
                 }
             }
-        }
-        #endregion
-
-        public List<string> ZiskatTypyDodavatelu()
-        {
-            List<string> typyDodavatelu = new List<string>();
-
-
-
-            try
-            {
-                using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
-                {
-                    string sqlDotaz = "SELECT Nazev FROM dbo.TypyDodavatelu";
-
-                    using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
-                    {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                typyDodavatelu.Add(reader["Nazev"].ToString());
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Chyba při načítání typů dodavatelů: " + ex.Message);
-            }
-            finally
-            {
-                PripojeniDatabazeObecne.ZavritSpojeni();
-            }
-
-            return typyDodavatelu;
-        }
-
-        // Metoda pro získání seznamu zemí z databáze
-        public List<string> NactiSeznamZemiZDatabaze()
-        {
-            List<string> seznamZemi = new List<string>();
-
-            try
-            {
-                using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
-                {
-                    string sqlDotaz = "SELECT ZemeID, ZemeNazev FROM dbo.Zeme";
-
-                    using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
-                    {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                seznamZemi.Add(reader["ZemeNazev"].ToString());
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Chyba při načítání seznamu zemí: " + ex.Message);
-            }
-            finally
-            {
-                PripojeniDatabazeObecne.ZavritSpojeni();
-            }
-
-            return seznamZemi;
-        }
-
-
-        // Metoda pro naplnění ComboBoxu s typy dodavatelů
-        public void NaplnComboBoxTypyDodavatelu(ComboBox comboBox)
-        {
-            List<string> typyDodavatelu = ZiskatTypyDodavatelu();
-
-            foreach (string typDodavatele in typyDodavatelu)
-            {
-                comboBox.Items.Add(typDodavatele);
-            }
-        }
-
-        // Metoda pro naplnění ComboBoxu s názvy zemí
-        public void NaplnComboBoxZeme(ComboBox comboBox)
-        {
-            List<string> seznamZemi = NactiSeznamZemiZDatabaze();
-
-            foreach (string zeme in seznamZemi)
-            {
-                comboBox.Items.Add(zeme);
-            }
-        }
-        //
-        // Část řěšící načítání dat z databáze
-        //
+        }        
         public class NacitaniDatzDatabaze
         {
+
+            public List<string> ZiskatTypyDodavatelu()
+            {
+                List<string> typyDodavatelu = new List<string>();
+
+
+
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT Nazev FROM dbo.TypyDodavatelu";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    typyDodavatelu.Add(reader["Nazev"].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při načítání typů dodavatelů: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
+
+                return typyDodavatelu;
+            }
+
+            // Metoda pro získání seznamu zemí z databáze
+            public List<string> NactiSeznamZemiZDatabaze()
+            {
+                List<string> seznamZemi = new List<string>();
+
+                try
+                {
+                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    {
+                        string sqlDotaz = "SELECT ZemeID, ZemeNazev FROM dbo.Zeme";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
+                        {
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    seznamZemi.Add(reader["ZemeNazev"].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při načítání seznamu zemí: " + ex.Message);
+                }
+                finally
+                {
+                    PripojeniDatabazeObecne.ZavritSpojeni();
+                }
+
+                return seznamZemi;
+            }
+
+
+            // Metoda pro naplnění ComboBoxu s typy dodavatelů
+            public void NaplnComboBoxTypyDodavatelu(ComboBox comboBox)
+            {
+                List<string> typyDodavatelu = ZiskatTypyDodavatelu();
+
+                foreach (string typDodavatele in typyDodavatelu)
+                {
+                    comboBox.Items.Add(typDodavatele);
+                }
+            }
+
+            // Metoda pro naplnění ComboBoxu s názvy zemí
+            public void NaplnComboBoxZeme(ComboBox comboBox)
+            {
+                List<string> seznamZemi = NactiSeznamZemiZDatabaze();
+
+                foreach (string zeme in seznamZemi)
+                {
+                    comboBox.Items.Add(zeme);
+                }
+            }
+
             //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
             public int ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
@@ -316,9 +312,9 @@ namespace system_sprava_skladu
             }
 
 
-            //
+            
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
-            //
+            
             public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
             public void NaplnComboBoxDodavatelu(ComboBox comboBox)
             {
@@ -359,13 +355,14 @@ namespace system_sprava_skladu
 
 
         }
-
         //
         //  Část řešící vkládání dat do databáze - Přídání dodavatele
         //
 
-        public class PridejDodavateleSql
+        public class VlozdoDatabazeNovyDodavatel
         {
+
+            // Metoda pro nalezení id Země z databáze a vrácení její hodnoty
             public int ZiskatIdZeme(string zemeNazev)
             {
                 int id = -1;
@@ -396,7 +393,7 @@ namespace system_sprava_skladu
                 return id;
             }
 
-
+            //Metoda pro uložení nobého dodavatele do databáze
             public void UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
             {
                 try
@@ -422,7 +419,7 @@ namespace system_sprava_skladu
                             // Získání ID nově vložené adresy
                             int adresaID = Convert.ToInt32(adresaCmd.ExecuteScalar());
 
-                            // Následně vložte dodavatele a přiřaďte mu adresu
+                            
                             string sqlDodavatelDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavateleID, AdresaID) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavateleID, @AdresaID)";
 
                             using (SqlCommand dodavatelCmd = new SqlCommand(sqlDodavatelDotaz, connection))
@@ -438,7 +435,7 @@ namespace system_sprava_skladu
                         }
                     }
 
-                    // Po úspěšném uložení zobrazte vyskakovací okno
+                    // Po úspěšném uložení zobrazí vyskakovací okno
                     MessageBox.Show("Data byla úspěšně uložena.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 }
@@ -451,7 +448,7 @@ namespace system_sprava_skladu
                     PripojeniDatabazeObecne.ZavritSpojeni();
                 }
             }
-
+            // Metoda pro získání id typu dodavatele (as., s.r.o., fyzická osoba atd.)
             public int ZiskatIdTypuDodavatele(string nazevTypu)
             {
                 int id = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
@@ -472,7 +469,7 @@ namespace system_sprava_skladu
                             // Provedení SQL příkazu a získání jednoho výsledku (první sloupce prvního řádku).
                             object result = cmd.ExecuteScalar();
 
-                            // Pokud byl nalezen výsledek, přiřaďte jej k proměnné id.
+                            // Pokud byl nalezen výsledek, přiřaďá jej k proměnné id.
                             if (result != null)
                             {
                                 id = (int)result;
@@ -486,7 +483,7 @@ namespace system_sprava_skladu
                     MessageBox.Show("Chyba při získávání ID typu dodavatele: " + ex.Message);
                 }
 
-                // Vrátit ID typu dodavatele.
+                // Vrátí ID typu dodavatele.
                 return id;
             }
 
