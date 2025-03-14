@@ -27,6 +27,7 @@ namespace system_sprava_skladu
             InitializeComponent();
         }
         // Obsluha události pro kliknutí na tlačítko pro otevření "okna" přidat zásilku
+        
 
         private void OtevritPridejZasilkuOkno_Click(object sender, RoutedEventArgs e)
         {
@@ -40,6 +41,14 @@ namespace system_sprava_skladu
         {
             // Vytvoření instance UserControlu "okno_pridej_dodavatele"
             okno_pridej_dodavatele userControl = new okno_pridej_dodavatele();
+
+            // Nastavení obsahu ContentControlu na tento UserControl
+            contentControl.Content = userControl;
+        }
+        private void OtevritPridejSkladovaciPoziciOkno_Click(object sender, RoutedEventArgs e)
+        {
+            // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
+            okno_pridej_skladovaci_pozice userControl = new okno_pridej_skladovaci_pozice();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;

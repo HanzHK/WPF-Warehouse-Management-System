@@ -73,12 +73,13 @@
                         <Button Content="Zobrazit seznam dodavatelů"/>
                     </StackPanel>
                 </Expander>
-                <Expander Header="Jízdy">
+                <Expander Header="Skladovací pozice">
                     <StackPanel>
-                        <Button Content="Přidat Jízdu"/>
-                        <Button Content="Zobrazit seznam jízd"/>
+                        <Button Content="Přidat Skladovací pozici" Click="OtevritPridejSkladovaciPoziciOkno_Click"/>
+                        <Button Content="Zobrazit skladovací pozice"/>
                     </StackPanel>
                 </Expander>
+                
             </StackPanel>
         </StackPanel>
 

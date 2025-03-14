@@ -50,7 +50,7 @@ namespace system_sprava_skladu
         }
         private void txtBoxDic_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytzvoření instance a nastavení maximální délky na 8
+            // Vytvoření instance a nastavení maximální délky na 8
             OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxDic, 8);
 
             // Volání metody na ošetření čísel
