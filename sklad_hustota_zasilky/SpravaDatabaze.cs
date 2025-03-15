@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using static system_sprava_skladu.SpravaDatabaze;
 
 
 
@@ -19,17 +20,18 @@ namespace system_sprava_skladu
     public class SpravaDatabaze
     {
 
-        
+
         public class PripojeniDatabazeObecne
         {
-            private static IConfigurationRoot Configuration { get; set; }
-            private static string clientId;
-            private static string clientSecret;
-            private static string tenantId;
-            private static string authority;
-            private static string pripojeniDatabaze;
+            private readonly IConfigurationRoot Configuration;
+            private readonly string clientId;
+            private readonly string clientSecret;
+            private readonly string tenantId;
+            private readonly string authority;
+            private readonly string pripojeniDatabaze;
 
-            static PripojeniDatabazeObecne()
+            // Konstruktor pro inicializaci jednotlivých instancí
+            public PripojeniDatabazeObecne()
             {
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
@@ -44,9 +46,8 @@ namespace system_sprava_skladu
                 pripojeniDatabaze = Configuration["Database:ConnectionString"];
             }
 
-            public static SqlConnection Connection { get; private set; }
-
-            public static SqlConnection OtevritSpojeni()
+            // Otevře nové spojení
+            public SqlConnection OtevritSpojeni()
             {
                 var app = ConfidentialClientApplicationBuilder.Create(clientId)
                     .WithClientSecret(clientSecret)
@@ -56,22 +57,17 @@ namespace system_sprava_skladu
                 var result = app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync().Result;
                 var accessToken = result.AccessToken;
 
-                Connection = new SqlConnection(pripojeniDatabaze)
+                // Vytvoření a vrácení nového připojení
+                SqlConnection connection = new SqlConnection(pripojeniDatabaze)
                 {
                     AccessToken = accessToken
                 };
-                Connection.Open();
-                return Connection;
+                connection.Open();
+                return connection;
             }
+        }
 
-            public static void ZavritSpojeni()
-            {
-                if (Connection != null && Connection.State == ConnectionState.Open)
-                {
-                    Connection.Close();
-                }
-            }
-        }        
+
         public class NacitaniDatzDatabaze
         {
 
@@ -83,7 +79,9 @@ namespace system_sprava_skladu
 
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT Nazev FROM dbo.TypyDodavatelu";
 
@@ -103,10 +101,6 @@ namespace system_sprava_skladu
                 {
                     MessageBox.Show("Chyba při načítání typů dodavatelů: " + ex.Message);
                 }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
-                }
 
                 return typyDodavatelu;
             }
@@ -118,7 +112,9 @@ namespace system_sprava_skladu
 
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT ZemeID, ZemeNazev FROM dbo.Zeme";
 
@@ -137,10 +133,6 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání seznamu zemí: " + ex.Message);
-                }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
                 }
 
                 return seznamZemi;
@@ -176,7 +168,9 @@ namespace system_sprava_skladu
 
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT AdresaID FROM Dodavatele WHERE Nazev = @Nazev";
 
@@ -209,7 +203,9 @@ namespace system_sprava_skladu
 
                     if (adresaID != -1)
                     {
-                        using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                        PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                        using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                         {
                             string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC, ZemeID FROM dbo.AdresyDodavatelu WHERE AdresaID = @AdresaID";
                             using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
@@ -244,10 +240,7 @@ namespace system_sprava_skladu
                 {
                     MessageBox.Show("Chyba při načítání adresy dodavatele: " + ex.Message);
                 }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
-                }
+
             }
 
             // Metoda pro získání názvu země podle ID
@@ -255,7 +248,9 @@ namespace system_sprava_skladu
             {
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT ZemeNazev FROM dbo.Zeme WHERE ZemeID = @ZemeID";
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
@@ -283,7 +278,9 @@ namespace system_sprava_skladu
             {
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT Nazev, ICO, DIC FROM Dodavatele WHERE Nazev = @Nazev";
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
@@ -305,22 +302,21 @@ namespace system_sprava_skladu
                 {
                     MessageBox.Show("Chyba při načítání informací o dodavateli: " + ex.Message);
                 }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
-                }
+
             }
 
 
-            
+
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
-            
+
             public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
             public void NaplnComboBoxDodavatelu(ComboBox comboBox)
             {
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT Nazev FROM dbo.Dodavatele";
 
@@ -346,10 +342,6 @@ namespace system_sprava_skladu
                 {
                     MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
                 }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
-                }
                 comboBox.ItemsSource = SeznamDodavatelu;
             }
 
@@ -369,7 +361,9 @@ namespace system_sprava_skladu
 
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT ZemeID FROM dbo.Zeme WHERE ZemeNazev = @ZemeNazev";
 
@@ -398,7 +392,9 @@ namespace system_sprava_skladu
             {
                 try
                 {
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         // Získání ZemeID pro vybranou zemi
                         int zemeID = ZiskatIdZeme(zeme);
@@ -419,7 +415,7 @@ namespace system_sprava_skladu
                             // Získání ID nově vložené adresy
                             int adresaID = Convert.ToInt32(adresaCmd.ExecuteScalar());
 
-                            
+
                             string sqlDodavatelDotaz = "INSERT INTO Dodavatele (Nazev, ICO, DIC, Popis, TypDodavateleID, AdresaID) VALUES (@Nazev, @ICO, @DIC, @Popis, @TypDodavateleID, @AdresaID)";
 
                             using (SqlCommand dodavatelCmd = new SqlCommand(sqlDodavatelDotaz, connection))
@@ -443,10 +439,7 @@ namespace system_sprava_skladu
                 {
                     MessageBox.Show("Chyba při ukládání do databáze: " + ex.Message);
                 }
-                finally
-                {
-                    PripojeniDatabazeObecne.ZavritSpojeni();
-                }
+
             }
             // Metoda pro získání id typu dodavatele (as., s.r.o., fyzická osoba atd.)
             public int ZiskatIdTypuDodavatele(string nazevTypu)
@@ -456,7 +449,9 @@ namespace system_sprava_skladu
                 try
                 {
                     // Otevření spojení s databází.
-                    using (SqlConnection connection = PripojeniDatabazeObecne.OtevritSpojeni())
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
                     {
                         string sqlDotaz = "SELECT TypDodavateleID FROM dbo.TypyDodavatelu WHERE Nazev = @Nazev";
 
@@ -489,5 +484,6 @@ namespace system_sprava_skladu
 
         }
     }
-
 }
+
+
