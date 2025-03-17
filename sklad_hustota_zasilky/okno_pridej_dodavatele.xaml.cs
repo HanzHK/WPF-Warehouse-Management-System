@@ -36,8 +36,8 @@ namespace system_sprava_skladu
             SpravaDatabaze.NacitaniDatzDatabaze nacitani = new SpravaDatabaze.NacitaniDatzDatabaze();
 
             // Volá metody pro naplnění ComboBoxů
-            nacitani.NaplnComboBoxTypyDodavatelu(cBoxTypyDodavatelu);
-            nacitani.NaplnComboBoxZeme(cBoxZeme);
+            nacitani.NaplnComboBoxTypyDodavateluAsync(cBoxTypyDodavatelu);
+            nacitani.NaplnComboBoxZemeAsync(cBoxZeme);
         }
 
         private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
