@@ -46,7 +46,10 @@ namespace system_sprava_skladu
                 pripojeniDatabaze = Configuration["Database:ConnectionString"];
             }
 
+
             // Otevře nové spojení
+            #region smazat
+            //smazat =====>
             public SqlConnection OtevritSpojeni()
             {
                 var app = ConfidentialClientApplicationBuilder.Create(clientId)
@@ -65,13 +68,35 @@ namespace system_sprava_skladu
                 connection.Open();
                 return connection;
             }
+            // <======
+            #endregion
+            public async Task<SqlConnection> OtevritSpojeniAsync()
+            {
+                var app = ConfidentialClientApplicationBuilder.Create(clientId)
+                    .WithClientSecret(clientSecret)
+                    .WithAuthority(new Uri(authority))
+                    .Build();
+
+                // Asynchronní získání tokenu
+                var result = await app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync();
+                var accessToken = result.AccessToken;
+
+                // Asynchronní otevření připojení
+                SqlConnection connection = new SqlConnection(pripojeniDatabaze)
+                {
+                    AccessToken = accessToken
+                };
+                await connection.OpenAsync(); // Asynchronní verze Open()
+                return connection;
+            }
+
         }
 
 
         public class NacitaniDatzDatabaze
         {
 
-            public List<string> ZiskatTypyDodavatelu()
+            public async Task<List<string>> ZiskatTypyDodavateluAsync()
             {
                 List<string> typyDodavatelu = new List<string>();
 
@@ -81,7 +106,7 @@ namespace system_sprava_skladu
                 {
                     PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
 
-                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
+                    using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT Nazev FROM dbo.TypyDodavatelu";
 
@@ -89,7 +114,7 @@ namespace system_sprava_skladu
                         {
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                while (reader.Read())
+                                while (await reader.ReadAsync())
                                 {
                                     typyDodavatelu.Add(reader["Nazev"].ToString());
                                 }
@@ -106,7 +131,7 @@ namespace system_sprava_skladu
             }
 
             // Metoda pro získání seznamu zemí z databáze
-            public List<string> NactiSeznamZemiZDatabaze()
+            public async Task<List<string>> NactiSeznamZemiZDatabazeAsync()
             {
                 List<string> seznamZemi = new List<string>();
 
@@ -114,15 +139,15 @@ namespace system_sprava_skladu
                 {
                     PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
 
-                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
+                    using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT ZemeID, ZemeNazev FROM dbo.Zeme";
 
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                         {
-                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                             {
-                                while (reader.Read())
+                                while (await reader.ReadAsync())
                                 {
                                     seznamZemi.Add(reader["ZemeNazev"].ToString());
                                 }
@@ -140,9 +165,10 @@ namespace system_sprava_skladu
 
 
             // Metoda pro naplnění ComboBoxu s typy dodavatelů
-            public void NaplnComboBoxTypyDodavatelu(ComboBox comboBox)
+            public async Task NaplnComboBoxTypyDodavateluAsync(ComboBox comboBox) 
+
             {
-                List<string> typyDodavatelu = ZiskatTypyDodavatelu();
+                List<string> typyDodavatelu = await ZiskatTypyDodavateluAsync();
 
                 foreach (string typDodavatele in typyDodavatelu)
                 {
@@ -151,9 +177,9 @@ namespace system_sprava_skladu
             }
 
             // Metoda pro naplnění ComboBoxu s názvy zemí
-            public void NaplnComboBoxZeme(ComboBox comboBox)
+            public async Task NaplnComboBoxZemeAsync(ComboBox comboBox)
             {
-                List<string> seznamZemi = NactiSeznamZemiZDatabaze();
+                List<string> seznamZemi = await NactiSeznamZemiZDatabazeAsync();
 
                 foreach (string zeme in seznamZemi)
                 {
@@ -162,7 +188,7 @@ namespace system_sprava_skladu
             }
 
             //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
-            public int ZiskatIdAdresyDodavatele(string nazevDodavatele)
+            public async Task <int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
                 int adresaID = -1;
 
@@ -170,14 +196,14 @@ namespace system_sprava_skladu
                 {
                     PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
 
-                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
+                    using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT AdresaID FROM Dodavatele WHERE Nazev = @Nazev";
 
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                         {
                             cmd.Parameters.AddWithValue("@Nazev", nazevDodavatele);
-                            var result = cmd.ExecuteScalar();
+                            var result = await cmd.ExecuteScalarAsync();
 
                             if (result != null && result != DBNull.Value)
                             {
@@ -195,23 +221,23 @@ namespace system_sprava_skladu
             }
 
 
-            public void NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
+            public async Task NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
             {
                 try
                 {
-                    int adresaID = ZiskatIdAdresyDodavatele(vybranyDodavatel);
+                    int adresaID = await ZiskatIdAdresyDodavatele(vybranyDodavatel);
 
                     if (adresaID != -1)
                     {
                         PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
 
-                        using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
+                        using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
                         {
                             string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC, ZemeID FROM dbo.AdresyDodavatelu WHERE AdresaID = @AdresaID";
                             using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                             {
                                 cmd.Parameters.AddWithValue("@AdresaID", adresaID);
-                                using (SqlDataReader reader = cmd.ExecuteReader())
+                                using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                                 {
                                     if (reader.Read())
                                     {
@@ -223,7 +249,7 @@ namespace system_sprava_skladu
                                         if (reader["ZemeID"] != DBNull.Value)
                                         {
                                             int zemeID = Convert.ToInt32(reader["ZemeID"]);
-                                            string zemeNazev = ZiskatNazevZeme(zemeID);
+                                            string zemeNazev = await ZiskatNazevZemeAsync(zemeID);
                                             zemeTextBlock.Text = zemeNazev;
                                         }
                                         else
@@ -244,21 +270,21 @@ namespace system_sprava_skladu
             }
 
             // Metoda pro získání názvu země podle ID
-            private string ZiskatNazevZeme(int zemeID)
+            private async Task <string> ZiskatNazevZemeAsync(int zemeID)
             {
                 try
                 {
                     PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
 
-                    using (SqlConnection connection = pripojeniDatabaze.OtevritSpojeni())
+                    using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT ZemeNazev FROM dbo.Zeme WHERE ZemeID = @ZemeID";
                         using (SqlCommand cmd = new SqlCommand(sqlDotaz, connection))
                         {
                             cmd.Parameters.AddWithValue("@ZemeID", zemeID);
-                            object result = cmd.ExecuteScalar();
+                            object result = await cmd.ExecuteScalarAsync();
 
-                            if (result != null)
+                            if (result != null && result != DBNull.Value)
                             {
                                 return result.ToString();
                             }
