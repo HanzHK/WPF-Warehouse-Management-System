@@ -94,7 +94,7 @@ namespace system_sprava_skladu
             refreshCbox = new RefreshCbox(nacitaniDatabaze);
             
             // Naplnění comboboxu
-           nacitaniDatabaze.NaplnComboBoxDodavatelu(cBoxDodavatele);
+           nacitaniDatabaze.NaplnComboBoxDodavateluAsync(cBoxDodavatele);
 
             DataContext = refreshCbox;
 
@@ -123,7 +123,7 @@ namespace system_sprava_skladu
             // Druhá metoda pro načítání dat
             public void NacistDataDoComboBoxu(ComboBox comboBox)
             {
-               _nacitaniDatzDatabaze.NaplnComboBoxDodavatelu(comboBox);
+               _nacitaniDatzDatabaze.NaplnComboBoxDodavateluAsync(comboBox);
             }
         }
         private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -136,7 +136,7 @@ namespace system_sprava_skladu
             {
                 // Zavoláme upravenou metodu NactiAdresu a předáme jí textové bloky pro jednotlivé části adresy.
                 _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt, vybranyDodavatelZemeTxt);
-                _nacitaniDatzDatabaze.NactiObecneinformace(vybranyDodavatel, vybranyDodavatelNazevTxt, vybranyDodavatelIcoTxt, vybranyDodavatelDicTxt);
+                _nacitaniDatzDatabaze.NactiObecneinformaceAsync(vybranyDodavatel, vybranyDodavatelNazevTxt, vybranyDodavatelIcoTxt, vybranyDodavatelDicTxt);
             }
             else
             {
