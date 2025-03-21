@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using static system_sprava_skladu.SpravaDatabaze;
 
 namespace system_sprava_skladu
 {
@@ -21,13 +22,21 @@ namespace system_sprava_skladu
     /// </summary>
     public partial class okno_pridej_skladovaci_pozice : UserControl
     {
+        // Instance
+        private VlozdoDatabazeSkladovaciPozice pozice = new VlozdoDatabazeSkladovaciPozice();
+
         public okno_pridej_skladovaci_pozice()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void pridatSkladovaciPoziciButton_Click(object sender, RoutedEventArgs e)
         {
+            string skladovaciPoziceNazev = skladovaciPoziceTextBox.Text; 
+
+            int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);  
+
+            MessageBox.Show($"Skladovací pozice uložena s ID: {id}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
     }

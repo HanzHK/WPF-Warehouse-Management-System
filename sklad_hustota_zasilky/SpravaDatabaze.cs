@@ -48,7 +48,7 @@ namespace system_sprava_skladu
 
 
             // Otevře nové spojení
-            
+
             public async Task<SqlConnection> OtevritSpojeniAsync()
             {
                 var app = ConfidentialClientApplicationBuilder.Create(clientId)
@@ -144,7 +144,7 @@ namespace system_sprava_skladu
 
 
             // Metoda pro naplnění ComboBoxu s typy dodavatelů
-            public async Task NaplnComboBoxTypyDodavateluAsync(ComboBox comboBox) 
+            public async Task NaplnComboBoxTypyDodavateluAsync(ComboBox comboBox)
 
             {
                 List<string> typyDodavatelu = await ZiskatTypyDodavateluAsync();
@@ -167,7 +167,7 @@ namespace system_sprava_skladu
             }
 
             //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
-            public async Task <int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
+            public async Task<int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
                 int adresaID = -1;
 
@@ -249,7 +249,7 @@ namespace system_sprava_skladu
             }
 
             // Metoda pro získání názvu země podle ID
-            private async Task <string> ZiskatNazevZemeAsync(int zemeID)
+            private async Task<string> ZiskatNazevZemeAsync(int zemeID)
             {
                 try
                 {
@@ -360,7 +360,7 @@ namespace system_sprava_skladu
         {
 
             // Metoda pro nalezení id Země z databáze a vrácení její hodnoty
-            public async Task <int> ZiskatIdZemeAsync(string zemeNazev)
+            public async Task<int> ZiskatIdZemeAsync(string zemeNazev)
             {
                 int id = -1;
 
@@ -447,7 +447,7 @@ namespace system_sprava_skladu
 
             }
             // Metoda pro získání id typu dodavatele (as., s.r.o., fyzická osoba atd.)
-            public async Task <int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
+            public async Task<int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
             {
                 int id = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
 
@@ -487,8 +487,54 @@ namespace system_sprava_skladu
                 return id;
             }
 
+
         }
+        public class VlozdoDatabazeSkladovaciPozice
+        {
+            public async Task<int> UlozitSkladovaciPoziciAsync(string skladovaciPoziceNazev)
+            {
+                int skladovaciPoziceID = -1;
+
+                try
+                {
+                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+
+                    await using (SqlConnection connection = await pripojeniDatabaze.OtevritSpojeniAsync())
+                    {
+                        // Vložení skladovací pozice
+                        string sqlSkladovaciPoziceDotaz = @"
+                    INSERT INTO SkladovaciPozice (SkladovaciPoziceNazev) 
+                    VALUES (@SkladovaciPoziceNazev);
+                    SELECT SCOPE_IDENTITY();";
+
+                        await using (SqlCommand skladovaciPoziceCmd = new SqlCommand(sqlSkladovaciPoziceDotaz, connection))
+                        {
+                            skladovaciPoziceCmd.Parameters.AddWithValue("@SkladovaciPoziceNazev", skladovaciPoziceNazev);
+
+                            // Získání ID nově vložené skladovací pozice
+                            object result = await skladovaciPoziceCmd.ExecuteScalarAsync();
+                            if (result != null && result != DBNull.Value)
+                            {
+                                skladovaciPoziceID = Convert.ToInt32(result);
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Data byla úspěšně uložena.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Chyba při ukládání do databáze: " + ex.Message);
+                }
+
+                return skladovaciPoziceID;
+            }
+        }
+
+
+
     }
 }
+
 
 
