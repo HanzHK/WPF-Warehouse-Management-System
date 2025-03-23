@@ -27,9 +27,22 @@ namespace system_sprava_skladu
         // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
         private bool oknoPridejDodavateleOtevreno = false;
 
+        private OsetreniVstupuCisel osetreniIco;
+        private OsetreniVstupuCisel osetreniDic;
+        private OsetreniVstupuCisel osetreniCisloPopisne;
+        private OsetreniVstupuCisel osetreniPsc;
+        private OsetreniVstupuTextChanged osetreniPscTextChanged;
+
         public okno_pridej_dodavatele()
         {
             InitializeComponent();
+
+            // Instance pro validaci
+            osetreniIco = new OsetreniVstupuCisel(txtBoxIco, 8); 
+            osetreniDic = new OsetreniVstupuCisel(txtBoxDic, 8); 
+            osetreniCisloPopisne = new OsetreniVstupuCisel(txtBoxCisloPopisne, 10); 
+            osetreniPsc = new OsetreniVstupuCisel(txtBoxPsc, 5); 
+            osetreniPscTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc, 7);
 
             // Vytvořte instanci třídy SpravaDatabase
             SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
@@ -42,41 +55,23 @@ namespace system_sprava_skladu
 
         private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytzvoření instance a nastavení maximální délky na 8
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxIco, 8);
-
-            // Volání metody na ošetření čísel
-            osetreniCisel.OsetriVstup(e);
+            osetreniIco.OsetriVstup(e);
         }
         private void txtBoxDic_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytvoření instance a nastavení maximální délky na 8
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxDic, 8);
-
-            // Volání metody na ošetření čísel
-            osetreniCisel.OsetriVstup(e);
+            osetreniDic.OsetriVstup(e);
         }
         private void txtBoxCisloPopisne_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytvoření instance a nastavení maximální délky na 10
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(txtBoxCisloPopisne, 10);
-
-            // Volání metody na ošetření čísel
-            osetreniCisel.OsetriVstup(e);
+            osetreniCisloPopisne.OsetriVstup(e);
         }
         private void txtBoxPsc_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Vytvoření instance třídy OsetreniVstupuCisel
-            OsetreniVstupuCisel instance = new OsetreniVstupuCisel(txtBoxPsc);
-
-            // Volání metody na ošetření vstupu čísel
-            instance.OsetriVstup(e);
-
+            osetreniPsc.OsetriVstup(e);
         }
         private void txtBoxPsc_TextChanged(object sender, TextChangedEventArgs e)
        {
-            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc, 7);
-            osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
+            osetreniPscTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
         }
 
 
