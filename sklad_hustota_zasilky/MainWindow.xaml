@@ -87,8 +87,8 @@
         <GridSplitter Width="2" Background="{DynamicResource Theme.ShowcaseBrush}" Grid.Column="1" HorizontalAlignment="Left" Style="{DynamicResource MahApps.Styles.GridSplitter}"/>
 
         <!-- Content control -->
-        <DockPanel Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <ContentControl x:Name="contentControl" Margin="0" />
+        <DockPanel Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto">
+            <ContentControl x:Name="contentControl" Margin="0" HorizontalAlignment="Stretch" Height="Auto"/>
         </DockPanel>
     </Grid>
 </mah:MetroWindow>

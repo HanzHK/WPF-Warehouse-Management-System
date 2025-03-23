@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:system_sprava_skladu"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Height="768" 
-        Width="1024">
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Top"
+             Width="Auto">
     <Grid>
-        <GroupBox Header="Přidat novou skladovou pozici" Margin="10,10,10,597">
+        <GroupBox Header="Přidat novou skladovou pozici" Margin="10" HorizontalAlignment="Stretch" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}}">
 
             <Grid Margin="10">
                 <Grid.RowDefinitions>
@@ -27,7 +28,7 @@
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="skladovaciPoziceTextBox" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0"/>
+                    <TextBox x:Name="skladovaciPoziceTextBox" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0" />
 
                     <Button x:Name="pridatSkladovaciPoziciButton" Content="Přidat" Grid.Column="1" VerticalAlignment="Center" Height="36" Width="88" HorizontalAlignment="Left" Click="pridatSkladovaciPoziciButton_Click"/>
                 </Grid>
