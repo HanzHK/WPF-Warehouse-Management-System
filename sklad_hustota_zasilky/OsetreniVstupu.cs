@@ -50,6 +50,46 @@ namespace system_sprava_skladu
         }
 
     }
+    internal class OsetreniObecnehoVstupu : OsetreniVstupu
+    {
+        private readonly string povoleneZnaky;
+
+        //Kontruktor třídy
+        internal OsetreniObecnehoVstupu(TextBox textBox, int maxDelka = 20, string povoleneZnaky = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            : base(textBox, maxDelka)
+        {
+            this.povoleneZnaky = povoleneZnaky;
+            if (textBox == null)
+                throw new ArgumentNullException(nameof(textBox), "TextBox nesmí být null.");
+
+        }
+
+        internal override void OsetriVstup(KeyEventArgs e)
+        {
+            string stisknutyZnak = e.Key.ToString();
+            if (!string.IsNullOrEmpty(stisknutyZnak) && !JePovolenyZnak(stisknutyZnak))
+            {
+                e.Handled = true;
+            }
+            base.OsetriVstup(e);
+        }
+        private bool JePovolenyZnak(string znak)
+        {
+            return povoleneZnaky.Contains(znak);
+        }
+
+    }
+    internal class OsetreniSkladovaciPozice : OsetreniObecnehoVstupu
+    {
+        internal OsetreniSkladovaciPozice(TextBox textBox, int maxDelka = 6) : base(textBox, maxDelka, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        { 
+        }
+        internal override void OsetriVstup(KeyEventArgs e)
+        {
+            base.OsetriVstup(e);
+
+        }
+    }
     internal class OsetreniVstupuCisel : OsetreniVstupu
     {
         internal OsetreniVstupuCisel(TextBox textBox, int maxDelka = 6) : base(textBox, maxDelka)

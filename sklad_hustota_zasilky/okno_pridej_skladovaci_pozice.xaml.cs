@@ -25,18 +25,28 @@ namespace system_sprava_skladu
         // Instance
         private VlozdoDatabazeSkladovaciPozice pozice = new VlozdoDatabazeSkladovaciPozice();
 
+        //Deklarace
+        private OsetreniSkladovaciPozice osetreniSkladovaciPozice;
+
         public okno_pridej_skladovaci_pozice()
         {
             InitializeComponent();
+
+            osetreniSkladovaciPozice = new OsetreniSkladovaciPozice(skladovaciPoziceTextBox);
+        }
+        private void skladovaciPoziceTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            osetreniSkladovaciPozice.OsetriVstup(e); 
         }
 
         private async void pridatSkladovaciPoziciButton_Click(object sender, RoutedEventArgs e)
         {
             string skladovaciPoziceNazev = skladovaciPoziceTextBox.Text; 
 
-            int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);  
+            int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
 
             MessageBox.Show($"Skladovací pozice uložena s ID: {id}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+            skladovaciPoziceTextBox.Text = string.Empty;
 
         }
     }
