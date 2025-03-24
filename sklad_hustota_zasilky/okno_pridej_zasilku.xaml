@@ -1,67 +1,70 @@
 ﻿<UserControl x:Class="system_sprava_skladu.okno_pridej_zasilku"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:system_sprava_skladu"
-        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
-        Height="768" Width="1024">
-
-    
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:system_sprava_skladu"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Top">
     <Grid>
+        <!-- Nastavení řádků a sloupců -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Řádek pro Obecné -->
+            <RowDefinition Height="Auto" />
+            <!-- Řádek pro Rozměry a Odesílatel -->
+            <RowDefinition Height="Auto" />
+            <!-- Řádek pro Button -->
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="71*"/>
-            <ColumnDefinition Width="784*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Obecné" Margin="10,10,10,597" Grid.ColumnSpan="4">
-            <StackPanel Orientation="Horizontal" Height="120" HorizontalAlignment="Left" VerticalAlignment="Top" Width="994" Margin="0,5,0,5">
-                <Label Content="NVE zásilky" Height="25" VerticalAlignment="Top" />
-                <TextBox HorizontalAlignment="Left" Width="195" Height="25" VerticalAlignment="Top" Name="txtBoxNveZasilky" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" TextChanged="txtBoxNveZasilky_TextChanged"/>
-                <Label Content="Relace" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
-                <TextBox Width="40" Height="25" VerticalAlignment="Top"/>
-                <Label Content="Skladovací pozice" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" />
-                <ComboBox  HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
+
+        <!-- Obecné -->
+        <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Header="Obecné" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="NVE zásilky" Width="100" VerticalAlignment="Center" />
+                <TextBox Name="txtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" TextChanged="txtBoxNveZasilky_TextChanged" />
+                <Label Content="Relace" Width="60" VerticalAlignment="Center" />
+                <TextBox Width="80" Height="25" Margin="5,0" VerticalAlignment="Center" />
+                <Label Content="Skladovací pozice" Width="120" VerticalAlignment="Center" />
+                <ComboBox Width="150" Height="25" Margin="5,0" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Rozměry zásilky" Margin="10,160,0,0" Width="200" HorizontalAlignment="Left" Height="220" VerticalAlignment="Top" Grid.ColumnSpan="2">
 
-            <StackPanel Margin="0,5,0,5">
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5" >
-                    <Label Content="Výška" Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vyskaZasilkyTxt" PreviewKeyDown="vyskaZasilkyTxt_PreviewKeyDown"/>
-                    <Label Content="cm" Height="30" Width="40" />
+        <!-- Rozměry zásilky -->
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Rozměry zásilky" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Výška" Width="50" />
+                    <TextBox Name="vyskaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="vyskaZasilkyTxt_PreviewKeyDown" />
+                    <Label Content="cm" Width="40" />
                 </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Label Content="Délka" Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="delkaZasilkyTxt" PreviewKeyDown="delkaZasilkyTxt_PreviewKeyDown"/>
-                    <Label Content="cm" Height="30" Width="40" />
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Délka" Width="50" />
+                    <TextBox Name="delkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="delkaZasilkyTxt_PreviewKeyDown" />
+                    <Label Content="cm" Width="40" />
                 </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Label Content="Šířka"  Height="30" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="sirkaZasilkyTxt" PreviewKeyDown="sirkaZasilkyTxt_PreviewKeyDown"/>
-                    <Label Content="cm" Height="30" Width="40" />
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Šířka" Width="50" />
+                    <TextBox Name="sirkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="sirkaZasilkyTxt_PreviewKeyDown" />
+                    <Label Content="cm" Width="40" />
                 </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <TextBlock Name="objemZasilkyTxt" Margin="5" />
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Name="objemZasilkyTxt" HorizontalAlignment="Left" Margin="5" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Label Content="Váha"  Height="25" Width="40" />
-                    <TextBox HorizontalAlignment="Left" Width="50" Height="20" Margin="5,0,5,0" Name="vahaZasilkyTxt" PreviewKeyDown="vahaZasilkyTxt_PreviewKeyDown"/>
-                    <Label Content="kg" Height="30" Width="40" />
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Váha" Width="50" />
+                    <TextBox Name="vahaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="vahaZasilkyTxt_PreviewKeyDown" />
+                    <Label Content="kg" Width="40" />
                 </StackPanel>
-
             </StackPanel>
-
         </GroupBox>
-
-        <GroupBox Header="Odesílatel" Margin="144,160,0,0" Width="510" Height="420" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="1">
+        <!-- Odesílatel -->
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Odesílatel" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -73,75 +76,63 @@
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="1" />
                     <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5,0,5,0" Grid.ColumnSpan="3">
-                    <Label Content="Vybrat dodavatele ze seznamu"  Height="30" Width="180" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <Label Content="Vybrat dodavatele ze seznamu" Height="30" Width="180" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
                 </StackPanel>
-                <GridSplitter Grid.Row="0" Grid.Column="2" Width="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Background="LightGray" Height="60" Grid.RowSpan="2"/>
-                <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal" Margin="5,0,5,0"  Grid.RowSpan="2">
+                <GridSplitter Grid.Row="0" Grid.Column="2" Width="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Background="LightGray" Height="60" Grid.RowSpan="2" />
+                <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal" Margin="5,0,5,0" Grid.RowSpan="2">
                     <Button Height="57" Width="150" FontSize="16" Click="otevritOknoPridatDodavateleButton_Click">
                         <TextBlock TextAlignment="Center" FontSize="14">
-                            <Run Text="Přidat"/>
-                            <LineBreak/>
-                            <Run Text="nového dodavatele"/>
+                            <Run Text="Přidat" />
+                            <LineBreak />
+                            <Run Text="nového dodavatele" />
                         </TextBlock>
                     </Button>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,10,5,5" Grid.ColumnSpan="3">
-                    <!-- Výběr dodavatele z comboboxu -->
-                    <ComboBox x:Name="cBoxDodavatele" ItemsSource="{Binding SeznamDodavatelu}" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top"/>
+                    <!-- Výběr dodavatele z ComboBoxu -->
+                    <ComboBox x:Name="cBoxDodavatele" ItemsSource="{Binding SeznamDodavatelu}" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top" />
                 </StackPanel>
-                <GroupBox  Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">
+
+                <GroupBox Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">
                     <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <Label Name="vybranyDodavatelNazevTxt" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <Label Name="vybranyDodavatelNazevTxt" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="IČO: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelIcoTxt" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                            <TextBlock Text="IČO: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelIcoTxt" HorizontalAlignment="Left" Margin="0,0,10,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DIČ: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelDicTxt" HorizontalAlignment="Left"/>
+                            <TextBlock Text="DIČ: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelDicTxt" HorizontalAlignment="Left" />
                         </StackPanel>
-                        
-
-
-                        <Label Content="Adresa Dodavatele" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <Label Content="Adresa Dodavatele" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Ulice: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelUliceTxt" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                            <TextBlock Name="vybranyDodavatelCisloPopisneTxt" HorizontalAlignment="Left"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="PSČ: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelPscTxt" HorizontalAlignment="Left"/>
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Obec: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelObecTxt" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Ulice: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelUliceTxt" HorizontalAlignment="Left" Margin="0,0,10,0" />
+                            <TextBlock Name="vybranyDodavatelCisloPopisneTxt" HorizontalAlignment="Left" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Stát: " HorizontalAlignment="Left"/>
-                            <TextBlock Name="vybranyDodavatelZemeTxt" HorizontalAlignment="Left"/>
-                            
+                            <TextBlock Text="PSČ: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelPscTxt" HorizontalAlignment="Left" />
                         </StackPanel>
-
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Obec: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelObecTxt" HorizontalAlignment="Left" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Stát: " HorizontalAlignment="Left" />
+                            <TextBlock Name="vybranyDodavatelZemeTxt" HorizontalAlignment="Left" />
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
-
             </Grid>
         </GroupBox>
-
-
-
-
-
-
-
-
-
+        <!-- Button na třetím řádku -->
+        <Button Grid.Row="2" Grid.Column="1" Content="Uložit zásilku" 
+                HorizontalAlignment="Right" Margin="10" 
+                Width="120" Height="36"/>
     </Grid>
 </UserControl>

@@ -53,6 +53,14 @@ namespace system_sprava_skladu
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
         }
+        private void OtevritSeznamSkladovaciPoziceOkno_Click(object sender, RoutedEventArgs e)
+        {
+            // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
+            okno_seznam_skladovaci_pozice userControl = new okno_seznam_skladovaci_pozice();
+
+            // Nastavení obsahu ContentControlu na tento UserControl
+            contentControl.Content = userControl;
+        }
 
     }
     public class pripojeniSQL

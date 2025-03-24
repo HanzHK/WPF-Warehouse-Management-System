@@ -76,7 +76,7 @@
                 <Expander Header="Skladovací pozice">
                     <StackPanel>
                         <Button Content="Přidat Skladovací pozici" Click="OtevritPridejSkladovaciPoziciOkno_Click"/>
-                        <Button Content="Zobrazit skladovací pozice"/>
+                        <Button Content="Zobrazit skladovací pozice" Click="OtevritSeznamSkladovaciPoziceOkno_Click"/>
                     </StackPanel>
                 </Expander>
                 
