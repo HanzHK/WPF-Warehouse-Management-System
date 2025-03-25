@@ -13,10 +13,28 @@
         <GroupBox Header="Seznam skladovacích pozic" Margin="10" HorizontalAlignment="Stretch" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}}">
 
             <Grid Margin="10">
+                <DataGrid Name="dataGridSkladovaciPozice"
+                          AutoGenerateColumns="False"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Margin="10"
+                          IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <!-- Sloupec ID -->
+                        <DataGridTextColumn Header="ID"
+                                            Binding="{Binding Id}"
+                                            Width="Auto" />
+
+                        <!-- Sloupec Název -->
+                        <DataGridTextColumn Header="Název"
+                                            Binding="{Binding Nazev}"
+                                            Width="Auto" />
+                    </DataGrid.Columns>
+                </DataGrid>
 
 
 
-                
             </Grid>
         </GroupBox>
     </Grid>

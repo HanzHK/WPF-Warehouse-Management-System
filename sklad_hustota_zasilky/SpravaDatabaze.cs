@@ -199,7 +199,7 @@ namespace system_sprava_skladu
                 return adresaID;
             }
 
-
+            // Metoda pro načtení adres dodavatelů
             public async Task NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
             {
                 try
@@ -247,7 +247,6 @@ namespace system_sprava_skladu
                 }
 
             }
-
             // Metoda pro získání názvu země podle ID
             private async Task<string> ZiskatNazevZemeAsync(int zemeID)
             {
@@ -277,8 +276,7 @@ namespace system_sprava_skladu
 
                 return string.Empty;
             }
-
-
+            // Metoda pro Načtení oebecných informací o dodavateli
             public async Task NactiObecneinformaceAsync(string vybranyDodavatel, Label nazevLabel, TextBlock icoTextBlock, TextBlock dicTextBlock)
             {
                 try
@@ -355,7 +353,50 @@ namespace system_sprava_skladu
         //
         //  Část řešící vkládání dat do databáze - Přídání dodavatele
         //
+        public class NacitaniDatzDatabazeSkladovaciPozice
+        {
+            public class SkladovaciPoziceDTO
+            {
+                public int Id { get; set; }
+                public string Nazev { get; set; }
+            }
+            public async Task<List<SkladovaciPoziceDTO>> NactiSkladovaciPoziceAsync()
+            {
+                PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+                List<SkladovaciPoziceDTO> skladovaciPozice = new List<SkladovaciPoziceDTO>();
 
+                try
+                {
+                    using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
+                    {
+                        string query = "SELECT skladovaciPoziceID, skladovaciPoziceNazev FROM SkladovaciPozice";
+
+                        using (SqlCommand command = new SqlCommand(query, pripojeni))
+                        {
+                            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    // Explicitní přidání položek do seznamu
+                                    SkladovaciPoziceDTO pozice = new SkladovaciPoziceDTO
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Nazev = reader.GetString(1)
+                                    };
+
+                                    skladovaciPozice.Add(pozice);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Chyba při načítání skladovacích pozic: {ex.Message}");
+                }
+                return skladovaciPozice;
+            }
+        }
         public class VlozdoDatabazeNovyDodavatel
         {
 

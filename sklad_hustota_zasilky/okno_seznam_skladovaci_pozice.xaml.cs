@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using static system_sprava_skladu.SpravaDatabaze;
 
 namespace system_sprava_skladu
 {
@@ -21,9 +22,17 @@ namespace system_sprava_skladu
     /// </summary>
     public partial class okno_seznam_skladovaci_pozice : UserControl
     {
+        private readonly NacitaniDatzDatabazeSkladovaciPozice _nacitani = new NacitaniDatzDatabazeSkladovaciPozice();
+
         public okno_seznam_skladovaci_pozice()
         {
             InitializeComponent();
+            NactiSkladovaciPozice();
+        }
+        private async void NactiSkladovaciPozice()
+        {
+            List<NacitaniDatzDatabazeSkladovaciPozice.SkladovaciPoziceDTO> data = await _nacitani.NactiSkladovaciPoziceAsync();
+            dataGridSkladovaciPozice.ItemsSource = data;
         }
     }
 }
