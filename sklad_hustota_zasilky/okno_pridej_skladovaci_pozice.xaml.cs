@@ -41,7 +41,14 @@ namespace system_sprava_skladu
 
         private async void pridatSkladovaciPoziciButton_Click(object sender, RoutedEventArgs e)
         {
-            string skladovaciPoziceNazev = skladovaciPoziceTextBox.Text; 
+            string skladovaciPoziceNazev = skladovaciPoziceTextBox.Text;
+
+            // Kontrola jestli název skladovací pozice není duplicitní
+            if (await pozice.KontrolaDuplicityNazvuPozice(skladovaciPoziceNazev))
+            {
+                MessageBox.Show("Tato skladovací pozice již existuje!", "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
 

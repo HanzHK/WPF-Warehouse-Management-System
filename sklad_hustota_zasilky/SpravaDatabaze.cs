@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
- using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Windows;
 using System.Linq;
@@ -570,6 +570,21 @@ namespace system_sprava_skladu
 
                 return skladovaciPoziceID;
             }
+            public async Task<bool> KontrolaDuplicityNazvuPozice(string nazev)
+            {
+                PripojeniDatabazeObecne pripojeniDatabazeObecne = new PripojeniDatabazeObecne();
+                using (SqlConnection pripojeni = await pripojeniDatabazeObecne.OtevritSpojeniAsync())
+                {
+                    string query = "SELECT COUNT(1) FROM SkladovacíPozice WHERE NazevSkladovaciPozice = @nazev";
+                                       
+                    using (SqlCommand prikaz = new SqlCommand(query, pripojeni))
+                    {
+                        prikaz.Parameters.AddWithValue("@nazev", nazev);
+                        int pocetZaznamu = (int)await prikaz.ExecuteScalarAsync();
+                        return pocetZaznamu > 0; // true pokud větší než 0
+                    }
+                }
+                        }
         }
 
 
