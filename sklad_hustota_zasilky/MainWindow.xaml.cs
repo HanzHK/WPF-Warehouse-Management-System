@@ -63,16 +63,6 @@ namespace system_sprava_skladu
         }
 
     }
-    public class pripojeniSQL
-    {
-        string pripojeniDatabaze = "Server=DESKTOP-PHD2MVI;Database=Warehouseapp;User Id=AdminWH;Password=hovno02;"; // přístup k SQL databázi
-        SqlConnection connection;
 
-        public pripojeniSQL()
-        {
-            connection = new SqlConnection(pripojeniDatabaze);
-            connection.Open();
-        }
-    }
 
 }
