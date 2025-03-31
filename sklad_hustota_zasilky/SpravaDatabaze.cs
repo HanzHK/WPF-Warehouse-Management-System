@@ -93,7 +93,7 @@ namespace system_sprava_skladu
         }
         public class NacitaniDatzDatabaze
         {
-            public async Task<List<string>> ZiskatTypyDodavateluAsync()
+            public static async Task<List<string>> ZiskatTypyDodavateluAsync()
             {
                 List<string> typyDodavatelu = new List<string>();
 
@@ -271,7 +271,7 @@ namespace system_sprava_skladu
 
             }
             // Metoda pro získání názvu země podle ID
-            private async Task<string> ZiskatNazevZemeAsync(int zemeID)
+            private static async Task<string> ZiskatNazevZemeAsync(int zemeID)
             {
                 try
                 {
@@ -412,6 +412,23 @@ namespace system_sprava_skladu
                     MessageBox.Show($"Chyba při načítání skladovacích pozic: {ex.Message}");
                 }
                 return skladovaciPozice;
+            }
+            public async Task NaplnComboBoxSkladovaciPoziceAsync(ComboBox comboBox)
+            {
+                try
+                {
+                    List<SkladovaciPoziceDTO> skladovaciPoziceList = await NactiSkladovaciPoziceAsync();
+                    comboBox.Items.Clear();
+
+                    foreach (SkladovaciPoziceDTO pozice in skladovaciPoziceList)
+                    {
+                        comboBox.Items.Add(pozice.Nazev);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Chyba při naplňování seznamu skladovacích pozic: {ex.Message}");
+                }
             }
         }
         public class VlozdoDatabazeNovyDodavatel
