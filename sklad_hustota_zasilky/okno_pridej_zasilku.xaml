@@ -31,7 +31,7 @@
                 <Label Content="Relace" Width="60" VerticalAlignment="Center" />
                 <TextBox Width="80" Height="25" Margin="5,0" VerticalAlignment="Center" />
                 <Label Content="Skladovací pozice" Width="120" VerticalAlignment="Center" />
-                <ComboBox Width="150" Height="25" Margin="5,0" />
+                <ComboBox  x:Name="cBoxSkladovaciPozice" Width="150" Height="25" Margin="5,0" />
             </StackPanel>
         </GroupBox>
 

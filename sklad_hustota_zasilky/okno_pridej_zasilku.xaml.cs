@@ -26,6 +26,7 @@ namespace system_sprava_skladu
     public partial class okno_pridej_zasilku : UserControl
     {
         private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
+        private NacitaniDatzDatabazeSkladovaciPozice _nacitaniDatzDatabazeSkladovaciPozice;
 
         private void sirkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -78,6 +79,7 @@ namespace system_sprava_skladu
             InitializeComponent();
             // Vytvoření instance RefreshCbox a NacitaniDatzDatabaze
             _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
+            _nacitaniDatzDatabazeSkladovaciPozice = new NacitaniDatzDatabazeSkladovaciPozice();
 
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
@@ -88,6 +90,7 @@ namespace system_sprava_skladu
         }
         private async void InicializujOknoAsync()
         {
+            // Dodavatelé combobox 
             try
             {
                 await _nacitaniDatzDatabaze.NaplnComboBoxDodavateluAsync(cBoxDodavatele);
@@ -95,6 +98,15 @@ namespace system_sprava_skladu
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
+            }
+            // Skladovací pozice Combobox
+            try
+            {
+                await _nacitaniDatzDatabazeSkladovaciPozice.NaplnComboBoxSkladovaciPoziceAsync(cBoxSkladovaciPozice);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při načítání skladovacích pozic: " + ex.Message);
             }
         }
 
