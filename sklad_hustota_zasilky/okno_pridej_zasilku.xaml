@@ -94,7 +94,7 @@
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,10,5,5" Grid.ColumnSpan="3">
                     <!-- Výběr dodavatele z ComboBoxu -->
-                    <ComboBox x:Name="cBoxDodavatele" ItemsSource="{Binding SeznamDodavatelu}" SelectionChanged="cBoxDodavatele_SelectionChanged" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top" />
+                    <ComboBox x:Name="cBoxDodavatele" SelectionChanged="cBoxDodavatele_SelectionChangedAsync" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top" />
                 </StackPanel>
 
                 <GroupBox Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">

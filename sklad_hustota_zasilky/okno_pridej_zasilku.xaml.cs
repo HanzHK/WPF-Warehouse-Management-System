@@ -27,11 +27,6 @@ namespace system_sprava_skladu
     {
         private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
 
-        // Deklarace proměnné pro uchování instance okna pro přidání dodavatele.
-        private okno_pridej_dodavatele OknoPridejDodavatele;
-        private bool oknoPridejDodavateleOtevreno = false;
-        private RefreshCbox refreshCbox;
-
         private void sirkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 5
@@ -81,62 +76,39 @@ namespace system_sprava_skladu
         public okno_pridej_zasilku()
         {
             InitializeComponent();
-
-            // Vytvoření instance okna pro přidání dodavatele, ale zatím se neotevře.
-            OknoPridejDodavatele = new okno_pridej_dodavatele();
-
-            /*
-           Tato část kódu se stará o přidání položek do comboboxu,
-           ve kterém se vybírají ze seznamu.
-           */
             // Vytvoření instance RefreshCbox a NacitaniDatzDatabaze
-            NacitaniDatzDatabaze nacitaniDatabaze = new NacitaniDatzDatabaze();
-            refreshCbox = new RefreshCbox(nacitaniDatabaze);
-            
-            // Naplnění comboboxu
-           nacitaniDatabaze.NaplnComboBoxDodavateluAsync(cBoxDodavatele);
-
-            DataContext = refreshCbox;
+            _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
 
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
             delkaZasilkyTxt.TextChanged += AktualizujUdaje;
             vyskaZasilkyTxt.TextChanged += AktualizujUdaje;
+
+            InicializujOknoAsync();
         }
-
-        // Pomocná třída pro automatický refresh combnoboxu s dodavateli
-        // Pro správně fungující binding
-
-        public class RefreshCbox
+        private async void InicializujOknoAsync()
+        {
+            try
             {
-            private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
-
-            // Konstruktor, který přijímá instanci NacitaniDatzDatabaze
-            public RefreshCbox(NacitaniDatzDatabaze nacitaniDatzDatabaze)
-            {
-                _nacitaniDatzDatabaze = nacitaniDatzDatabaze;
+                await _nacitaniDatzDatabaze.NaplnComboBoxDodavateluAsync(cBoxDodavatele);
             }
-
-            // Vlastnost pro data, která chcete použít pro binding
-            public ObservableCollection<string> SeznamDodavatelu => _nacitaniDatzDatabaze.SeznamDodavatelu;
-
-            // Druhá metoda pro načítání dat
-            public void NacistDataDoComboBoxu(ComboBox comboBox)
+            catch (Exception ex)
             {
-               _nacitaniDatzDatabaze.NaplnComboBoxDodavateluAsync(comboBox);
+                MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
             }
         }
-        private void cBoxDodavatele_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private async void cBoxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
             // Získáme vybraného dodavatele z comboboxu
-            string vybranyDodavatel = cBoxDodavatele.SelectedItem as string;
+            string vybranyDodavatel = cBoxDodavatele.SelectedItem as string ?? String.Empty;
 
             if (!string.IsNullOrEmpty(vybranyDodavatel))
             {
                 // Zavoláme upravenou metodu NactiAdresu a předáme jí textové bloky pro jednotlivé části adresy.
-                _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt, vybranyDodavatelZemeTxt);
-                _nacitaniDatzDatabaze.NactiObecneinformaceAsync(vybranyDodavatel, vybranyDodavatelNazevTxt, vybranyDodavatelIcoTxt, vybranyDodavatelDicTxt);
+               await _nacitaniDatzDatabaze.NactiAdresu(vybranyDodavatel, vybranyDodavatelUliceTxt, vybranyDodavatelCisloPopisneTxt, vybranyDodavatelPscTxt, vybranyDodavatelObecTxt, vybranyDodavatelZemeTxt);
+               await _nacitaniDatzDatabaze.NactiObecneinformaceAsync(vybranyDodavatel, vybranyDodavatelNazevTxt, vybranyDodavatelIcoTxt, vybranyDodavatelDicTxt);
             }
             else
             {
@@ -154,7 +126,6 @@ namespace system_sprava_skladu
 
             }
         }
-
         private void AktualizujUdaje(object sender, TextChangedEventArgs e)
         {
             // Získat hodnoty z TextBoxů
@@ -183,40 +154,9 @@ namespace system_sprava_skladu
                 objemZasilkyTxt.Text = "";
             }
         }
-
-        // Obsluha události DodavatelClosed
-        private void OknoPridejDodavatele_Closed(object sender, EventArgs e)
-        {
-            // Okno bylo zavřeno, takže nastavte indikátor na false
-            oknoPridejDodavateleOtevreno = false;
-
-            // Inicializujte proměnnou OknoPridejDodavatele znovu
-            OknoPridejDodavatele = null;
-        }
-
         private void otevritOknoPridatDodavateleButton_Click(object sender, RoutedEventArgs e)
         {
-            /*   if (!oknoPridejDodavateleOtevreno)
-               {
-                   OknoPridejDodavatele = new okno_pridej_dodavatele();
-                   OknoPridejDodavatele.Closed += OknoPridejDodavatele_Closed;
-                   OknoPridejDodavatele.Show();
-                   oknoPridejDodavateleOtevreno = true;
 
-                   // Nejdříve vyčištění seznamu
-                   // cBoxDodavatele.Items.Clear();
-
-                  // Aktualizujte ComboBox po zavření okna
-                  OknoPridejDodavatele.Closed += (s, args) =>
-                  {
-                       refreshCbox.NacistDataDoComboBoxu(cBoxDodavatele);
-                   };
-               }
-               else
-               {
-                   OknoPridejDodavatele.Activate();
-               }
-            */
         }
 
     }
