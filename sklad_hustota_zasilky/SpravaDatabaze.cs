@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using static system_sprava_skladu.SpravaDatabaze;
+
 
 
 

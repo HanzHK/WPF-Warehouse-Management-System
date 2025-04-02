@@ -70,7 +70,7 @@
                 <Expander Header="Dodavatelé">
                     <StackPanel>
                         <Button Content="Přidat Dodavatele" Click="OtevritPridejDodavateleOkno_Click"/>
-                        <Button Content="Zobrazit seznam dodavatelů"/>
+                        <Button Content="Zobrazit seznam dodavatelů" Click="OtevritSeznamDodavateluOkno_Click"/>
                     </StackPanel>
                 </Expander>
                 <Expander Header="Skladovací pozice">
