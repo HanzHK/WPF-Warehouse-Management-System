@@ -98,7 +98,7 @@ namespace system_sprava_skladu
 
         internal override void OsetriVstup(KeyEventArgs e)
         {
-            // Pokud uživatel zkopíruje číslo, které obsahuje mezery, přidáme mezery automaticky
+            // Ošetření kopírování čísel do textového pole
             if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 string text = Clipboard.GetText();
@@ -116,6 +116,27 @@ namespace system_sprava_skladu
                     }
                 }
             }
+
+            // Ošetření když chce uživatel vymazat číslo a začít znovu, umožňuje mazat i přidanou mezeru
+            if (e.Key == Key.Back || e.Key == Key.Delete)
+            {
+                // Aktuální pozice kurzoru
+                int poziceKurzoru = txtBox.CaretIndex;
+
+                // Zjistí, jestli uživatel zrovna chce smazat mezeru
+                if (poziceKurzoru > 0 && txtBox.Text.Length > poziceKurzoru - 1)
+                {
+                    // Pokud je znak na aktuální pozici mezera
+                    if (txtBox.Text[poziceKurzoru - 1] == ' ')
+                    {
+                        txtBox.Text = txtBox.Text.Remove(poziceKurzoru - 1, 1);
+                        txtBox.CaretIndex = poziceKurzoru - 1;
+                        e.Handled = true;
+                        return;
+                    }
+                }
+            }
+
             if (e.Key == Key.Left)
             {
                 // Přesun kurzoru o jeden index doleva

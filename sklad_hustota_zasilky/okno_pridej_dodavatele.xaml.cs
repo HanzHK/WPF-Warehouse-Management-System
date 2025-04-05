@@ -41,7 +41,7 @@ namespace system_sprava_skladu
             osetreniIco = new OsetreniVstupuCisel(txtBoxIco, 8); 
             osetreniDic = new OsetreniVstupuCisel(txtBoxDic, 8); 
             osetreniCisloPopisne = new OsetreniVstupuCisel(txtBoxCisloPopisne, 10); 
-            osetreniPsc = new OsetreniVstupuCisel(txtBoxPsc, 5); 
+            osetreniPsc = new OsetreniVstupuCisel(txtBoxPsc, 6); 
             osetreniPscTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc, 7);
 
             // Vytvořte instanci třídy SpravaDatabase
