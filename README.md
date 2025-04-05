@@ -6,12 +6,12 @@ Using:
   - MahApps.Metro for UI https://github.com/MahApps/MahApps.Metro
   - WPF
 Features:
-  - Storage position: add & list avaiable storage positions
+  - Storage position: add & list available storage positions
   - Supplier: add a new supplier
   - Package: calculating valume
-  - can show supplier adress real-time
+  - can show supplier address real-time
     
-Future featurs planned (TODO):
+Future features planned (TODO):
   - list of suppliers & shipments
   - proper new version release with secrets management implemented
   - loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
@@ -21,7 +21,7 @@ Future featurs planned (TODO):
   - basic user settings: custom color scheme, language
   - possibly more
 
-Pending fixes for next version:
-  - IČO: proper format
+Pending fixes for the next version:
+  - PSČ (Postcode): proper format - DONE ✓
   - button for adding another supplier not working properly
   - input check for storage positions
