@@ -16,7 +16,7 @@ Future features planned (TODO):
   - proper new version release with secrets management implemented
   - loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
   - UNIT testing...
-  - barcode generator
+  - barcode generator - IN PROGRESS: █████▒▒▒▒▒ [50%]
   - Serilog for logging exceptions
   - basic user settings: custom color scheme, language
   - possibly more
