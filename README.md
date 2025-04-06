@@ -21,7 +21,9 @@ Future features planned (TODO):
   - basic user settings: custom color scheme, language
   - possibly more
 
-Pending fixes for the next version:
+Pending fixes for the next version: 
+
+DONE ✓ 6.4.2025 
   - PSČ (Postcode): proper format - DONE ✓
-  - button for adding another supplier not working properly
-  - input check for storage positions
+  - button for adding another supplier not working properly - REMOVED, DONE ✓
+  - input check for storage positions - DONE ✓
