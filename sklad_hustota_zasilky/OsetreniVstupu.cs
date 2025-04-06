@@ -14,20 +14,96 @@ namespace system_sprava_skladu
     {
         protected TextBox txtBox;
         protected int maxDelka;
+        protected string povoleneZnaky = "";
 
         // Konstruktor pro třídu OsetreniVstupu
-        internal OsetreniVstupu(TextBox txtBox, int maxDelka = 7)
+        internal OsetreniVstupu(TextBox txtBox, int maxDelka = 7, string povoleneZnaky = "")
         {
             this.txtBox = txtBox;
-            this.maxDelka = maxDelka;  
+            this.maxDelka = maxDelka;
+            this.povoleneZnaky = povoleneZnaky;
         }
 
-        
-        internal virtual void OsetriVstup(KeyEventArgs e) 
+        // Kontrola je-li znak povolen
+        protected virtual bool JePovolenyZnak(Key key)
         {
-            // Zde budu provadět obecné kontroly délky, formátu, atd.
-            if (txtBox.Text.Length >= maxDelka && e.Key != Key.Back && e.Key != Key.Delete && e.Key != Key.Space)
+            string stisknutyZnak = key.ToString();
+
+            if (stisknutyZnak.StartsWith("D") && stisknutyZnak.Length == 2 && char.IsDigit(stisknutyZnak[1]))
             {
+                stisknutyZnak = stisknutyZnak[1].ToString();
+            }
+            else if (key >= Key.NumPad0 && key <= Key.NumPad9)
+            {
+                
+                stisknutyZnak = ((int)(key - Key.NumPad0)).ToString();
+            }
+
+            return povoleneZnaky.Contains(stisknutyZnak);
+        }
+
+        internal virtual void OsetriVstup(KeyEventArgs e)
+        {
+            // Zakáže přidat další znak po dosažení maximální délky
+            if ((txtBox.Text.Length - txtBox.SelectionLength) >= maxDelka
+                && e.Key != Key.Back && e.Key != Key.Delete
+                && e.Key != Key.Left && e.Key != Key.Right)
+            {
+                e.Handled = true;
+            }
+
+            // Ošetření mazání pomocí Backspace
+            if (e.Key == Key.Back)
+            {
+                if (txtBox.SelectionLength > 0)
+                {
+                    // Pokud je text vybrán, smažeme celý vybraný text
+                    txtBox.SelectedText = "";
+                    e.Handled = true;
+                }
+                else
+                {
+                    // Pokud není text vybrán, smažeme jeden znak před kurzorem
+                    int pozice = txtBox.CaretIndex;
+                    if (pozice > 0)
+                    {
+                        txtBox.Text = txtBox.Text.Remove(pozice - 1, 1);
+                        txtBox.CaretIndex = pozice - 1;
+                        e.Handled = true;
+                    }
+                }
+            }
+
+            // Ošetření mazání pomocí Delete
+            else if (e.Key == Key.Delete)
+            {
+                if (txtBox.SelectionLength > 0)
+                {
+                    // Pokud je text vybrán, smažeme celý vybraný text
+                    txtBox.SelectedText = "";
+                    e.Handled = true;
+                }
+                else
+                {
+                    // Pokud není text vybrán, smažeme jeden znak za kurzorem
+                    int pozice = txtBox.CaretIndex;
+                    if (pozice < txtBox.Text.Length)
+                    {
+                        txtBox.Text = txtBox.Text.Remove(pozice, 1);
+                        e.Handled = true;
+                    }
+                }
+            }
+
+            // Pohyb kurzoru
+            if (e.Key == Key.Left)
+            {
+                txtBox.CaretIndex = Math.Max(0, txtBox.CaretIndex - 1);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Right)
+            {
+                txtBox.CaretIndex = Math.Min(txtBox.Text.Length, txtBox.CaretIndex + 1);
                 e.Handled = true;
             }
         }
@@ -38,134 +114,124 @@ namespace system_sprava_skladu
         }
         protected bool JePlatnyFormat(string text)
         {
-            // Zde můžete provádět ověření formátu, pokud je to potřeba
+           
             return true;
-        }
-
-        protected static bool IsNumericKey(Key key)
-        {
-            // Převede klávesy na jejich kód a ověří, zda odpovídají číselným klávesám.
-            int keyInt = (int)key;
-            return (keyInt >= 34 && keyInt <= 43) || (keyInt >= 74 && keyInt <= 83);
         }
 
     }
     internal class OsetreniObecnehoVstupu : OsetreniVstupu
     {
-        private readonly string povoleneZnaky;
-
-        //Kontruktor třídy
-        internal OsetreniObecnehoVstupu(TextBox textBox, int maxDelka = 20, string povoleneZnaky = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-            : base(textBox, maxDelka)
+        internal OsetreniObecnehoVstupu(TextBox textBox, int maxDelka = 20, string povoleneZnaky = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ěščřžýáíé")
+            : base(textBox, maxDelka, povoleneZnaky)
         {
-            this.povoleneZnaky = povoleneZnaky;
             if (textBox == null)
                 throw new ArgumentNullException(nameof(textBox), "TextBox nesmí být null.");
 
+            textBox.PreviewTextInput += TextBox_PreviewTextInput;
+            DataObject.AddPastingHandler(textBox, OnPaste);
         }
 
-        internal override void OsetriVstup(KeyEventArgs e)
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            string stisknutyZnak = e.Key.ToString();
-            if (!string.IsNullOrEmpty(stisknutyZnak) && !JePovolenyZnak(stisknutyZnak))
+            if (string.IsNullOrEmpty(e.Text))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            foreach (char znak in e.Text)
+            {
+                if (!povoleneZnaky.Contains(znak))
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+            int novaDelka = txtBox.Text.Length - txtBox.SelectionLength + e.Text.Length;
+            if (novaDelka > maxDelka)
             {
                 e.Handled = true;
             }
-            base.OsetriVstup(e);
-        }
-        private bool JePovolenyZnak(string znak)
-        {
-            return povoleneZnaky.Contains(znak);
         }
 
-    }
-    internal class OsetreniSkladovaciPozice : OsetreniObecnehoVstupu
-    {
-        internal OsetreniSkladovaciPozice(TextBox textBox, int maxDelka = 6) : base(textBox, maxDelka, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        { 
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(DataFormats.Text))
+            {
+                string vkladanyText = (string)e.DataObject.GetData(DataFormats.Text);
+
+                if (!vkladanyText.All(c => povoleneZnaky.Contains(c)))
+                {
+                    e.CancelCommand();
+                    return;
+                }
+
+                int novaDelka = txtBox.Text.Length - txtBox.SelectionLength + vkladanyText.Length;
+                if (novaDelka > maxDelka)
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
         }
+
         internal override void OsetriVstup(KeyEventArgs e)
         {
             base.OsetriVstup(e);
-
         }
     }
     internal class OsetreniVstupuCisel : OsetreniVstupu
     {
-        internal OsetreniVstupuCisel(TextBox textBox, int maxDelka = 6) : base(textBox, maxDelka)
+        internal OsetreniVstupuCisel(TextBox textBox, int maxDelka = 6, string povoleneZnaky = "0123456789")
+            : base(textBox, maxDelka, povoleneZnaky)
         {
+            textBox.PreviewTextInput += TextBox_PreviewTextInput;
+            DataObject.AddPastingHandler(textBox, OnPaste);
         }
 
-        internal override void OsetriVstup(KeyEventArgs e)
+
+        // Pro blokování všeho ostatního než čísla
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Ošetření kopírování čísel do textového pole
-            if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-            {
-                string text = Clipboard.GetText();
-                if (text != null)
-                {
-                    // Odstraníme mezery ve zkopírovaném textu
-                    text = text.Replace(" ", "");
-
-                    // Pokud je text v očekávaném formátu, přidáme mezery na správná místa
-                    if (text.Length == 5)
-                    {
-                        txtBox.Text = text.Insert(3, " ");
-                        txtBox.CaretIndex = txtBox.Text.Length;
-                        e.Handled = true;
-                    }
-                }
-            }
-
-            // Ošetření když chce uživatel vymazat číslo a začít znovu, umožňuje mazat i přidanou mezeru
-            if (e.Key == Key.Back || e.Key == Key.Delete)
-            {
-                // Aktuální pozice kurzoru
-                int poziceKurzoru = txtBox.CaretIndex;
-
-                // Zjistí, jestli uživatel zrovna chce smazat mezeru
-                if (poziceKurzoru > 0 && txtBox.Text.Length > poziceKurzoru - 1)
-                {
-                    // Pokud je znak na aktuální pozici mezera
-                    if (txtBox.Text[poziceKurzoru - 1] == ' ')
-                    {
-                        txtBox.Text = txtBox.Text.Remove(poziceKurzoru - 1, 1);
-                        txtBox.CaretIndex = poziceKurzoru - 1;
-                        e.Handled = true;
-                        return;
-                    }
-                }
-            }
-
-            if (e.Key == Key.Left)
-            {
-                // Přesun kurzoru o jeden index doleva
-                txtBox.CaretIndex = Math.Max(0, txtBox.CaretIndex - 1);
-                e.Handled = true; // Zabraňuje výchozí akci klávesy
-            }
-            else if (e.Key == Key.Right)
-            {
-                // Přesun kurzoru o jeden index doprava
-                txtBox.CaretIndex = Math.Min(txtBox.Text.Length, txtBox.CaretIndex + 1);
-                e.Handled = true; // Zabraňuje výchozí akci klávesy
-            }
-
-            if (!IsNumericKey(e.Key) && e.Key != Key.Back && e.Key != Key.Delete)
+            if (e.Text.Any(c => !char.IsDigit(c)))
             {
                 e.Handled = true;
             }
 
-            base.OsetriVstup(e); // Zavoláme obecnou metodu pro ošetření vstupu
+            int novaDelka = txtBox.Text.Length - txtBox.SelectionLength + e.Text.Length;
+            if (novaDelka > maxDelka)
+            {
+                e.Handled = true;
+            }
         }
 
-    }
-    internal class OsetreniNve : OsetreniVstupuCisel
-    {
-        internal OsetreniNve(TextBox textBox) : base(textBox, maxDelka: 26)
+        // Pro ošetření případu kdy uživatel použije CTRL + V
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
         {
+            if (e.DataObject.GetDataPresent(DataFormats.Text))
+            {
+                var text = (string)e.DataObject.GetData(DataFormats.Text);
+                if (!text.All(char.IsDigit))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        internal override void OsetriVstup(KeyEventArgs e)
+        {
+           
+            base.OsetriVstup(e);
         }
     }
-
     internal class OsetreniVstupuTextChanged : OsetreniVstupu
     {
         internal OsetreniVstupuTextChanged(TextBox txtBox, int maxDelka) : base(txtBox, maxDelka)
@@ -192,5 +258,4 @@ namespace system_sprava_skladu
             }
         }
     }
-
 }

@@ -63,16 +63,12 @@ namespace system_sprava_skladu
         private void txtBoxNveZasilky_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 18
-            OsetreniNve osetreniNve = new OsetreniNve(txtBoxNveZasilky);
+            OsetreniVstupuCisel osetreniNve = new OsetreniVstupuCisel(txtBoxNveZasilky, maxDelka: 18);
 
             // Zavolejte metodu OsetritVstup pro osetreniCisel
             osetreniNve.OsetriVstup(e);
         }
-        private void txtBoxNveZasilky_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            OsetreniVstupuTextChanged osetreniTextChanged = new OsetreniVstupuTextChanged(txtBoxNveZasilky, 35);
-            osetreniTextChanged.OsetriVstup(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(this), 0, Key.Enter));
-        }
+       
 
         public okno_pridej_zasilku()
         {
@@ -166,11 +162,6 @@ namespace system_sprava_skladu
                 objemZasilkyTxt.Text = "";
             }
         }
-        private void otevritOknoPridatDodavateleButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
     }
 }
 

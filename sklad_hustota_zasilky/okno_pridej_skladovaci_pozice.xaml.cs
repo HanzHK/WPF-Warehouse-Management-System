@@ -26,13 +26,13 @@ namespace system_sprava_skladu
         private VlozdoDatabazeSkladovaciPozice pozice = new VlozdoDatabazeSkladovaciPozice();
 
         //Deklarace
-        private OsetreniSkladovaciPozice osetreniSkladovaciPozice;
+        private OsetreniObecnehoVstupu osetreniSkladovaciPozice;
 
         public okno_pridej_skladovaci_pozice()
         {
             InitializeComponent();
 
-            osetreniSkladovaciPozice = new OsetreniSkladovaciPozice(skladovaciPoziceTextBox);
+            osetreniSkladovaciPozice = new OsetreniObecnehoVstupu(skladovaciPoziceTextBox, maxDelka: 6);
         }
         private void skladovaciPoziceTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {

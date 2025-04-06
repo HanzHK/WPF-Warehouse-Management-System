@@ -24,14 +24,15 @@ namespace system_sprava_skladu
     public partial class okno_pridej_dodavatele : UserControl
     {
         
-        // Přidejte proměnnou pro indikaci, zda je okno otevřeno nebo zavřeno
-        private bool oknoPridejDodavateleOtevreno = false;
+
 
         private OsetreniVstupuCisel osetreniIco;
         private OsetreniVstupuCisel osetreniDic;
         private OsetreniVstupuCisel osetreniCisloPopisne;
         private OsetreniVstupuCisel osetreniPsc;
         private OsetreniVstupuTextChanged osetreniPscTextChanged;
+
+        SpravaDatabaze.NacitaniDatzDatabaze nacitani = new SpravaDatabaze.NacitaniDatzDatabaze();
 
         public okno_pridej_dodavatele()
         {
@@ -44,13 +45,29 @@ namespace system_sprava_skladu
             osetreniPsc = new OsetreniVstupuCisel(txtBoxPsc, 6); 
             osetreniPscTextChanged = new OsetreniVstupuTextChanged(txtBoxPsc, 7);
 
-            // Vytvořte instanci třídy SpravaDatabase
-            SpravaDatabaze spravaDatabaze = new SpravaDatabaze();
-            SpravaDatabaze.NacitaniDatzDatabaze nacitani = new SpravaDatabaze.NacitaniDatzDatabaze();
+            InicializujOknoAsync();
+                        
+        }
+        private async void InicializujOknoAsync()
+        {
+            // Naplnění typy dodavatelů
+            try
+            {
+                await nacitani.NaplnComboBoxTypyDodavateluAsync(cBoxTypyDodavatelu);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při načítání typů dodavatelů " + ex.Message);
+            }
 
-            // Volá metody pro naplnění ComboBoxů
-            nacitani.NaplnComboBoxTypyDodavateluAsync(cBoxTypyDodavatelu);
-            nacitani.NaplnComboBoxZemeAsync(cBoxZeme);
+            try
+            {
+                await nacitani.NaplnComboBoxZemeAsync(cBoxZeme);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Chyba při načítání zemí " + ex.Message);
+            }
         }
 
         private void txtBoxIco_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -75,7 +92,7 @@ namespace system_sprava_skladu
         }
 
 
-        private void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
+        private async void pridatDodavateleDbButton_Click(object sender, RoutedEventArgs e)
         {
             // Obecné - přiřazení hodnot do proměnných
             string nazev = txtBoxNazevDodavatele.Text;
@@ -95,7 +112,7 @@ namespace system_sprava_skladu
             SpravaDatabaze.VlozdoDatabazeNovyDodavatel pridejDodavatele = new SpravaDatabaze.VlozdoDatabazeNovyDodavatel();
 
             // Volání metody pro uložení dodavatele
-            pridejDodavatele.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, psc, obec, zeme);
+           await pridejDodavatele.UlozitDodavatele(nazev, ico, dic, popis, typDodavatele, ulice, cislopopisne, psc, obec, zeme);
 
             // Aktualizace uživatelského rozhraní - vyčištění polí
             txtBoxNazevDodavatele.Clear();
