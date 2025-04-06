@@ -28,6 +28,10 @@
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Label Content="NVE zásilky" Width="100" VerticalAlignment="Center" />
                 <TextBox Name="txtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" />
+                <Button  Content="Vygeneruj barcode" 
+                    HorizontalAlignment="Right" Margin="10" 
+                    Width="120" Height="36"
+                    Click="zobrazitBarcodeNveButton_Click"/>
                 <Label Content="Relace" Width="60" VerticalAlignment="Center" />
                 <TextBox Width="80" Height="25" Margin="5,0" VerticalAlignment="Center" />
                 <Label Content="Skladovací pozice" Width="120" VerticalAlignment="Center" />

@@ -105,6 +105,12 @@ namespace system_sprava_skladu
                 MessageBox.Show("Chyba při načítání skladovacích pozic: " + ex.Message);
             }
         }
+        private void zobrazitBarcodeNveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string nveKod = txtBoxNveZasilky.Text;
+            okno_generovani_barcode oknoBarcode = new okno_generovani_barcode(nveKod);
+            oknoBarcode.Show();
+        }
 
         private async void cBoxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
