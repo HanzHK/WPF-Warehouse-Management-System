@@ -19,8 +19,8 @@ Future features planned (TODO):
   - possibly more
 
 Pending fixes for the next version: 
-  - barcode generator - IN PROGRESS: █████▒▒▒▒▒ [50%]
-  - Serilog for logging exceptions
+  - barcode generator - IN PROGRESS: ███████▒▒▒ [75%]
+  - Serilog for logging exceptions IN PROGRESS: ██▒▒▒▒▒▒▒▒ [25%]
   - Localization Support
   - Loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
     
