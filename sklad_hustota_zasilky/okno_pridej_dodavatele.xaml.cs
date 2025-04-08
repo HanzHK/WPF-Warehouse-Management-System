@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using static system_sprava_skladu.OsetreniVstupu;
 using MahApps.Metro.Controls;
+using Serilog;  
 
 
 namespace system_sprava_skladu
@@ -58,6 +59,7 @@ namespace system_sprava_skladu
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání typů dodavatelů " + ex.Message);
+                Log.Error(ex, "Chyba při načítání typů dodavatelů");
             }
 
             try
@@ -67,6 +69,7 @@ namespace system_sprava_skladu
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání zemí " + ex.Message);
+                Log.Error(ex, "Chyba při načítání zemí");
             }
         }
 

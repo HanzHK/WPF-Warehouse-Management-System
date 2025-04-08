@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using static system_sprava_skladu.SpravaDatabaze;
 using static system_sprava_skladu.OsetreniVstupu;
 using MahApps.Metro.Controls;
+using Serilog;
 
 
 namespace system_sprava_skladu
@@ -94,6 +95,7 @@ namespace system_sprava_skladu
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
+                Log.Error(ex, "Chyba při načítání dodavatelů");
             }
             // Skladovací pozice Combobox
             try
@@ -103,13 +105,32 @@ namespace system_sprava_skladu
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání skladovacích pozic: " + ex.Message);
+                Log.Error(ex, "Chyba při načítání skladovacích pozic");
             }
         }
         private void zobrazitBarcodeNveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (KontrolaFormatuNve())
+            {
+                string nveKod = txtBoxNveZasilky.Text;
+                okno_generovani_barcode oknoBarcode = new okno_generovani_barcode(nveKod);
+                oknoBarcode.Show();
+            }
+            else
+            {
+                MessageBox.Show("NVE kód musí být vyplněný a mít přesně " + txtBoxNveZasilky.MaxLength + " znaků.",
+                                "Neplatný vstup", MessageBoxButton.OK, MessageBoxImage.Warning);
+               
+            }
+        }
+
+        private bool KontrolaFormatuNve()
+        {
             string nveKod = txtBoxNveZasilky.Text;
-            okno_generovani_barcode oknoBarcode = new okno_generovani_barcode(nveKod);
-            oknoBarcode.Show();
+            if (string.IsNullOrEmpty(nveKod)) { return false; }
+            if (nveKod.Length != txtBoxNveZasilky.MaxLength) { return false; }
+            return true;
+
         }
 
         private async void cBoxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)

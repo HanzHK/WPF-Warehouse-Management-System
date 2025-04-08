@@ -27,7 +27,7 @@
         <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Header="Obecné" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Label Content="NVE zásilky" Width="100" VerticalAlignment="Center" />
-                <TextBox Name="txtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" />
+                <TextBox Name="txtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" MaxLength="18"/>
                 <Button  Content="Vygeneruj barcode" 
                     HorizontalAlignment="Right" Margin="10" 
                     Width="120" Height="36"

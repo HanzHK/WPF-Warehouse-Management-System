@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Identity.Client;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Serilog;
 
 
 
@@ -128,6 +129,8 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání typů dodavatelů: " + ex.Message);
+                    Log.Error(ex, "Chyba při načítání typů dodavatelů");
+
                 }
 
                 return typyDodavatelu;
@@ -165,6 +168,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání seznamu zemí: " + ex.Message);
+                    Log.Error(ex, "Chyba při načítání seznamu zemí");
                 }
 
                 return seznamZemi;
@@ -218,6 +222,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při získávání ID adresy dodavatele: " + ex.Message);
+                    Log.Error(ex, "Chyba při získávání ID adresy dodavatele");
                 }
 
                 return adresaID;
@@ -267,6 +272,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání adresy dodavatele: " + ex.Message);
+                    Log.Error(ex, "Chyba při načítání adresy dodavatele");
                 }
 
             }
@@ -295,6 +301,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při získávání názvu země: " + ex.Message);
+                    Log.Error(ex, "Chyba při získávání názvu země");
                 }
 
                 return string.Empty;
@@ -327,6 +334,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání informací o dodavateli: " + ex.Message);
+                    Log.Error(ex, "Chyba při načítání informací o dodavateli");
                 }
 
             }
@@ -365,6 +373,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při načítání dodavatelů: " + ex.Message);
+                    Log.Error(ex, "Chyba při načítání dodavatelů");
                 }
                 comboBox.ItemsSource = SeznamDodavatelu;
             }
@@ -410,6 +419,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Chyba při načítání skladovacích pozic: {ex.Message}");
+                    Log.Error(ex, "Chyba při načítání skladovacích pozic");
                 }
                 return skladovaciPozice;
             }
@@ -428,6 +438,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Chyba při naplňování seznamu skladovacích pozic: {ex.Message}");
+                    Log.Error(ex, "Chyba při naplňování seznamu skladovacích pozic");
                 }
             }
         }
@@ -457,6 +468,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při získávání ID země: " + ex.Message);
+                    Log.Error(ex, "Chyba při získávání ID země");
                 }
 
                 return ZemeID;
@@ -512,6 +524,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při ukládání do databáze: " + ex.Message);
+                    Log.Error(ex, "Chyba při ukládání do databáze");
                 }
 
             }
@@ -546,6 +559,7 @@ namespace system_sprava_skladu
                 {
                     // Zpráva o chybě v případě výjimky.
                     MessageBox.Show("Chyba při získávání ID typu dodavatele: " + ex.Message);
+                    Log.Error(ex, "Chyba při získávání ID typu dodavatele");
                 }
 
                 // Vrátí ID typu dodavatele.
@@ -594,6 +608,7 @@ namespace system_sprava_skladu
                 catch (Exception ex)
                 {
                     MessageBox.Show("Chyba při ukládání do databáze: " + ex.Message);
+                    Log.Error(ex, "Chyba při ukládání do databáze");
                 }
 
                 return skladovaciPoziceID;
