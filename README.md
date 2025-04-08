@@ -13,17 +13,19 @@ Features:
     
 Future features planned (TODO):
   - list of suppliers & shipments
-  - proper new version release with secrets management implemented
-  - loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
+  - proper new version release with secrets management implemented 
   - UNIT testing...
-  - barcode generator
-  - Serilog for logging exceptions
   - basic user settings: custom color scheme, language
   - possibly more
 
 Pending fixes for the next version: 
-
-DONE ✓ 6.4.2025 
+  - barcode generator - IN PROGRESS: ███████▒▒▒ [75%]
+  - Serilog for logging exceptions IN PROGRESS: ██▒▒▒▒▒▒▒▒ [25%]
+  - Localization Support
+  - Loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
+    
+DONE ✓
+6.4.2025 
   - PSČ (Postcode): proper format - DONE ✓
   - button for adding another supplier not working properly - REMOVED, DONE ✓
   - input check for storage positions - DONE ✓
