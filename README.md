@@ -26,8 +26,10 @@ Pending fixes for the next version:
   - Loading bar & "wake up call" for connecting to the Azure server at launch with bigger timeout set
     
 DONE ✓
+
 8.4.2025
   - Serilog for logging exceptions ✓
+
 6.4.2025 
   - PSČ (Postcode): proper format ✓
   - button for adding another supplier not working properly ✓
