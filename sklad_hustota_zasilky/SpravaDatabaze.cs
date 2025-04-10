@@ -49,8 +49,7 @@ namespace system_sprava_skladu
             }
 
 
-            // Otevře nové spojení
-
+            // Asynchronní připojení k databázi
             public async Task<SqlConnection> OtevritSpojeniAsync()
             {
                 var app = ConfidentialClientApplicationBuilder.Create(clientId)
@@ -69,6 +68,47 @@ namespace system_sprava_skladu
                 };
                 await pripojeni.OpenAsync(); // Asynchronní verze Open()
                 return pripojeni;
+            }
+
+            private bool OtevritSpojeni()
+            {
+                try
+                {
+                    var app = ConfidentialClientApplicationBuilder.Create(clientId)
+                        .WithClientSecret(clientSecret)
+                        .WithAuthority(new Uri(authority))
+                        .Build();
+
+                    var result = app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync().Result;
+                    var accessToken = result.AccessToken;
+
+                    using (SqlConnection pripojeni = new SqlConnection(pripojeniDatabaze)
+                    {
+                        AccessToken = accessToken
+                    })
+                    {
+                        pripojeni.Open();
+                        if (pripojeni.State == System.Data.ConnectionState.Open)
+                        {
+                            return true; // úspěšné připojení
+                        }
+                        else
+                        {
+                            return false; // neúspěšné připojení
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Chyba při připojení");
+                    return false;
+
+                }
+            }
+
+            public bool ProbuzeniDatabaze()
+            {
+                return OtevritSpojeni();
             }
 
         }

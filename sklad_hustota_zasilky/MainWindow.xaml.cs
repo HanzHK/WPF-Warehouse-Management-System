@@ -25,9 +25,24 @@ namespace system_sprava_skladu
         public MainWindow()
         {
             InitializeComponent();
+            LoadingDatabasePopUpShow();
         }
         // Obsluha události pro kliknutí na tlačítko pro otevření "okna" přidat zásilku
-        
+
+        private void LoadingDatabasePopUpShow()
+        {
+            this.Hide();
+            LoadingDB loadingDB = new LoadingDB();
+            loadingDB.Closed += (s, e) =>
+            {
+                this.Show(); 
+            };
+
+            loadingDB.Show();
+            loadingDB.StartLoading();
+            
+        }
+
 
         private void OtevritPridejZasilkuOkno_Click(object sender, RoutedEventArgs e)
         {
