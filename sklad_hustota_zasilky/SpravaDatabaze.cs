@@ -396,9 +396,12 @@ namespace system_sprava_skladu
 
             }
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
-            public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
-            
-            public async Task NaplnComboBoxDodavateluAsync(ComboBox comboBox)
+            private ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
+            internal async Task NaplnComboBoxDodavateluAsync(ComboBox comboBox)
+            {
+                await NaplnComboBoxDodavateluPrivateAsync(comboBox);
+            }
+            private async Task NaplnComboBoxDodavateluPrivateAsync(ComboBox comboBox)
             {
                 try
                 {
@@ -437,14 +440,18 @@ namespace system_sprava_skladu
             }
 
         }
-        public class NacitaniDatzDatabazeSkladovaciPozice
+        internal class NacitaniDatzDatabazeSkladovaciPozice
         {
             public class SkladovaciPoziceDTO
             {
                 public int Id { get; set; }
                 public required string Nazev { get; set; }
             }
-            public async Task<List<SkladovaciPoziceDTO>> NactiSkladovaciPoziceAsync()
+            internal async Task<List<SkladovaciPoziceDTO>> NactiSkladovaciPoziceAsync()
+            {
+              return await NactiSkladovaciPozicePrivateAsync();
+            }
+            private async Task<List<SkladovaciPoziceDTO>> NactiSkladovaciPozicePrivateAsync()
             {
                 PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
                 List<SkladovaciPoziceDTO> skladovaciPozice = new List<SkladovaciPoziceDTO>();
@@ -481,7 +488,11 @@ namespace system_sprava_skladu
                 }
                 return skladovaciPozice;
             }
-            public async Task NaplnComboBoxSkladovaciPoziceAsync(ComboBox comboBox)
+            internal async Task NaplnComboBoxSkladovaciPoziceAsync(ComboBox comboBox)
+            {
+                await NaplnComboBoxSkladovaciPozicePrivateAsync(comboBox);
+            }
+            private async Task NaplnComboBoxSkladovaciPozicePrivateAsync(ComboBox comboBox)
             {
                 try
                 {
@@ -500,10 +511,10 @@ namespace system_sprava_skladu
                 }
             }
         }
-        public class VlozdoDatabazeNovyDodavatel
+        internal class VlozdoDatabazeNovyDodavatel
         {
             // Metoda pro nalezení id Země z databáze a vrácení její hodnoty
-            public async Task<int> ZiskatIdZemeAsync(string zemeNazev)
+            private async Task<int> ZiskatIdZemeAsync(string zemeNazev)
             {
                 int ZemeID = -1;
 
@@ -532,7 +543,11 @@ namespace system_sprava_skladu
                 return ZemeID;
             }
             //Metoda pro uložení nobého dodavatele do databáze
-            public async Task UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
+            internal async Task UlozitDodavatele(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
+            {
+                await UlozitDodavatelePrivate(nazev, ico, dic, popis, typDodavatele, ulice, cisloPopisne, psc, obec, zeme);
+            }
+            private async Task UlozitDodavatelePrivate(string nazev, string ico, string dic, string popis, string typDodavatele, string ulice, string cisloPopisne, string psc, string obec, string zeme)
             {
                 try
                 {
@@ -587,7 +602,7 @@ namespace system_sprava_skladu
 
             }
             // Metoda pro získání id typu dodavatele (as., s.r.o., fyzická osoba atd.)
-            public async Task<int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
+            private async Task<int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
             {
                 int typDodavateleID = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
 
@@ -625,9 +640,13 @@ namespace system_sprava_skladu
             }
 
         }
-        public class VlozdoDatabazeSkladovaciPozice
+        internal class VlozdoDatabazeSkladovaciPozice
         {
-            public async Task<int> UlozitSkladovaciPoziciAsync(string skladovaciPoziceNazev)
+            internal async Task<int> UlozitSkladovaciPoziciAsync(string skladovaciPoziceNazev)
+            {
+              return await UlozitSkladovaciPoziciPrivateAsync(skladovaciPoziceNazev);
+            }
+            private async Task<int> UlozitSkladovaciPoziciPrivateAsync(string skladovaciPoziceNazev)
             {
                 int skladovaciPoziceID = -1;
 
@@ -671,7 +690,11 @@ namespace system_sprava_skladu
 
                 return skladovaciPoziceID;
             }
-            public async Task<bool> KontrolaDuplicityNazvuPozice(string nazev)
+            internal async Task<bool> KontrolaDuplicityNazvuPozice(string nazev)
+            {
+              return await KontrolaDuplicityNazvuPozicePrivate(nazev);
+            }
+            private async Task<bool> KontrolaDuplicityNazvuPozicePrivate(string nazev)
             {
                 PripojeniDatabazeObecne pripojeniDatabazeObecne = new PripojeniDatabazeObecne();
                 using (SqlConnection pripojeni = await pripojeniDatabazeObecne.OtevritSpojeniAsync())
@@ -686,7 +709,7 @@ namespace system_sprava_skladu
                         return pocetZaznamu > 0; // true pokud větší než 0
                     }
                 }
-                        }
+            }
         }
     }
 }
