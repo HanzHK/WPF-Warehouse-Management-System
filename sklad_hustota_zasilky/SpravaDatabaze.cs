@@ -18,11 +18,11 @@ using Serilog;
 
 namespace system_sprava_skladu
 {
-    public class SpravaDatabaze
+    internal class SpravaDatabaze
     {
 
 
-        public class PripojeniDatabazeObecne
+        internal class PripojeniDatabazeObecne
         {
             private readonly IConfigurationRoot Configuration;
             private readonly string clientId;
@@ -47,8 +47,6 @@ namespace system_sprava_skladu
                 pripojeniDatabaze = Configuration["Database:ConnectionString"] ?? throw new ArgumentNullException("ConnectionString is not defined in the configuration.");
 
             }
-
-
             // Asynchronní připojení k databázi
             public async Task<SqlConnection> OtevritSpojeniAsync()
             {
@@ -69,7 +67,7 @@ namespace system_sprava_skladu
                 await pripojeni.OpenAsync(); // Asynchronní verze Open()
                 return pripojeni;
             }
-
+            // Synchronní připojení
             private bool OtevritSpojeni()
             {
                 try
@@ -81,6 +79,10 @@ namespace system_sprava_skladu
 
                     var result = app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync().Result;
                     var accessToken = result.AccessToken;
+                  //  var builder = new SqlConnectionStringBuilder(pripojeniDatabaze)
+                 //   {
+                 //       ConnectTimeout = 90 
+                  //  };
 
                     using (SqlConnection pripojeni = new SqlConnection(pripojeniDatabaze)
                     {
@@ -105,14 +107,13 @@ namespace system_sprava_skladu
 
                 }
             }
-
             public bool ProbuzeniDatabaze()
             {
                 return OtevritSpojeni();
             }
 
         }
-        public class ValidaceDatabaze
+        internal class ValidaceDatabaze
         {
             public static T ZkontrolovatNull<T>(object vysledek, T defaultHodnota)
             {
@@ -132,9 +133,9 @@ namespace system_sprava_skladu
             }
 
         }
-        public class NacitaniDatzDatabaze
+        internal class NacitaniDatzDatabaze
         {
-            public static async Task<List<string>> ZiskatTypyDodavateluAsync()
+            private static async Task<List<string>> ZiskatTypyDodavateluAsync()
             {
                 List<string> typyDodavatelu = new List<string>();
 
@@ -176,7 +177,7 @@ namespace system_sprava_skladu
                 return typyDodavatelu;
             }
             // Metoda pro získání seznamu zemí z databáze
-            public async Task<List<string>> NactiSeznamZemiZDatabazeAsync()
+            private async Task<List<string>> NactiSeznamZemiZDatabazeAsync()
             {
                 List<string> seznamZemi = new List<string>();
 
@@ -214,7 +215,7 @@ namespace system_sprava_skladu
                 return seznamZemi;
             }
             // Metoda pro naplnění ComboBoxu s typy dodavatelů
-            public async Task NaplnComboBoxTypyDodavateluAsync(ComboBox comboBox)
+            private async Task NaplnComboBoxTypyDodavateluPrivatAsync(ComboBox comboBox)
 
             {
                 List<string> typyDodavatelu = await ZiskatTypyDodavateluAsync();
@@ -224,8 +225,12 @@ namespace system_sprava_skladu
                     comboBox.Items.Add(typDodavatele);
                 }
             }
+            internal async Task NaplnComboBoxTypyDodavateluAsync(ComboBox comboBox)
+            {
+                await NaplnComboBoxTypyDodavateluPrivatAsync(comboBox);
+            }
             // Metoda pro naplnění ComboBoxu s názvy zemí
-            public async Task NaplnComboBoxZemeAsync(ComboBox comboBox)
+            private async Task NaplnComboBoxZemePrivateAsync(ComboBox comboBox)
             {
                 List<string> seznamZemi = await NactiSeznamZemiZDatabazeAsync();
 
@@ -234,8 +239,12 @@ namespace system_sprava_skladu
                     comboBox.Items.Add(zeme);
                 }
             }
+            internal async Task NaplnComboBoxZemeAsync(ComboBox comboBox)
+            {
+                await NaplnComboBoxZemePrivateAsync(comboBox);
+            }
             //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
-            public async Task<int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
+            private async Task<int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
                 int adresaID = -1;
 
@@ -268,7 +277,7 @@ namespace system_sprava_skladu
                 return adresaID;
             }
             // Metoda pro načtení adres dodavatelů
-            public async Task NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
+            private async Task NactiAdresuPrivate(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
             {
                 try
                 {
@@ -316,6 +325,10 @@ namespace system_sprava_skladu
                 }
 
             }
+            internal async Task NactiAdresu(string vybranyDodavatel, TextBlock uliceTextBlock, TextBlock cisloPopisneTextBlock, TextBlock pscTextBlock, TextBlock obecTextBlock, TextBlock zemeTextBlock)
+            {
+                await NactiAdresuPrivate(vybranyDodavatel, uliceTextBlock, cisloPopisneTextBlock, pscTextBlock, obecTextBlock, zemeTextBlock);
+            }
             // Metoda pro získání názvu země podle ID
             private static async Task<string> ZiskatNazevZemeAsync(int zemeID)
             {
@@ -347,7 +360,11 @@ namespace system_sprava_skladu
                 return string.Empty;
             }
             // Metoda pro Načtení oebecných informací o dodavateli
-            public async Task NactiObecneinformaceAsync(string vybranyDodavatel, Label nazevLabel, TextBlock icoTextBlock, TextBlock dicTextBlock)
+            internal async Task NactiObecneinformaceAsync(string vybranyDodavatel, Label nazevLabel, TextBlock icoTextBlock, TextBlock dicTextBlock)
+            {
+                await NactiObecneinformacePrivateAsync(vybranyDodavatel, nazevLabel, icoTextBlock, dicTextBlock);
+            }
+            private async Task NactiObecneinformacePrivateAsync(string vybranyDodavatel, Label nazevLabel, TextBlock icoTextBlock, TextBlock dicTextBlock)
             {
                 try
                 {
@@ -380,6 +397,7 @@ namespace system_sprava_skladu
             }
             //  Tahle část řeší načítání názvu dodavatele do seznamu dostupných dodavatelů
             public ObservableCollection<string> SeznamDodavatelu { get; set; } = new ObservableCollection<string>();
+            
             public async Task NaplnComboBoxDodavateluAsync(ComboBox comboBox)
             {
                 try
