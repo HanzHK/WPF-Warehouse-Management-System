@@ -28,9 +28,9 @@
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="skladovaciPoziceTextBox" PreviewKeyDown="skladovaciPoziceTextBox_PreviewKeyDown" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0" />
+                    <TextBox x:Name="SkladovaciPoziceTextBox" PreviewKeyDown="SkladovaciPoziceTextBox_PreviewKeyDown" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0" />
 
-                    <Button x:Name="pridatSkladovaciPoziciButton" Content="Přidat" Grid.Column="1" VerticalAlignment="Center" Height="36" Width="88" HorizontalAlignment="Left" Click="pridatSkladovaciPoziciButton_Click"/>
+                    <Button x:Name="PridatSkladovaciPoziciButton" Content="Přidat" Grid.Column="1" VerticalAlignment="Center" Height="36" Width="88" HorizontalAlignment="Left" Click="PridatSkladovaciPoziciButton_Click"/>
                 </Grid>
             </Grid>
         </GroupBox>

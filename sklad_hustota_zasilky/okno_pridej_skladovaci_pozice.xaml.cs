@@ -23,25 +23,25 @@ namespace system_sprava_skladu
     public partial class okno_pridej_skladovaci_pozice : UserControl
     {
         // Instance
-        private VlozdoDatabazeSkladovaciPozice pozice = new VlozdoDatabazeSkladovaciPozice();
+        private readonly VlozdoDatabazeSkladovaciPozice pozice = new();
 
         //Deklarace
-        private OsetreniObecnehoVstupu osetreniSkladovaciPozice;
+        private readonly OsetreniObecnehoVstupu osetreniSkladovaciPozice;
 
         public okno_pridej_skladovaci_pozice()
         {
             InitializeComponent();
 
-            osetreniSkladovaciPozice = new OsetreniObecnehoVstupu(skladovaciPoziceTextBox, maxDelka: 6);
+            osetreniSkladovaciPozice = new OsetreniObecnehoVstupu(SkladovaciPoziceTextBox, maxDelka: 6);
         }
-        private void skladovaciPoziceTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void SkladovaciPoziceTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             osetreniSkladovaciPozice.OsetriVstup(e); 
         }
 
-        private async void pridatSkladovaciPoziciButton_Click(object sender, RoutedEventArgs e)
+        private async void PridatSkladovaciPoziciButton_Click(object sender, RoutedEventArgs e)
         {
-            string skladovaciPoziceNazev = skladovaciPoziceTextBox.Text;
+            string skladovaciPoziceNazev = SkladovaciPoziceTextBox.Text;
 
             // Kontrola jestli název skladovací pozice není duplicitní
             if (await pozice.KontrolaDuplicityNazvuPozice(skladovaciPoziceNazev))
@@ -53,7 +53,7 @@ namespace system_sprava_skladu
             int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
 
             MessageBox.Show($"Skladovací pozice uložena s ID: {id}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
-            skladovaciPoziceTextBox.Text = string.Empty;
+            SkladovaciPoziceTextBox.Text = string.Empty;
 
         }
     }

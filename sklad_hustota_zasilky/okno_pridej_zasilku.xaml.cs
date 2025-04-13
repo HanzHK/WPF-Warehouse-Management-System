@@ -13,8 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static system_sprava_skladu.SpravaDatabaze;
-using static system_sprava_skladu.OsetreniVstupu;
 using MahApps.Metro.Controls;
 using Serilog;
 
@@ -26,8 +24,8 @@ namespace system_sprava_skladu
     /// </summary>
     public partial class okno_pridej_zasilku : UserControl
     {
-        private NacitaniDatzDatabaze _nacitaniDatzDatabaze;
-        private NacitaniDatzDatabazeSkladovaciPozice _nacitaniDatzDatabazeSkladovaciPozice;
+        private SpravaDatabaze.NacitaniDatzDatabaze _nacitaniDatzDatabaze = new SpravaDatabaze.NacitaniDatzDatabaze();
+        private SpravaDatabaze.NacitaniDatzDatabazeSkladovaciPozice _nacitaniDatzDatabazeSkladovaciPozice = new SpravaDatabaze.NacitaniDatzDatabazeSkladovaciPozice();
 
         private void sirkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -74,9 +72,6 @@ namespace system_sprava_skladu
         public okno_pridej_zasilku()
         {
             InitializeComponent();
-            // Vytvoření instance RefreshCbox a NacitaniDatzDatabaze
-            _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
-            _nacitaniDatzDatabazeSkladovaciPozice = new NacitaniDatzDatabazeSkladovaciPozice();
 
             // Připojit události Changed na TextBoxy
             sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
@@ -113,7 +108,7 @@ namespace system_sprava_skladu
             if (KontrolaFormatuNve())
             {
                 string nveKod = txtBoxNveZasilky.Text;
-                okno_generovani_barcode oknoBarcode = new okno_generovani_barcode(nveKod);
+                OknoGenerovaniBarcode oknoBarcode = new(nveKod);
                 oknoBarcode.Show();
             }
             else
@@ -123,7 +118,6 @@ namespace system_sprava_skladu
                
             }
         }
-
         private bool KontrolaFormatuNve()
         {
             string nveKod = txtBoxNveZasilky.Text;
@@ -132,10 +126,9 @@ namespace system_sprava_skladu
             return true;
 
         }
-
         private async void cBoxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
-            _nacitaniDatzDatabaze = new NacitaniDatzDatabaze();
+          // _nacitaniDatzDatabaze = new spravaDatabaze.NacitaniDatzDatabaze();
             // Získáme vybraného dodavatele z comboboxu
             string vybranyDodavatel = cBoxDodavatele.SelectedItem as string ?? String.Empty;
 

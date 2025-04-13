@@ -32,7 +32,7 @@ namespace system_sprava_skladu
         private void LoadingDatabasePopUpShow()
         {
             this.Hide();
-            LoadingDB loadingDB = new LoadingDB();
+            LoadingDB loadingDB = new();
             loadingDB.Closed += (s, e) =>
             {
                 this.Show(); 
@@ -47,7 +47,7 @@ namespace system_sprava_skladu
         private void OtevritPridejZasilkuOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_zasilku"
-            okno_pridej_zasilku userControl = new okno_pridej_zasilku();
+            okno_pridej_zasilku userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -55,7 +55,7 @@ namespace system_sprava_skladu
         private void OtevritPridejDodavateleOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_dodavatele"
-            okno_pridej_dodavatele userControl = new okno_pridej_dodavatele();
+            okno_pridej_dodavatele userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -63,7 +63,7 @@ namespace system_sprava_skladu
         private void OtevritSeznamDodavateluOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_seznam_dodavatelu"
-            okno_seznam_dodavatelu userControl = new okno_seznam_dodavatelu();
+            okno_seznam_dodavatelu userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -72,7 +72,7 @@ namespace system_sprava_skladu
         private void OtevritPridejSkladovaciPoziciOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
-            okno_pridej_skladovaci_pozice userControl = new okno_pridej_skladovaci_pozice();
+            okno_pridej_skladovaci_pozice userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -80,7 +80,7 @@ namespace system_sprava_skladu
         private void OtevritSeznamSkladovaciPoziceOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
-            okno_seznam_skladovaci_pozice userControl = new okno_seznam_skladovaci_pozice();
+            okno_seznam_skladovaci_pozice userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;

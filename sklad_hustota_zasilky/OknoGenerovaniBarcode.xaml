@@ -1,11 +1,11 @@
-﻿<Window x:Class="system_sprava_skladu.okno_generovani_barcode"
+﻿<Window x:Class="system_sprava_skladu.OknoGenerovaniBarcode"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:system_sprava_skladu"
         mc:Ignorable="d"
-        Title="okno_generovani_barcode" Height="300" Width="400">
+        Title="OknoGenerovaniBarcode" Height="300" Width="400">
     <Grid>
         <Image Name="barcodeObrazek" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
