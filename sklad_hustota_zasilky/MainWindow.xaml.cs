@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MahApps.Metro.Controls;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
-using MahApps.Metro.Controls;
 
 namespace system_sprava_skladu
 {
@@ -46,8 +32,8 @@ namespace system_sprava_skladu
 
         private void OtevritPridejZasilkuOkno_Click(object sender, RoutedEventArgs e)
         {
-            // Vytvoření instance UserControlu "okno_pridej_zasilku"
-            okno_pridej_zasilku userControl = new();
+            // Vytvoření instance UserControlu "OknoPridejZasilku"
+            OknoPridejZasilku userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -80,7 +66,7 @@ namespace system_sprava_skladu
         private void OtevritSeznamSkladovaciPoziceOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
-            okno_seznam_skladovaci_pozice userControl = new();
+            OknoSeznamSkladovaciPozice userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;

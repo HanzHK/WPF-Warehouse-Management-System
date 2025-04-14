@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="system_sprava_skladu.okno_pridej_zasilku"
+﻿<UserControl x:Class="system_sprava_skladu.OknoPridejZasilku"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -27,11 +27,11 @@
         <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Header="Obecné" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Label Content="NVE zásilky" Width="100" VerticalAlignment="Center" />
-                <TextBox Name="txtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="txtBoxNveZasilky_PreviewKeyDown" MaxLength="18"/>
+                <TextBox Name="TxtBoxNveZasilky" Width="150" Height="25" Margin="5,0" PreviewKeyDown="TxtBoxNveZasilky_PreviewKeyDown" MaxLength="18"/>
                 <Button  Content="Vygeneruj barcode" 
                     HorizontalAlignment="Right" Margin="10" 
                     Width="120" Height="36"
-                    Click="zobrazitBarcodeNveButton_Click"/>
+                    Click="ZobrazitBarcodeNveButton_Click"/>
                 <Label Content="Relace" Width="60" VerticalAlignment="Center" />
                 <TextBox Width="80" Height="25" Margin="5,0" VerticalAlignment="Center" />
                 <Label Content="Skladovací pozice" Width="120" VerticalAlignment="Center" />
@@ -44,25 +44,25 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="Výška" Width="50" />
-                    <TextBox Name="vyskaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="vyskaZasilkyTxt_PreviewKeyDown" />
+                    <TextBox Name="VyskaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="VyskaZasilkyTxt_PreviewKeyDown" />
                     <Label Content="cm" Width="40" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="Délka" Width="50" />
-                    <TextBox Name="delkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="delkaZasilkyTxt_PreviewKeyDown" />
+                    <TextBox Name="DelkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="DelkaZasilkyTxt_PreviewKeyDown" />
                     <Label Content="cm" Width="40" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="Šířka" Width="50" />
-                    <TextBox Name="sirkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="sirkaZasilkyTxt_PreviewKeyDown" />
+                    <TextBox Name="SirkaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="SirkaZasilkyTxt_PreviewKeyDown" />
                     <Label Content="cm" Width="40" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Name="objemZasilkyTxt" HorizontalAlignment="Left" Margin="5" />
+                    <TextBlock Name="ObjemZasilkyTxt" HorizontalAlignment="Left" Margin="5" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="Váha" Width="50" />
-                    <TextBox Name="vahaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="vahaZasilkyTxt_PreviewKeyDown" />
+                    <TextBox Name="VahaZasilkyTxt" Width="80" Height="25" Margin="5,0" PreviewKeyDown="VahaZasilkyTxt_PreviewKeyDown" />
                     <Label Content="kg" Width="40" />
                 </StackPanel>
             </StackPanel>
@@ -89,7 +89,7 @@
               
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,10,5,5" Grid.ColumnSpan="3">
                     <!-- Výběr dodavatele z ComboBoxu -->
-                    <ComboBox x:Name="cBoxDodavatele" SelectionChanged="cBoxDodavatele_SelectionChangedAsync" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top" />
+                    <ComboBox x:Name="cBoxDodavatele" SelectionChanged="CboxDodavatele_SelectionChangedAsync" HorizontalAlignment="Left" Width="120" Height="25" VerticalAlignment="Top" />
                 </StackPanel>
 
                 <GroupBox Width="480" Height="300" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="5" Margin="10,0,0,0" FontSize="14">

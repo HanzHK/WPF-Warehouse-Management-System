@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using System.Windows;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Collections.ObjectModel;
-using Microsoft.Identity.Client;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Identity.Client;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 
 

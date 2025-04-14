@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Serilog;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MahApps.Metro.Controls;
-using Serilog;
 
 
 namespace system_sprava_skladu
@@ -22,61 +10,61 @@ namespace system_sprava_skladu
     /// <summary>
     /// Interakční logika pro Window1.xaml
     /// </summary>
-    public partial class okno_pridej_zasilku : UserControl
+    public partial class OknoPridejZasilku : UserControl
     {
-        private SpravaDatabaze.NacitaniDatzDatabaze _nacitaniDatzDatabaze = new SpravaDatabaze.NacitaniDatzDatabaze();
-        private SpravaDatabaze.NacitaniDatzDatabazeSkladovaciPozice _nacitaniDatzDatabazeSkladovaciPozice = new SpravaDatabaze.NacitaniDatzDatabazeSkladovaciPozice();
+        private readonly SpravaDatabaze.NacitaniDatzDatabaze _nacitaniDatzDatabaze = new();
+        private readonly SpravaDatabaze.NacitaniDatzDatabazeSkladovaciPozice _nacitaniDatzDatabazeSkladovaciPozice = new();
 
-        private void sirkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void SirkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 5
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(sirkaZasilkyTxt, 5);
-
-            // Volání metody na ošetření čísel
-            osetreniCisel.OsetriVstup(e);
-        }
-        private void vyskaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Vytzvoření instance a nastavení maximální délky na 5
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(vyskaZasilkyTxt, 5);
+            OsetreniVstupuCisel osetreniCisel = new(SirkaZasilkyTxt, 5);
 
             // Volání metody na ošetření čísel
             osetreniCisel.OsetriVstup(e);
         }
-        private void delkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void VyskaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 5
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(delkaZasilkyTxt, 5);
+            OsetreniVstupuCisel osetreniCisel = new(VyskaZasilkyTxt, 5);
 
             // Volání metody na ošetření čísel
             osetreniCisel.OsetriVstup(e);
         }
-        private void vahaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void DelkaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 5
-            OsetreniVstupuCisel osetreniCisel = new OsetreniVstupuCisel(vahaZasilkyTxt, 5);
+            OsetreniVstupuCisel osetreniCisel = new(DelkaZasilkyTxt, 5);
+
+            // Volání metody na ošetření čísel
+            osetreniCisel.OsetriVstup(e);
+        }
+        private void VahaZasilkyTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Vytzvoření instance a nastavení maximální délky na 5
+            OsetreniVstupuCisel osetreniCisel = new(VahaZasilkyTxt, 5);
 
             // Zavolejte metodu OsetritVstup pro osetreniCisel
             osetreniCisel.OsetriVstup(e);
         }
-        private void txtBoxNveZasilky_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void TxtBoxNveZasilky_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Vytzvoření instance a nastavení maximální délky na 18
-            OsetreniVstupuCisel osetreniNve = new OsetreniVstupuCisel(txtBoxNveZasilky, maxDelka: 18);
+            OsetreniVstupuCisel osetreniNve = new(TxtBoxNveZasilky, maxDelka: 18);
 
             // Zavolejte metodu OsetritVstup pro osetreniCisel
             osetreniNve.OsetriVstup(e);
         }
        
 
-        public okno_pridej_zasilku()
+        public OknoPridejZasilku()
         {
             InitializeComponent();
 
             // Připojit události Changed na TextBoxy
-            sirkaZasilkyTxt.TextChanged += AktualizujUdaje;
-            delkaZasilkyTxt.TextChanged += AktualizujUdaje;
-            vyskaZasilkyTxt.TextChanged += AktualizujUdaje;
+            SirkaZasilkyTxt.TextChanged += AktualizujUdaje;
+            DelkaZasilkyTxt.TextChanged += AktualizujUdaje;
+            VyskaZasilkyTxt.TextChanged += AktualizujUdaje;
 
             InicializujOknoAsync();
         }
@@ -103,30 +91,30 @@ namespace system_sprava_skladu
                 Log.Error(ex, "Chyba při načítání skladovacích pozic");
             }
         }
-        private void zobrazitBarcodeNveButton_Click(object sender, RoutedEventArgs e)
+        private void ZobrazitBarcodeNveButton_Click(object sender, RoutedEventArgs e)
         {
             if (KontrolaFormatuNve())
             {
-                string nveKod = txtBoxNveZasilky.Text;
+                string nveKod = TxtBoxNveZasilky.Text;
                 OknoGenerovaniBarcode oknoBarcode = new(nveKod);
                 oknoBarcode.Show();
             }
             else
             {
-                MessageBox.Show("NVE kód musí být vyplněný a mít přesně " + txtBoxNveZasilky.MaxLength + " znaků.",
+                MessageBox.Show("NVE kód musí být vyplněný a mít přesně " + TxtBoxNveZasilky.MaxLength + " znaků.",
                                 "Neplatný vstup", MessageBoxButton.OK, MessageBoxImage.Warning);
                
             }
         }
         private bool KontrolaFormatuNve()
         {
-            string nveKod = txtBoxNveZasilky.Text;
+            string nveKod = TxtBoxNveZasilky.Text;
             if (string.IsNullOrEmpty(nveKod)) { return false; }
-            if (nveKod.Length != txtBoxNveZasilky.MaxLength) { return false; }
+            if (nveKod.Length != TxtBoxNveZasilky.MaxLength) { return false; }
             return true;
 
         }
-        private async void cBoxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        private async void CboxDodavatele_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
           // _nacitaniDatzDatabaze = new spravaDatabaze.NacitaniDatzDatabaze();
             // Získáme vybraného dodavatele z comboboxu
@@ -157,29 +145,29 @@ namespace system_sprava_skladu
         private void AktualizujUdaje(object sender, TextChangedEventArgs e)
         {
             // Získat hodnoty z TextBoxů
-            if (!string.IsNullOrWhiteSpace(vyskaZasilkyTxt.Text) && !string.IsNullOrWhiteSpace(delkaZasilkyTxt.Text) && !string.IsNullOrWhiteSpace(sirkaZasilkyTxt.Text))
+            if (!string.IsNullOrWhiteSpace(VyskaZasilkyTxt.Text) && !string.IsNullOrWhiteSpace(DelkaZasilkyTxt.Text) && !string.IsNullOrWhiteSpace(SirkaZasilkyTxt.Text))
             {
-                if (double.TryParse(vyskaZasilkyTxt.Text, out double vyska) &&
-                    double.TryParse(delkaZasilkyTxt.Text, out double delka) &&
-                    double.TryParse(sirkaZasilkyTxt.Text, out double sirka))
+                if (double.TryParse(VyskaZasilkyTxt.Text, out double vyska) &&
+                    double.TryParse(DelkaZasilkyTxt.Text, out double delka) &&
+                    double.TryParse(SirkaZasilkyTxt.Text, out double sirka))
                 {
                     // Vypočítání objem v kubických metrech
                     double objem = vyska * delka * sirka / 1_000_000;
 
                     // Aktualizování obsahu TextBlocku s výsledkem real-time
-                    objemZasilkyTxt.Text = $"Objem zásilky: {objem} m³";
+                    ObjemZasilkyTxt.Text = $"Objem zásilky: {objem} m³";
                 }
                 else
                 {
                     // Pokud některá z hodnot není číslo, zobrazit chybovou zprávu
-                    objemZasilkyTxt.Text = "Nesprávný vstup";
+                    ObjemZasilkyTxt.Text = "Nesprávný vstup";
                 }
 
             }
             else
             {
                 // Objem zásilky nebude zobrazen pokud nebudou vyplněna všechna pole
-                objemZasilkyTxt.Text = "";
+                ObjemZasilkyTxt.Text = "";
             }
         }
     }
