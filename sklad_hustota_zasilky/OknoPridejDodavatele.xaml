@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="system_sprava_skladu.okno_pridej_dodavatele"
+﻿<UserControl x:Class="system_sprava_skladu.OknoPridejDodavatele"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,23 +28,23 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Název dodavatele" Width="120" />
-                    <TextBox Name="txtBoxNazevDodavatele" MaxLength="255" Width="180" Height="20" />
+                    <TextBox Name="TxtBoxNazevDodavatele" MaxLength="255" Width="180" Height="20" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="IČO" Width="120" />
-                    <TextBox Name="txtBoxIco" MaxLength="20" Width="80" Height="20" PreviewKeyDown="txtBoxIco_PreviewKeyDown" />
+                    <TextBox Name="TxtBoxIco" MaxLength="20" Width="80" Height="20" PreviewKeyDown="TxtBoxIco_PreviewKeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="DIČ" Width="120" />
-                    <TextBox Name="txtBoxDic" MaxLength="20" Width="80" Height="20" PreviewKeyDown="txtBoxDic_PreviewKeyDown" />
+                    <TextBox Name="TxtBoxDic" MaxLength="20" Width="80" Height="20" PreviewKeyDown="TxtBoxDic_PreviewKeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Typ dodavatele" Width="120" />
-                    <ComboBox Name="cBoxTypyDodavatelu" Width="120" Height="25" />
+                    <ComboBox Name="CboxTypyDodavatelu" Width="120" Height="25" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Popis dodavatele" Width="120" />
-                    <TextBox Name="txtBoxPopis" Width="260" Height="119" />
+                    <TextBox Name="TxtBoxPopis" Width="260" Height="119" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -54,28 +54,28 @@
             <StackPanel Margin="5">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Ulice" Width="80" />
-                    <TextBox Name="txtBoxUlice" MaxLength="255" Width="160" Height="20" />
+                    <TextBox Name="TxtBoxUlice" MaxLength="255" Width="160" Height="20" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="č.p." Width="80" />
-                    <TextBox Name="txtBoxCisloPopisne" MaxLength="255" Width="60" Height="20" PreviewKeyDown="txtBoxCisloPopisne_PreviewKeyDown" />
+                    <TextBox Name="TxtBoxCisloPopisne" MaxLength="255" Width="60" Height="20" PreviewKeyDown="TxtBoxCisloPopisne_PreviewKeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="PSČ" Width="80" />
-                    <TextBox Name="txtBoxPsc" MaxLength="255" Width="80" Height="20" PreviewKeyDown="txtBoxPsc_PreviewKeyDown" TextChanged="txtBoxPsc_TextChanged" />
+                    <TextBox Name="TxtBoxPsc" MaxLength="255" Width="80" Height="20" PreviewKeyDown="TxtBoxPsc_PreviewKeyDown" TextChanged="TxtBoxPsc_TextChanged" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Obec" Width="80" />
-                    <TextBox Name="txtBoxObec" MaxLength="255" Width="140" Height="20" />
+                    <TextBox Name="TxtBoxObec" MaxLength="255" Width="140" Height="20" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
                     <Label Content="Země" Width="80" />
-                    <ComboBox Name="cBoxZeme" Width="120" Height="25" />
+                    <ComboBox Name="CboxZeme" Width="120" Height="25" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>
 
         <!-- Tlačítko na druhém řádku -->
-        <Button Grid.Row="1" Grid.Column="1" Content="Přidat dodavatele" HorizontalAlignment="Right" Margin="10" Width="140" Height="56" Click="pridatDodavateleDbButton_Click" />
+        <Button Grid.Row="1" Grid.Column="1" Content="Přidat dodavatele" HorizontalAlignment="Right" Margin="10" Width="140" Height="56" Click="PridatDodavateleDbButton_Click" />
     </Grid>
 </UserControl>

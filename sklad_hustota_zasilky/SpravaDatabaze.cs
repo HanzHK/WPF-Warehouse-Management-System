@@ -57,7 +57,7 @@ namespace system_sprava_skladu
                 var accessToken = result.AccessToken;
 
                 // Asynchronní otevření připojení
-                SqlConnection pripojeni = new SqlConnection(pripojeniDatabaze)
+                SqlConnection pripojeni = new(pripojeniDatabaze)
                 {
                     AccessToken = accessToken
                 };
@@ -81,7 +81,7 @@ namespace system_sprava_skladu
                         ConnectTimeout = 120 
                     };
 
-                    using (SqlConnection pripojeni = new SqlConnection(pripojeniDatabaze)
+                    using (SqlConnection pripojeni = new(pripojeniDatabaze)
                     {
                         AccessToken = accessToken
                     })
@@ -140,7 +140,7 @@ namespace system_sprava_skladu
 
                 try
                 {
-                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+                    PripojeniDatabazeObecne pripojeniDatabaze = new();
 
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
@@ -176,11 +176,11 @@ namespace system_sprava_skladu
             // Metoda pro získání seznamu zemí z databáze
             private async Task<List<string>> NactiSeznamZemiZDatabazeAsync()
             {
-                List<string> seznamZemi = new List<string>();
+                List<string> seznamZemi = new();
 
                 try
                 {
-                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+                    PripojeniDatabazeObecne pripojeniDatabaze = new();
 
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
@@ -241,19 +241,19 @@ namespace system_sprava_skladu
                 await NaplnComboBoxZemePrivateAsync(comboBox);
             }
             //  Tahle část řeší načítání adresy dodavatelů do textbloku zobrazujícím adresu
-            private async Task<int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
+            private static async Task<int> ZiskatIdAdresyDodavatele(string nazevDodavatele)
             {
                 int adresaID = -1;
 
                 try
                 {
-                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+                    PripojeniDatabazeObecne pripojeniDatabaze = new();
 
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT AdresaID FROM Dodavatele WHERE Nazev = @Nazev";
 
-                        await using (SqlCommand cmd = new SqlCommand(sqlDotaz, pripojeni))
+                        await using (SqlCommand cmd = new(sqlDotaz, pripojeni))
                         {
                             cmd.Parameters.AddWithValue("@Nazev", nazevDodavatele);
                             var result = await cmd.ExecuteScalarAsync();
@@ -287,7 +287,7 @@ namespace system_sprava_skladu
                         await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                         {
                             string sqlDotaz = "SELECT Ulice, CisloPopisne, Obec, PSC, ZemeID FROM dbo.AdresyDodavatelu WHERE AdresaID = @AdresaID";
-                            await using (SqlCommand cmd = new SqlCommand(sqlDotaz, pripojeni))
+                            await using (SqlCommand cmd = new(sqlDotaz, pripojeni))
                             {
                                 cmd.Parameters.AddWithValue("@AdresaID", adresaID);
                                 await using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
@@ -370,7 +370,7 @@ namespace system_sprava_skladu
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
                         string sqlDotaz = "SELECT Nazev, ICO, DIC FROM Dodavatele WHERE Nazev = @Nazev";
-                        await using (SqlCommand cmd = new SqlCommand(sqlDotaz, pripojeni))
+                        await using (SqlCommand cmd = new(sqlDotaz, pripojeni))
                         {
                             cmd.Parameters.AddWithValue("@Nazev", vybranyDodavatel);
                             await using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
@@ -409,7 +409,7 @@ namespace system_sprava_skladu
                     {
                         string sqlDotaz = "SELECT Nazev FROM dbo.Dodavatele";
 
-                        await using (SqlCommand cmd = new SqlCommand(sqlDotaz, pripojeni))
+                        await using (SqlCommand cmd = new(sqlDotaz, pripojeni))
                         {
                             await using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                             {
@@ -450,8 +450,8 @@ namespace system_sprava_skladu
             }
             private async Task<List<SkladovaciPoziceDTO>> NactiSkladovaciPozicePrivateAsync()
             {
-                PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
-                List<SkladovaciPoziceDTO> skladovaciPozice = new List<SkladovaciPoziceDTO>();
+                PripojeniDatabazeObecne pripojeniDatabaze = new();
+                List<SkladovaciPoziceDTO> skladovaciPozice = new();
 
                 try
                 {
@@ -459,7 +459,7 @@ namespace system_sprava_skladu
                     {
                         string query = "SELECT skladovaciPoziceID, skladovaciPoziceNazev FROM SkladovaciPozice";
 
-                        using (SqlCommand command = new SqlCommand(query, pripojeni))
+                        using (SqlCommand command = new(query, pripojeni))
                         {
                             using (SqlDataReader reader = await command.ExecuteReaderAsync())
                             {
@@ -511,7 +511,7 @@ namespace system_sprava_skladu
         internal class VlozdoDatabazeNovyDodavatel
         {
             // Metoda pro nalezení id Země z databáze a vrácení její hodnoty
-            private async Task<int> ZiskatIdZemeAsync(string zemeNazev)
+            private static async Task<int> ZiskatIdZemeAsync(string zemeNazev)
             {
                 int ZemeID = -1;
 
@@ -599,7 +599,7 @@ namespace system_sprava_skladu
 
             }
             // Metoda pro získání id typu dodavatele (as., s.r.o., fyzická osoba atd.)
-            private async Task<int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
+            private static async Task<int> ZiskatIdTypuDodavateleAsync(string nazevTypu)
             {
                 int typDodavateleID = -1; // Defaultní hodnota v případě, že se ID nepodaří najít.
 
@@ -639,11 +639,11 @@ namespace system_sprava_skladu
         }
         internal class VlozdoDatabazeSkladovaciPozice
         {
-            internal async Task<int> UlozitSkladovaciPoziciAsync(string skladovaciPoziceNazev)
+            internal static async Task<int> UlozitSkladovaciPoziciAsync(string skladovaciPoziceNazev)
             {
               return await UlozitSkladovaciPoziciPrivateAsync(skladovaciPoziceNazev);
             }
-            private async Task<int> UlozitSkladovaciPoziciPrivateAsync(string skladovaciPoziceNazev)
+            private static async Task<int> UlozitSkladovaciPoziciPrivateAsync(string skladovaciPoziceNazev)
             {
                 int skladovaciPoziceID = -1;
 
@@ -659,7 +659,7 @@ namespace system_sprava_skladu
                     VALUES (@SkladovaciPoziceNazev);
                     SELECT SCOPE_IDENTITY();";
 
-                        await using (SqlCommand skladovaciPoziceCmd = new SqlCommand(sqlSkladovaciPoziceDotaz, pripojeni))
+                        await using (SqlCommand skladovaciPoziceCmd = new(sqlSkladovaciPoziceDotaz, pripojeni))
                         {
                             skladovaciPoziceCmd.Parameters.AddWithValue("@SkladovaciPoziceNazev", skladovaciPoziceNazev);
 

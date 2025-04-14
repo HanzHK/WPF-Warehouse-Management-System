@@ -41,15 +41,15 @@ namespace system_sprava_skladu
         private void OtevritPridejDodavateleOkno_Click(object sender, RoutedEventArgs e)
         {
             // Vytvoření instance UserControlu "okno_pridej_dodavatele"
-            okno_pridej_dodavatele userControl = new();
+            OknoPridejDodavatele userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
         }
         private void OtevritSeznamDodavateluOkno_Click(object sender, RoutedEventArgs e)
         {
-            // Vytvoření instance UserControlu "okno_seznam_dodavatelu"
-            okno_seznam_dodavatelu userControl = new();
+            // Vytvoření instance UserControlu "OknoSeznamDodavatelu"
+            OknoSeznamDodavatelu userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
@@ -57,15 +57,15 @@ namespace system_sprava_skladu
 
         private void OtevritPridejSkladovaciPoziciOkno_Click(object sender, RoutedEventArgs e)
         {
-            // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
-            okno_pridej_skladovaci_pozice userControl = new();
+            // Vytvoření instance UserControlu "OknoPridejSkladovaciPozice"
+            OknoPridejSkladovaciPozice userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl
             contentControl.Content = userControl;
         }
         private void OtevritSeznamSkladovaciPoziceOkno_Click(object sender, RoutedEventArgs e)
         {
-            // Vytvoření instance UserControlu "okno_pridej_skladovaci_pozice"
+            // Vytvoření instance UserControlu "OknoSeznamSkladovaciPozice"
             OknoSeznamSkladovaciPozice userControl = new();
 
             // Nastavení obsahu ContentControlu na tento UserControl

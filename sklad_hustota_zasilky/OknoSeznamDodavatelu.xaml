@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="system_sprava_skladu.okno_seznam_dodavatelu"
+﻿<UserControl x:Class="system_sprava_skladu.OknoSeznamDodavatelu"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

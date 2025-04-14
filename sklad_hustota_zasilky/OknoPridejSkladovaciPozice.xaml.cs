@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MahApps.Metro.Controls;
 using static system_sprava_skladu.SpravaDatabaze;
 
 namespace system_sprava_skladu
 {
     /// <summary>
-    /// Interakční logika pro okno_skladovaci_pozice.xaml
+    /// Interakční logika pro OknoSkladovaciPozice.xaml
     /// </summary>
-    public partial class okno_pridej_skladovaci_pozice : UserControl
+    public partial class OknoPridejSkladovaciPozice : UserControl
     {
         // Instance
         private readonly VlozdoDatabazeSkladovaciPozice pozice = new();
@@ -28,7 +17,7 @@ namespace system_sprava_skladu
         //Deklarace
         private readonly OsetreniObecnehoVstupu osetreniSkladovaciPozice;
 
-        public okno_pridej_skladovaci_pozice()
+        public OknoPridejSkladovaciPozice()
         {
             InitializeComponent();
 
@@ -50,7 +39,7 @@ namespace system_sprava_skladu
                 return;
             }
 
-            int id = await pozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
+            int id = await VlozdoDatabazeSkladovaciPozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
 
             MessageBox.Show($"Skladovací pozice uložena s ID: {id}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
             SkladovaciPoziceTextBox.Text = string.Empty;
