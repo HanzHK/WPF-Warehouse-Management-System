@@ -1,10 +1,12 @@
-Basic system for managing transshipment warehouse. Windows Platform Application (WPF).Now using asynchronic connection to Azure SQL.
+Basic system for managing transshipment warehouse. Windows Platform Application (WPF). Now using an asynchronous connection to Azure SQL.
 Using: 
   - Azure SQL
   - .net 9.0
   - Microsoft Entra ID
   - MahApps.Metro for UI https://github.com/MahApps/MahApps.Metro
   - WPF
+  - ZXing .NET for generating barcodes https://github.com/micjahn/ZXing.Net
+  - Serilog for logging exceptions https://github.com/serilog/serilog
 
 Features:
   - Storage position: add & list available storage positions
