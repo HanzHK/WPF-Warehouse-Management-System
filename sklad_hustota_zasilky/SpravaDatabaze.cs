@@ -76,10 +76,10 @@ namespace system_sprava_skladu
 
                     var result = app.AcquireTokenForClient(new[] { "https://database.windows.net/.default" }).ExecuteAsync().Result;
                     var accessToken = result.AccessToken;
-                  //  var builder = new SqlConnectionStringBuilder(pripojeniDatabaze)
-                 //   {
-                 //       ConnectTimeout = 90 
-                  //  };
+                    var builder = new SqlConnectionStringBuilder(pripojeniDatabaze)
+                    {
+                        ConnectTimeout = 120 
+                    };
 
                     using (SqlConnection pripojeni = new SqlConnection(pripojeniDatabaze)
                     {
