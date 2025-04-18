@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Data;
+using System.Windows.Controls;
+using static system_sprava_skladu.SpravaDatabaze;
 
 namespace system_sprava_skladu
 {
@@ -10,6 +12,12 @@ namespace system_sprava_skladu
         public OknoSeznamDodavatelu()
         {
             InitializeComponent();
+            NactiDataGrid();
+        }
+        private async void NactiDataGrid()
+        {
+            DataTable dodavateleTable = await NacitaniDatZDatabazeSeznamdodavatelu.NactiDodavatelezDatabazeAsync();
+            dodavateleDataGrid.ItemsSource = dodavateleTable.DefaultView;
         }
     }
 }

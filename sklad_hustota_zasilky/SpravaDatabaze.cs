@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace system_sprava_skladu
             private readonly string pripojeniDatabaze;
 
             // Konstruktor pro inicializaci jednotlivých instancí
-            public PripojeniDatabazeObecne()
+            internal PripojeniDatabazeObecne()
             {
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
@@ -45,7 +46,7 @@ namespace system_sprava_skladu
 
             }
             // Asynchronní připojení k databázi
-            public async Task<SqlConnection> OtevritSpojeniAsync()
+            private async Task<SqlConnection> OtevritSpojeniPrivateAsync()
             {
                 var app = ConfidentialClientApplicationBuilder.Create(clientId)
                     .WithClientSecret(clientSecret)
@@ -63,6 +64,10 @@ namespace system_sprava_skladu
                 };
                 await pripojeni.OpenAsync(); // Asynchronní verze Open()
                 return pripojeni;
+            }
+            internal async Task<SqlConnection> OtevritSpojeniAsync()
+            {
+               return await OtevritSpojeniPrivateAsync();
             }
             // Synchronní připojení
             private bool OtevritSpojeni()
@@ -104,7 +109,7 @@ namespace system_sprava_skladu
 
                 }
             }
-            public bool ProbuzeniDatabaze()
+            internal bool ProbuzeniDatabaze()
             {
                 return OtevritSpojeni();
             }
@@ -508,6 +513,40 @@ namespace system_sprava_skladu
                 }
             }
         }
+        internal class NacitaniDatZDatabazeSeznamdodavatelu
+        {
+            private static async Task <DataTable> NactiDodavatelezDatabazePrivateAsync()
+            {
+                try
+                {
+                    PripojeniDatabazeObecne pripojeniDatabaze = new();
+
+                    await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
+                    {
+                        string sqlDotaz = "SELECT DodavatelID, Nazev, ICO FROM Dodavatele";
+
+                        using SqlCommand prikaz = new(sqlDotaz, pripojeni);
+                        await using SqlDataReader reader = await prikaz.ExecuteReaderAsync();
+
+                        DataTable tabulka = new();
+                        tabulka.Load(reader); // Načte rovnou všechna data do DataTable
+
+                        return tabulka;
+                    }
+                }
+                catch (Exception ex)
+                {
+                   Log.Error(ex, "Chyba při načítání dodavatelů z databáze.");
+                   throw;
+                }
+
+            }
+            internal static async Task<DataTable> NactiDodavatelezDatabazeAsync()
+            {
+                return await NactiDodavatelezDatabazePrivateAsync();
+            }
+
+        }
         internal class VlozdoDatabazeNovyDodavatel
         {
             // Metoda pro nalezení id Země z databáze a vrácení její hodnoty
@@ -548,7 +587,7 @@ namespace system_sprava_skladu
             {
                 try
                 {
-                    PripojeniDatabazeObecne pripojeniDatabaze = new PripojeniDatabazeObecne();
+                    PripojeniDatabazeObecne pripojeniDatabaze = new();
 
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {

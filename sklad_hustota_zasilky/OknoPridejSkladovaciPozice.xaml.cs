@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static system_sprava_skladu.SpravaDatabaze;
 
 namespace system_sprava_skladu
 {
@@ -12,7 +11,7 @@ namespace system_sprava_skladu
     public partial class OknoPridejSkladovaciPozice : UserControl
     {
         // Instance
-        private readonly VlozdoDatabazeSkladovaciPozice pozice = new();
+        private readonly SpravaDatabaze.VlozdoDatabazeSkladovaciPozice pozice = new();
 
         //Deklarace
         private readonly OsetreniObecnehoVstupu osetreniSkladovaciPozice;
@@ -39,7 +38,7 @@ namespace system_sprava_skladu
                 return;
             }
 
-            int id = await VlozdoDatabazeSkladovaciPozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
+            int id = await SpravaDatabaze.VlozdoDatabazeSkladovaciPozice.UlozitSkladovaciPoziciAsync(skladovaciPoziceNazev);
 
             MessageBox.Show($"Skladovací pozice uložena s ID: {id}", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
             SkladovaciPoziceTextBox.Text = string.Empty;

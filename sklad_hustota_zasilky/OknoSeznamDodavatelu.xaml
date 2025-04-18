@@ -11,12 +11,11 @@
             Width="Auto">
     <Grid>
         <GroupBox Header="Seznam dodavatelů" Margin="10" HorizontalAlignment="Stretch" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=UserControl}}">
-            <DataGrid>
+            <DataGrid Name="dodavateleDataGrid" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding DodavatelID}" />
                     <DataGridTextColumn Header="Název" Binding="{Binding Nazev}" />
                     <DataGridTextColumn Header="IČO" Binding="{Binding ICO}"/>
-                    <DataGridTextColumn Header="DIČ" Binding="{Binding DIC}"/>
                 </DataGrid.Columns>
 
             </DataGrid>

@@ -26,7 +26,7 @@ namespace system_sprava_skladu
         {
             string stisknutyZnak = key.ToString();
 
-            if (stisknutyZnak.StartsWith("D") && stisknutyZnak.Length == 2 && char.IsDigit(stisknutyZnak[1]))
+            if (stisknutyZnak.StartsWith('D') && stisknutyZnak.Length == 2 && char.IsDigit(stisknutyZnak[1]))
             {
                 stisknutyZnak = stisknutyZnak[1].ToString();
             }
@@ -109,7 +109,7 @@ namespace system_sprava_skladu
         {
 
         }
-        protected bool JePlatnyFormat(string text)
+        protected static bool JePlatnyFormat(string text)
         {
            
             return true;
