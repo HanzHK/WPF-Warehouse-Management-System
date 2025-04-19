@@ -523,13 +523,16 @@ namespace system_sprava_skladu
 
                     await using (SqlConnection pripojeni = await pripojeniDatabaze.OtevritSpojeniAsync())
                     {
-                        string sqlDotaz = "SELECT DodavatelID, Nazev, ICO FROM Dodavatele";
+                        string sqlDotaz = @"SELECT d.DodavatelID, d.Nazev, d.ICO, d.DIC, t.Nazev AS TypDodavatele, a.Ulice, a.CisloPopisne, a.PSC, a.Obec, z.ZemeNazev FROM Dodavatele d 
+                                                    JOIN TypyDodavatelu t ON d.TypDodavateleID = t.TypDodavateleID 
+                                                    JOIN AdresyDodavatelu a ON d.AdresaID = a.AdresaID
+                                                    JOIN Zeme z ON a.ZemeID = z.ZemeID";
 
                         using SqlCommand prikaz = new(sqlDotaz, pripojeni);
                         await using SqlDataReader reader = await prikaz.ExecuteReaderAsync();
 
                         DataTable tabulka = new();
-                        tabulka.Load(reader); // Načte rovnou všechna data do DataTable
+                        tabulka.Load(reader); 
 
                         return tabulka;
                     }
