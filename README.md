@@ -10,7 +10,7 @@ Using:
 
 Features:
   - Storage position: add & list available storage positions
-  - Supplier: add a new supplier
+  - Supplier: add a new supplier, list of suppliers, supplier detail
   - Package: calculating valume
   - can show supplier address real-time
     
