@@ -22,10 +22,13 @@ Future features planned (TODO):
   - possibly more
 
 Pending fixes for the next version: 
-  - Supplier detail - User Control, which will show details about the currently selected supplier from the supplier list 
+  - code cleanup, warnings removal
   - Localization Support
     
 DONE ✓
+
+21.4.2025
+- Supplier detail - User Control, which will show details about the currently selected supplier from the supplier list 
 
 20.4.2025
   - List of Suppliers 
