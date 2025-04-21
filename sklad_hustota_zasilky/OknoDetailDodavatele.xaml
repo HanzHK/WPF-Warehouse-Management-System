@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="system_sprava_skladu.OknoDetailDodavatele"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:system_sprava_skladu"
+            xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+            mc:Ignorable="d"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Width="Auto">
+    <Grid>
+        <GroupBox  Margin="10" x:Name="groupBoxDetail">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Levý GroupBox -->
+                <GroupBox Header="Základní informace" Grid.Column="0" Margin="5">
+                    
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="ID:" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" x:Name="textBlockDodavatelID" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Název dodavatele:" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="textBlockNazev" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="IČO:" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" x:Name="textBlockICO" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Content="DIČ:" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" x:Name="textBlockDIC" VerticalAlignment="Center"/>
+                        
+                        <Label Grid.Row="4" Grid.Column="0" Content="Typ dodavatele:" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" x:Name="textBlockTypDodavatele" VerticalAlignment="Center"/>
+
+
+                    </Grid>    
+                </GroupBox>
+
+                <!-- Pravý GroupBox -->
+                <GroupBox Header="Adresa" Grid.Column="1" Margin="5">
+                    
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Ulice:" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" x:Name="textBlockUlice" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Číslo popisné:" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="textBlockCisloPopisne" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="PSČ:" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" x:Name="textBlockPSC" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Content="Obec:" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" x:Name="textBlockObec" VerticalAlignment="Center"/>
+
+                        <Label Grid.Row="4" Grid.Column="0" Content="Země:" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" x:Name="textBlockZeme" VerticalAlignment="Center"/>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        
+    </Grid>
+</UserControl>

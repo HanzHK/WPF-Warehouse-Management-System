@@ -14,7 +14,17 @@
             <DataGrid Name="dodavateleDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding DodavatelID}" />
-                    <DataGridTextColumn Header="Název" Binding="{Binding Nazev}" />
+                    <DataGridTemplateColumn Header="Název">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nazev}"
+                       Foreground="Blue"
+                       TextDecorations="Underline"
+                       Cursor="Hand"
+                       MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="IČO" Binding="{Binding ICO}"/>
                     <DataGridTextColumn Header="DIČ" Binding="{Binding DIC}"/>
                     <DataGridTextColumn Header="Typ dodavatele" Binding="{Binding TypDodavatele}" />
