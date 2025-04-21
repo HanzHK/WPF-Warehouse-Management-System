@@ -22,10 +22,13 @@ Future features planned (TODO):
   - possibly more
 
 Pending fixes for the next version: 
-  - List of Suppliers 
+  - Supplier detail - User Control, which will show details about the currently selected supplier from the supplier list 
   - Localization Support
     
 DONE ✓
+
+20.4.2025
+  - List of Suppliers 
 
 14.4.2025
   - Barcode generator ✓
