@@ -1,3 +1,5 @@
+Outdated, badly needs huge refactor and overhaul which makes sense cause it was project for learning basics of C# programming.  
+
 Basic system for managing transshipment warehouse. Windows Platform Application (WPF). Now using an asynchronous connection to Azure SQL.
 Using: 
   - Azure SQL
